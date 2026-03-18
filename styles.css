@@ -1149,7 +1149,7 @@ section {
     box-shadow: 0 0 20px rgba(255,0,0,0.2);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     .sc-grid,
     .sc-grid--2 { grid-template-columns: 1fr; }
 }
@@ -1788,15 +1788,37 @@ section {
 
     .music-grid { grid-template-columns: 1fr; }
 
+    /* Hero titles — evitar overflow no mobile */
+    .title-line-white { font-size: clamp(2.8rem, 13vw, 5rem); }
+    .title-line-red   { font-size: clamp(2rem, 10vw, 3.5rem); }
+
     .hero-buttons,
     .booking-buttons {
         flex-direction: column;
         align-items: center;
     }
 
+    /* Badges flutuantes — esconder no mobile pequeno */
+    .hv-badge { display: none; }
+
+    /* Tension block — "AGORA??" não overflow */
+    .tl-tension-now-text { font-size: clamp(3.5rem, 14vw, 8rem); }
+    .tl-tension-phrase   { font-size: clamp(1.8rem, 7vw, 3rem); }
+
+    /* Timeline carousel no mobile */
+    .tl-vc-mask  { height: 220px; }
+    .tl-vc-item  { width: clamp(140px, 40vw, 180px); flex-shrink: 0; }
+    .tl-vc-item img { width: clamp(140px, 40vw, 180px); height: 210px; }
+
+    /* Node year menor */
+    .tl-node-year { font-size: 2.2rem; }
+
+    /* Booking */
     .booking-available { gap: 1rem; }
 
-    .number-card { padding: 2rem 1rem 1.8rem; }
+    /* Tabs de música menores */
+    .stream-tab { padding: 0.5rem 0.9rem; font-size: 0.7rem; }
+    .tab-count  { display: none; }
 }
 
 /* ============================================================
@@ -2462,6 +2484,15 @@ section {
     from { transform: translateY(-50%); }
     to   { transform: translateY(0); }
 }
+/* Horizontal versions for mobile */
+@keyframes vc-h-left {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+@keyframes vc-h-right {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+}
 
 /* ---- Responsive ---- */
 @media (max-width: 900px) {
@@ -2486,19 +2517,16 @@ section {
         grid-row: 2;
         margin-top: 1.5rem;
     }
-    .tl-vc-mask { height: 280px; }
-    .tl-vc-track { flex-direction: row; }
-    .tl-vc-item { width: 200px; flex-shrink: 0; }
-    .tl-vc-item img { aspect-ratio: 3/4; height: 260px; width: 200px; }
-
-    @keyframes vc-scroll-up {
-        from { transform: translateX(0); }
-        to   { transform: translateX(-50%); }
+    .tl-vc-mask { height: 280px; overflow-x: hidden; }
+    .tl-vc-track {
+        flex-direction: row;
+        animation-name: vc-h-left !important;
     }
-    @keyframes vc-scroll-down {
-        from { transform: translateX(-50%); }
-        to   { transform: translateX(0); }
+    .tl-vc-track--down {
+        animation-name: vc-h-right !important;
     }
+    .tl-vc-item { width: clamp(160px, 42vw, 220px); flex-shrink: 0; }
+    .tl-vc-item img { width: clamp(160px, 42vw, 220px); height: 260px; aspect-ratio: unset; }
 
     .tl-spine { left: clamp(1.5rem, 4vw, 3rem); }
     .tl-node-year { font-size: 3rem; }
