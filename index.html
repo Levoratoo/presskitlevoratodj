@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LEVORATO - DJ & Producer. Booking para clubs, eventos e festivais. Techno underground.">
+    <meta name="keywords" content="LEVORATO, DJ, Producer, Techno, Underground, Booking, Press Kit">
+    <meta property="og:title" content="LEVORATO — DJ & Producer | Press Kit">
+    <meta property="og:description" content="Energia crua. Pressão de pista. Som sem concessões.">
+    <meta property="og:type" content="website">
+    <title>LEVORATO — DJ & Producer | Press Kit</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Particle Canvas -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- ======================================
+         NAVIGATION
+    ======================================= -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">
+                <img src="Fotos minha/logo dj.png" alt="LEVORATO" class="nav-logo-img">
+            </a>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#historia" class="nav-link">História</a></li>
+                <li><a href="#sobre" class="nav-link">Sobre</a></li>
+                <li><a href="#musicas" class="nav-link">Músicas</a></li>
+                <li><a href="#booking" class="nav-link nav-cta">Booking</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ======================================
+         HERO
+    ======================================= -->
+    <section class="hero" id="hero">
+
+        <!-- Background glow -->
+        <div class="hero-bg-glow"></div>
+
+        <!-- 2. Partículas flutuantes — geradas via JS -->
+        <div class="hero-particles" id="hero-particles" aria-hidden="true"></div>
+
+        <!-- ===== LEFT: Content ===== -->
+        <div class="hero-content">
+
+            <!-- 1. Glow blob pulsante -->
+            <div class="hero-glow-blob"></div>
+
+            <!-- Pill tag -->
+            <div class="hero-pill">
+                <span class="pill-dot"></span>
+                DJ &amp; PRODUCER · PRESS KIT 2025
+            </div>
+
+            <!-- Main title -->
+            <!-- 3. Shimmer em LEVORATO / 4. Underline de fogo em MINIMAL BASS. -->
+            <h1 class="hero-title">
+                <span class="title-line-white hero-shimmer">LEVORATO</span>
+                <span class="title-line-red hero-fire-line">MINIMAL BASS.</span>
+            </h1>
+
+            <p class="hero-desc">
+                Sets construídos a partir da identidade musical.<br>
+                Cada pista, uma história. Cada drop, uma experiência.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#musicas" class="btn btn-primary">
+                    <i class="fas fa-play"></i>
+                    Ouvir Agora
+                </a>
+                <a href="#booking" class="btn btn-ghost">
+                    Booking &rarr;
+                </a>
+            </div>
+
+            <!-- Stats row -->
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">+1200</span>
+                    <span class="stat-label">Shows</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number">15</span>
+                    <span class="stat-label">Anos de Música</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== RIGHT: Circular visual ===== -->
+        <div class="hero-visual">
+            <!-- Outer spinning rings -->
+            <div class="hv-ring hv-ring-1"></div>
+            <div class="hv-ring hv-ring-2"></div>
+            <div class="hv-ring hv-ring-3"></div>
+
+            <!-- Glow blob behind circle -->
+            <div class="hv-glow"></div>
+
+            <!-- Photo circle -->
+            <div class="hv-circle">
+                <img src="Fotos minha/KAD00098-1.JPG" alt="LEVORATO">
+                <div class="hv-circle-inner-glow"></div>
+            </div>
+
+            <!-- Floating badges -->
+            <div class="hv-badge hv-badge-top">
+                <span class="hv-badge-dot"></span>
+                Underground
+            </div>
+            <div class="hv-badge hv-badge-bottom">
+                <span class="hv-badge-dot"></span>
+                Pressão de Pista
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator">
+            <span>Descobrir</span>
+            <div class="scroll-line"></div>
+        </div>
+
+    </section>
+
+    <!-- ======================================
+         SOBRE
+    ======================================= -->
+    <!-- ======================================
+         TIMELINE — A HISTÓRIA
+    ======================================= -->
+    <section class="timeline-section" id="historia">
+
+        <!-- Section header -->
+        <div class="tl-header">
+            <div class="section-tag">A HISTÓRIA</div>
+            <h2 class="section-title">Uma trajetória de <span class="text-glow">20 anos</span></h2>
+        </div>
+
+        <!-- Wrapper que contém a spine + os dois nodes (2011 e 2022) -->
+        <div class="tl-spine-wrapper">
+
+        <!-- Central vertical spine -->
+        <div class="tl-spine">
+            <div class="tl-spine-line" id="tl-spine-line"></div>
+        </div>
+
+        <!-- ======= NODE 1: 2011 ======= -->
+        <div class="tl-node" id="tl-ch1">
+            <div class="tl-node-dot">
+                <div class="tl-node-dot-inner"></div>
+            </div>
+            <!-- Text: left -->
+            <div class="tl-node-content tl-node-content--left">
+                <div class="tl-node-text">
+                    <div class="tl-chapter-tag">CAPÍTULO 01</div>
+                    <div class="tl-node-year">2011</div>
+                    <h2 class="tl-chapter-title">
+                        Onde tudo<br><span class="tl-title-accent">começou.</span>
+                    </h2>
+                    <p class="tl-chapter-desc">
+                        Antes do palco, antes da mixagem, antes do nome, havia uma vontade que ninguém conseguia apagar. Em 2011, Pedro pisou num palco pela primeira vez. A história começou aqui.
+                    </p>
+                </div>
+            </div>
+            <!-- Carousel: right -->
+            <div class="tl-node-carousel tl-node-carousel--right">
+                <div class="tl-vc-mask">
+                    <div class="tl-vc-track tl-vc-track--up">
+                        <div class="tl-vc-item"><img src="fotos-historia/2011/5c03a528-5575-403a-918f-d4e94d8caefb.jpg" alt="2011" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/2011/ac0ff78f-f798-4957-bfd3-3abbcdd27d86.jpg" alt="2011" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/2011/ad4e415a-c883-4d56-a6e9-123eb57dfa2b.jpg" alt="2011" loading="lazy"></div>
+                        <!-- duplicate for seamless loop -->
+                        <div class="tl-vc-item"><img src="fotos-historia/2011/5c03a528-5575-403a-918f-d4e94d8caefb.jpg" alt="2011" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/2011/ac0ff78f-f798-4957-bfd3-3abbcdd27d86.jpg" alt="2011" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/2011/ad4e415a-c883-4d56-a6e9-123eb57dfa2b.jpg" alt="2011" loading="lazy"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======= NODE 2: 2022 ======= -->
+        <div class="tl-node tl-node--flip" id="tl-ch2">
+            <div class="tl-node-dot">
+                <div class="tl-node-dot-inner"></div>
+            </div>
+            <!-- Carousel: left -->
+            <div class="tl-node-carousel tl-node-carousel--left">
+                <div class="tl-vc-mask">
+                    <div class="tl-vc-track tl-vc-track--up" style="--vc-speed: 38s">
+                        <!-- Restante primeiro (ficam no topo antes de rolar) -->
+                        <div class="tl-vc-item"><img src="fotos-historia/shows/principal.jpg" alt="Show" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/pagode/622289235_18082531940268844_2095422429636431196_n.jpg" alt="Pagode" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/pagode/626799608_18173386552375828_6100666415423684528_n.jpg" alt="Pagode" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/shows/323799619_6105734359460795_4403239180652779287_n.jpg" alt="Show" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/pagode/628559982_18404700715133029_8678002384142923943_n.jpg" alt="Pagode" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/pagode/653052197_18061560365370479_4758594510082973273_n.jpg" alt="Pagode" loading="lazy"></div>
+                        <!-- Prioritárias: aparecem quando rolar pra cima -->
+                        <div class="tl-vc-item"><img src="fotos-historia/shows/323714556_154803273980658_1107826401569740855_n.jpg" alt="Show" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/shows/323809236_155267643933830_7157604467836132228_n.jpg" alt="Show" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/shows/652681922_18074812271170878_8109808254508171629_n.jpg" alt="Show" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/shows/654439686_18089311777908610_5987958359048393136_n.jpg" alt="Show" loading="lazy"></div>
+                        <!-- Duplicate for seamless loop -->
+                        <div class="tl-vc-item"><img src="fotos-historia/shows/principal.jpg" alt="Show" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/pagode/622289235_18082531940268844_2095422429636431196_n.jpg" alt="Pagode" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/pagode/626799608_18173386552375828_6100666415423684528_n.jpg" alt="Pagode" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/shows/323799619_6105734359460795_4403239180652779287_n.jpg" alt="Show" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/pagode/628559982_18404700715133029_8678002384142923943_n.jpg" alt="Pagode" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/pagode/653052197_18061560365370479_4758594510082973273_n.jpg" alt="Pagode" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/shows/323714556_154803273980658_1107826401569740855_n.jpg" alt="Show" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/shows/323809236_155267643933830_7157604467836132228_n.jpg" alt="Show" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/shows/652681922_18074812271170878_8109808254508171629_n.jpg" alt="Show" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/shows/654439686_18089311777908610_5987958359048393136_n.jpg" alt="Show" loading="lazy"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Text: right -->
+            <div class="tl-node-content tl-node-content--right">
+                <div class="tl-node-text">
+                    <div class="tl-chapter-tag">CAPÍTULO 02</div>
+                    <div class="tl-node-year">2022</div>
+                    <h2 class="tl-chapter-title">
+                        Onde eu<br><span class="tl-title-accent">cheguei.</span>
+                    </h2>
+                    <div class="tl-crowd-badge">
+                        <span class="tl-crowd-text">+50 mil pessoas no público</span>
+                    </div>
+                    <p class="tl-chapter-desc">
+                        O pagode me colocou na estrada e mostrou o que é construir uma conexão real com uma plateia. Em 2022, toquei para mais de <strong>+50 mil pessoas</strong>, e entendi que era apenas o começo.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        </div><!-- end tl-spine-wrapper -->
+
+        <!-- ======= TENSION BLOCK ======= -->
+        <div class="tl-chapter tl-chapter--tension" id="tl-ch3">
+            <div class="tl-tension-bg"></div>
+            <div class="tl-scanlines"></div>
+            <div class="tl-node-dot tl-node-dot--tension">
+                <div class="tl-node-dot-inner"></div>
+            </div>
+            <div class="tl-tension-content">
+                <div class="tl-chapter-tag tl-chapter-tag--white">CAPÍTULO 03</div>
+                <div class="tl-tension-phrase">
+                    <span class="tl-tension-e">E</span>
+                    <span class="tl-tension-rest"> onde estou</span>
+                </div>
+                <div class="tl-tension-now">
+                    <span class="tl-tension-now-text" id="tl-glitch" data-text="AGORA??">AGORA??</span>
+                </div>
+                <div class="tl-tension-line"></div>
+                <p class="tl-tension-sub">A resposta está abaixo.</p>
+                <div class="tl-tension-arrow"><i class="fas fa-chevron-down"></i></div>
+            </div>
+        </div>
+
+        <!-- ======= NODE 3: NOVO CICLO ======= -->
+        <div class="tl-node tl-node--dj" id="tl-ch4">
+            <div class="tl-node-dot tl-node-dot--red">
+                <div class="tl-node-dot-inner"></div>
+            </div>
+            <!-- Text: left -->
+            <div class="tl-node-content tl-node-content--left">
+                <div class="tl-node-text">
+                    <div class="tl-chapter-tag">CAPÍTULO 03</div>
+                    <div class="tl-node-year tl-node-year--red">2025 — HOJE</div>
+                    <h2 class="tl-chapter-title">
+                        Novo<br><span class="tl-title-accent">Ciclo.</span>
+                    </h2>
+                    <blockquote class="tl-quote">
+                        <span class="tl-quote-mark">"</span>
+                        Pela primeira vez em 15 anos de carreira musical nos palcos, primeiro no pagode e agora na música eletrônica, tô lançando minha marca oficialmente pela primeira vez dentro do Minimal Bass, assumindo o protagonismo da minha própria história.
+                        <span class="tl-quote-mark">"</span>
+                    </blockquote>
+                    <div class="tl-quote-author">
+                        <span class="tl-quote-line"></span>
+                        LEVORATO
+                    </div>
+                </div>
+            </div>
+            <!-- Carousel: right -->
+            <div class="tl-node-carousel tl-node-carousel--right">
+                <div class="tl-vc-mask">
+                    <div class="tl-vc-track tl-vc-track--up" style="--vc-speed: 14s">
+                        <div class="tl-vc-item"><img src="fotos-historia/novo-ciclo/640955982_18425123203140997_7619728796623777023_n.jpg" alt="Novo Ciclo" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/novo-ciclo/651659870_18427901995140997_5626809867025796884_n.jpg" alt="Novo Ciclo" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/novo-ciclo/590411291_18413716183140997_4034424534083156277_n.webp" alt="Novo Ciclo" loading="lazy"></div>
+                        <!-- duplicate -->
+                        <div class="tl-vc-item"><img src="fotos-historia/novo-ciclo/640955982_18425123203140997_7619728796623777023_n.jpg" alt="Novo Ciclo" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/novo-ciclo/651659870_18427901995140997_5626809867025796884_n.jpg" alt="Novo Ciclo" loading="lazy"></div>
+                        <div class="tl-vc-item"><img src="fotos-historia/novo-ciclo/590411291_18413716183140997_4034424534083156277_n.webp" alt="Novo Ciclo" loading="lazy"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ======================================
+         SOBRE
+    ======================================= -->
+    <section class="about" id="sobre">
+        <div class="container">
+            <div class="about-grid">
+
+                <!-- Photo -->
+                <div class="about-image-wrapper reveal-left">
+                    <div class="about-image">
+                        <img src="Fotos minha/KAD00105-3.JPG" alt="LEVORATO — DJ & Producer" class="about-photo">
+                        <div class="about-image-border"></div>
+                        <div class="about-image-glow"></div>
+                        <!-- Red line accent -->
+                        <div class="about-accent-line"></div>
+                    </div>
+                </div>
+
+                <!-- Text -->
+                <div class="about-content reveal-right">
+                    <div class="section-tag">SOBRE</div>
+                    <h2 class="section-title">
+                        A força que<br>
+                        <span class="text-glow">move a pista</span>
+                    </h2>
+                    <p class="about-text">
+                        Fala galera beleza? Sou Pedro (Levorato), DJ de Minimal Bass, trazendo sets totalmente construídos a partir da minha identidade musical. Cada lugar que eu toco é uma experiência diferente, gosto de sentir a pista e construir o set de acordo com a energia do momento. Pra mim, tocar é como contar uma história, criando conexão real com quem tá ali do começo ao fim.
+                    </p>
+                    <p class="about-text">
+                        Estou ligado à música indiretamente há 20 anos e atuo de forma profissional há 15 anos, passando por banda, docência, regência e diferentes projetos musicais.
+                    </p>
+                    <p class="about-text">
+                        Estudei música na <strong>UEM (Universidade Estadual do Paraná)</strong>, e isso influencia direto na forma como eu penso meus sets e produções. No meu som, além da eletrônica, trago referências de pop e rap, mas tudo passado pela minha pegada de <em>minimal bass extremamente grotesca</em> com muita pressão de pista, sem perder a essência.
+                    </p>
+                    <p class="about-text">
+                        Meu maior sonho é não entregar apenas o que o público quer, mas levar todo mundo para um lugar onde ninguém esteve antes.
+                    </p>
+                    <div class="about-tags">
+                        <span class="tag">Minimal Bass</span>
+                        <span class="tag">Bass House</span>
+                        <span class="tag">Indie Dance</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================================
+         LUGARES QUE TOQUEI
+    ======================================= -->
+    <section class="lugares-section" id="lugares">
+        <div class="lugares-header reveal-up">
+            <div class="section-tag">PRESENÇA DE PALCO</div>
+            <h2 class="section-title">Lugares onde<br><span class="text-glow">já toquei</span></h2>
+        </div>
+
+        <div class="lugares-track-wrapper">
+            <!-- Faixa 1 — rola para a esquerda -->
+            <div class="lugares-track lugares-track--left">
+                <div class="lugares-strip">
+                    <div class="lugares-item"><img src="fotos-lugares/-BsZvoYvBU9fSIQBQ8bN6.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/6B48GgdD9AZDT1aOwWa3m.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/8odgK1X3XrTW-spBru2zW.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/98PcD-9Th72QsbuMI55oY.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/ERHoqD7RTjb3QzyTUE6NU.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/Gisi9oQeKSJQYh3QedUge.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/J_GUkrxIxG-s-cGALzK-r.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/jYxzfkvzraoeKg3B2MxfK.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/K73kkhZduNpwX5FAxC_Sl.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/MWM3txr_stAlx01gDVE9X.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/QDYqFwEcUMne-EjEtGReS.jpg" alt="Show" loading="lazy"></div>
+                    <!-- duplicate for seamless loop -->
+                    <div class="lugares-item"><img src="fotos-lugares/-BsZvoYvBU9fSIQBQ8bN6.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/6B48GgdD9AZDT1aOwWa3m.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/8odgK1X3XrTW-spBru2zW.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/98PcD-9Th72QsbuMI55oY.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/ERHoqD7RTjb3QzyTUE6NU.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/Gisi9oQeKSJQYh3QedUge.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/J_GUkrxIxG-s-cGALzK-r.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/jYxzfkvzraoeKg3B2MxfK.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/K73kkhZduNpwX5FAxC_Sl.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/MWM3txr_stAlx01gDVE9X.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/QDYqFwEcUMne-EjEtGReS.jpg" alt="Show" loading="lazy"></div>
+                </div>
+            </div>
+
+            <!-- Faixa 2 — rola para a direita (sentido oposto) -->
+            <div class="lugares-track lugares-track--right">
+                <div class="lugares-strip">
+                    <div class="lugares-item"><img src="fotos-lugares/RUYUSr5vbXr46lOg8j04E.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/Screenshot_12.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/shOiQyJJcss6cEjW2tTMw.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/V8Kx0NEu4lvLNZLJfVgYX.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/VbzHEPqD9noV6axRMgLU0.webp" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/zIk9WjVkVXGdutpyhT0Ev.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/2ypeQQl3XmWsDCfcX_Fiw.png" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/8kGzDF8zqof76MrhQ5Oqb.png" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/9wTX7nTw5tblUnYUROyac.png" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/080ba4a2-6fc4-4dd6-af9d-64d97b18bdb7.png" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/c233bb84-4a1b-42a2-900d-92dd2073df7f.png" alt="Show" loading="lazy"></div>
+                    <!-- duplicate for seamless loop -->
+                    <div class="lugares-item"><img src="fotos-lugares/RUYUSr5vbXr46lOg8j04E.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/Screenshot_12.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/shOiQyJJcss6cEjW2tTMw.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/V8Kx0NEu4lvLNZLJfVgYX.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/VbzHEPqD9noV6axRMgLU0.webp" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/zIk9WjVkVXGdutpyhT0Ev.jpg" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/2ypeQQl3XmWsDCfcX_Fiw.png" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/8kGzDF8zqof76MrhQ5Oqb.png" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/9wTX7nTw5tblUnYUROyac.png" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/080ba4a2-6fc4-4dd6-af9d-64d97b18bdb7.png" alt="Show" loading="lazy"></div>
+                    <div class="lugares-item"><img src="fotos-lugares/c233bb84-4a1b-42a2-900d-92dd2073df7f.png" alt="Show" loading="lazy"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================================
+         MÚSICAS
+    ======================================= -->
+    <section class="music" id="musicas">
+        <div class="container">
+
+            <div class="section-header reveal-up">
+                <div class="section-tag">OUÇA</div>
+                <h2 class="section-title">Músicas &amp; <span class="text-glow">Releases</span></h2>
+                <p class="section-desc">Explore os sets e lançamentos nas plataformas</p>
+            </div>
+
+            <!-- ---- Tab bar ---- -->
+            <div class="stream-tabs reveal-up">
+                <button class="stream-tab active" data-tab="soundcloud">
+                    <i class="fab fa-soundcloud"></i>
+                    <span>SoundCloud</span>
+                    <span class="tab-count">6</span>
+                </button>
+                <button class="stream-tab" data-tab="spotify">
+                    <i class="fab fa-spotify"></i>
+                    <span>Autorais</span>
+                    <span class="tab-count">6</span>
+                </button>
+            </div>
+
+            <!-- ---- SoundCloud panel ---- -->
+            <div class="stream-panel active" id="panel-soundcloud">
+                <div class="sc-grid">
+                    <div class="sc-card">
+                        <div class="sc-card-label">SET MINIMAL BASS · THE GRAND <span>23/01/2026</span></div>
+                        <iframe scrolling="no" frameborder="no" allow="autoplay" loading="lazy"
+                            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/levorato-324582234/3f095650-1444-4453-99be-df2f9ca58773&color=%23ff1a1a&auto_play=false&visual=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false">
+                        </iframe>
+                    </div>
+                    <div class="sc-card">
+                        <div class="sc-card-label">SET FOGO NO PARKINHO <span>04/01</span></div>
+                        <iframe scrolling="no" frameborder="no" allow="autoplay" loading="lazy"
+                            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/levorato-324582234/set-fogo-no-parkinho-0401&color=%23ff1a1a&auto_play=false&visual=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false">
+                        </iframe>
+                    </div>
+                    <div class="sc-card">
+                        <div class="sc-card-label">SET MINIMAL BASS · RÁDIO RITMOS DA NOITE <span>Natal</span></div>
+                        <iframe scrolling="no" frameborder="no" allow="autoplay" loading="lazy"
+                            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/levorato-324582234/set-minimal-bass-radio-ritmos-da-noite-especial-de-natal&color=%23ff1a1a&auto_play=false&visual=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false">
+                        </iframe>
+                    </div>
+                    <div class="sc-card">
+                        <div class="sc-card-label">SET MINIMAL BASS · RÁDIO RITMOS DA NOITE <span>Fim de Ano</span></div>
+                        <iframe scrolling="no" frameborder="no" allow="autoplay" loading="lazy"
+                            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/levorato-324582234/set-09-01-radio&color=%23ff1a1a&auto_play=false&visual=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false">
+                        </iframe>
+                    </div>
+                    <div class="sc-card">
+                        <div class="sc-card-label">SET AFTER DA FIRMA B2B CALGAROBR <span>07/12</span></div>
+                        <iframe scrolling="no" frameborder="no" allow="autoplay" loading="lazy"
+                            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/levorato-324582234/6eb9387c-7e48-467c-b981-e331e6bf7674&color=%23ff1a1a&auto_play=false&visual=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false">
+                        </iframe>
+                    </div>
+                    <div class="sc-card">
+                        <div class="sc-card-label">SET MINIMAL BASS <span>AIME Contest</span></div>
+                        <iframe scrolling="no" frameborder="no" allow="autoplay" loading="lazy"
+                            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/levorato-324582234/aimeccontest&color=%23ff1a1a&auto_play=false&visual=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false">
+                        </iframe>
+                    </div>
+                </div>
+                <a href="https://soundcloud.com/levorato-324582234" class="stream-cta" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-soundcloud"></i> Ver todos no SoundCloud
+                </a>
+            </div>
+
+            <!-- ---- Autorais (Spotify tracks) panel ---- -->
+            <div class="stream-panel" id="panel-spotify">
+                <div class="sc-grid">
+                    <div class="sc-card">
+                        <div class="sc-card-label">Aether <span>feat. Zalløn · 2025</span></div>
+                        <iframe
+                            src="https://open.spotify.com/embed/track/2Q3l3aODkoTuAohZ4hcFAJ?utm_source=generator&theme=0"
+                            width="100%" height="152" frameBorder="0" loading="lazy"
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                            title="Aether">
+                        </iframe>
+                    </div>
+                    <div class="sc-card">
+                        <div class="sc-card-label">Don't Blame Me <span>feat. Zalløn · 2025</span></div>
+                        <iframe
+                            src="https://open.spotify.com/embed/track/2HovVGJY5YMWlhjr7rqq1W?utm_source=generator&theme=0"
+                            width="100%" height="152" frameBorder="0" loading="lazy"
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                            title="Don't Blame Me">
+                        </iframe>
+                    </div>
+                    <div class="sc-card">
+                        <div class="sc-card-label">Nyx <span>feat. Zalløn · 2025</span></div>
+                        <iframe
+                            src="https://open.spotify.com/embed/track/33JdvYu4A1RvBCY7he2XWJ?utm_source=generator&theme=0"
+                            width="100%" height="152" frameBorder="0" loading="lazy"
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                            title="Nyx">
+                        </iframe>
+                    </div>
+                    <div class="sc-card">
+                        <div class="sc-card-label">Wild Genesis <span>2025</span></div>
+                        <iframe
+                            src="https://open.spotify.com/embed/track/4NOHLNbQwzMButqod7sNFR?utm_source=generator&theme=0"
+                            width="100%" height="152" frameBorder="0" loading="lazy"
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                            title="Wild Genesis">
+                        </iframe>
+                    </div>
+                    <div class="sc-card">
+                        <div class="sc-card-label">Rise of Fire <span>2025</span></div>
+                        <iframe
+                            src="https://open.spotify.com/embed/track/5mrrT9pnyN20WZ45hzQe5W?utm_source=generator&theme=0"
+                            width="100%" height="152" frameBorder="0" loading="lazy"
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                            title="Rise of Fire">
+                        </iframe>
+                    </div>
+                    <div class="sc-card">
+                        <div class="sc-card-label">Echo of the Void <span>2025</span></div>
+                        <iframe
+                            src="https://open.spotify.com/embed/track/3128mTfhx4eIaVYFWDlyHS?utm_source=generator&theme=0"
+                            width="100%" height="152" frameBorder="0" loading="lazy"
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                            title="Echo of the Void">
+                        </iframe>
+                    </div>
+                </div>
+                <a href="https://open.spotify.com/intl-pt/artist/20TjayRGM3B3BAj0uoc2Ix" class="stream-cta stream-cta--spotify" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-spotify"></i> Ver discografia completa no Spotify
+                </a>
+            </div>
+
+            <!-- ---- YouTube panel ---- -->
+            </div>
+
+            <!-- Platform Links -->
+            <div class="music-platforms reveal-up">
+                <p class="platforms-label">Também disponível em</p>
+                <div class="platforms-row">
+                    <a href="https://open.spotify.com/intl-pt/artist/20TjayRGM3B3BAj0uoc2Ix" class="platform-link" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-spotify"></i> Spotify
+                    </a>
+                    <a href="https://soundcloud.com/levorato-324582234" class="platform-link" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-soundcloud"></i> SoundCloud
+                    </a>
+                    <a href="https://www.youtube.com/@levoratomusic" class="platform-link" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-youtube"></i> YouTube
+                    </a>
+                    <a href="https://music.youtube.com/channel/UCkJQWxE1ayRSHpM1tP9om7w" class="platform-link" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-youtube"></i> YouTube Music
+                    </a>
+                    <a href="https://www.beatport.com/pt/artist/levorato/1423031" class="platform-link" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-music"></i> Beatport
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    </section>
+
+    <!-- ======================================
+         BOOKING
+    ======================================= -->
+    <section class="booking" id="booking">
+        <div class="booking-bg"></div>
+        <div class="booking-lines">
+            <div class="booking-line"></div>
+            <div class="booking-line"></div>
+            <div class="booking-line"></div>
+        </div>
+        <div class="container">
+            <div class="booking-content reveal-up">
+                <div class="section-tag">CONTATO</div>
+                <h2 class="booking-title">
+                    Pronto para<br>
+                    <span class="text-glow">levar ao limite?</span>
+                </h2>
+                <p class="booking-desc">
+                    Disponível para clubs, eventos e festivais.<br>
+                    Entre em contato e vamos criar algo memorável.
+                </p>
+
+                <div class="booking-buttons">
+                    <a href="https://api.whatsapp.com/send/?phone=5544988392703&text&type=phone_number&app_absent=0" class="btn btn-whatsapp" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-whatsapp"></i>
+                        WhatsApp
+                    </a>
+                    <a href="https://www.instagram.com/levoratodj/" class="btn btn-instagram" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-instagram"></i>
+                        Instagram
+                    </a>
+                    <a href="mailto:levorato157@gmail.com" class="btn btn-email">
+                        <i class="fas fa-envelope"></i>
+                        E-mail
+                    </a>
+                </div>
+
+                <div class="booking-available">
+                    <div class="available-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Clubs &amp; Raves</span>
+                    </div>
+                    <div class="available-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Eventos Privados</span>
+                    </div>
+                    <div class="available-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Festivais</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================================
+         FOOTER
+    ======================================= -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+
+                <div class="footer-brand">
+                    <a href="#hero" class="footer-logo">
+                        <img src="Fotos minha/logo dj.png" alt="LEVORATO" class="footer-logo-img">
+                    </a>
+                    <p class="footer-tagline">Energia crua. Pressão de pista.<br>Som sem concessões.</p>
+                </div>
+
+                <div class="footer-nav">
+                    <h4 class="footer-heading">Navegação</h4>
+                    <ul>
+                        <li><a href="#sobre">Sobre</a></li>
+                        <li><a href="#musicas">Músicas</a></li>
+                        <li><a href="#booking">Booking</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-social-col">
+                    <h4 class="footer-heading">Redes Sociais</h4>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/levoratodj/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://soundcloud.com/levorato-324582234" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="SoundCloud">
+                            <i class="fab fa-soundcloud"></i>
+                        </a>
+                        <a href="https://open.spotify.com/intl-pt/artist/20TjayRGM3B3BAj0uoc2Ix" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Spotify">
+                            <i class="fab fa-spotify"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@levoratomusic" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://www.beatport.com/pt/artist/levorato/1423031" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Beatport">
+                            <i class="fas fa-music"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 LEVORATO. Todos os direitos reservados.</p>
+                <p class="footer-right">Press Kit Oficial</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
