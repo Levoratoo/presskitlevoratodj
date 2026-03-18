@@ -356,6 +356,54 @@ function initDjGallery() {
 // TIMELINE — TENSION BLOCK: random glitch trigger
 // ============================================================
 
+function initTimelineMobileCarousels() {
+    const carousels = document.querySelectorAll('.tl-vc-mask');
+    if (!carousels.length) return;
+
+    carousels.forEach(carousel => {
+        let isPointerDown = false;
+        let startX = 0;
+        let startY = 0;
+        let startScrollLeft = 0;
+        let isHorizontalDrag = false;
+
+        carousel.addEventListener('pointerdown', e => {
+            if (window.innerWidth > 900) return;
+
+            isPointerDown = true;
+            isHorizontalDrag = false;
+            startX = e.clientX;
+            startY = e.clientY;
+            startScrollLeft = carousel.scrollLeft;
+        });
+
+        carousel.addEventListener('pointermove', e => {
+            if (!isPointerDown || window.innerWidth > 900) return;
+
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+
+            if (!isHorizontalDrag) {
+                if (Math.abs(dx) < 8) return;
+                if (Math.abs(dx) <= Math.abs(dy)) return;
+                isHorizontalDrag = true;
+            }
+
+            e.preventDefault();
+            carousel.scrollLeft = startScrollLeft - dx;
+        });
+
+        const endPointerDrag = () => {
+            isPointerDown = false;
+            isHorizontalDrag = false;
+        };
+
+        carousel.addEventListener('pointerup', endPointerDrag);
+        carousel.addEventListener('pointercancel', endPointerDrag);
+        carousel.addEventListener('lostpointercapture', endPointerDrag);
+    });
+}
+
 function initTensionGlitch() {
     const el = document.getElementById('tl-glitch');
     if (!el) return;
@@ -550,6 +598,7 @@ function init() {
     tickParticles();
     onScroll();
     initDjGallery();
+    initTimelineMobileCarousels();
     initTensionGlitch();
     initSpineLine();
     initTimelineReveal();
