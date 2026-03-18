@@ -1052,7 +1052,11 @@ section {
     animation: fadeInUp 0.4s ease;
 }
 
-.stream-panel.active { display: block; }
+.stream-panel.active {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
 
 /* ---- SoundCloud grid ---- */
 .sc-grid {
@@ -1120,6 +1124,8 @@ section {
     text-transform: uppercase;
     transition: all 0.25s ease;
     margin-top: 0.5rem;
+    /* centralizado e sem overflow no mobile */
+    align-self: flex-start;
 }
 
 .stream-cta:hover {
@@ -1409,7 +1415,7 @@ section {
    BOOKING
 ------------------------------------------------------- */
 .booking {
-    padding: 9rem 0;
+    padding: clamp(4rem, 10vw, 9rem) 0;
     position: relative;
     overflow: hidden;
 }
@@ -1813,12 +1819,20 @@ section {
     /* Node year menor */
     .tl-node-year { font-size: 2.2rem; }
 
-    /* Booking */
+    /* Booking — menos espaço vazio */
+    .booking { padding: 3.5rem 0; }
     .booking-available { gap: 1rem; }
+    .booking-title { font-size: clamp(2rem, 10vw, 3rem); }
 
     /* Tabs de música menores */
     .stream-tab { padding: 0.5rem 0.9rem; font-size: 0.7rem; }
     .tab-count  { display: none; }
+
+    /* SoundCloud CTA — centralizado */
+    .stream-cta { align-self: center; width: 100%; justify-content: center; }
+
+    /* Footer — menos padding */
+    .footer { padding: 3rem 0 1.5rem; }
 }
 
 /* ============================================================
