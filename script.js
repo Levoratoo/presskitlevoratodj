@@ -132,9 +132,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
         e.preventDefault();
 
-        const navH = parseInt(
-            getComputedStyle(document.documentElement).getPropertyValue('--nav-h')
-        ) || 68;
+        const navEl = document.getElementById('navbar');
+        const navH  = navEl ? navEl.offsetHeight : 68;
 
         window.scrollTo({
             top:      target.getBoundingClientRect().top + window.scrollY - navH,
