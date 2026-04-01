@@ -2761,104 +2761,67 @@ section {
     max-width: var(--max-w);
 }
 
-/* ---- Educação musical — timeline em cartões ---- */
-.tl-edu-wrap {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 0 clamp(1.25rem, 4vw, 2.5rem) 5.5rem;
-}
-
-.tl-edu-lead {
+/* ---- Educação musical — mesmo layout da timeline (spine + nós + carrossel) ---- */
+#tl-panel-education .tl-edu-lead {
     text-align: center;
     color: rgba(255, 255, 255, 0.55);
     font-size: 0.98rem;
     line-height: 1.65;
-    margin: 0 auto 2.75rem;
+    margin: 0 auto 2.5rem;
     max-width: 52ch;
+    padding: 0 clamp(1rem, 4vw, 2rem);
 }
 
-.tl-edu-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
+.tl-spine-wrapper--edu {
+    padding-bottom: 2rem;
 }
 
-.tl-edu-card {
-    position: relative;
-    padding: 1.35rem 1.35rem 1.35rem 1.5rem;
-    border-radius: 12px;
-    background: rgba(12, 12, 12, 0.88);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-left: 3px solid var(--primary);
-    box-shadow: 0 0 24px rgba(0, 0, 0, 0.35);
+.tl-node--edu .tl-chapter-title {
+    font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+    line-height: 1.25;
+    margin-top: 0.35rem;
 }
 
-.tl-edu-period {
-    font-family: var(--font-display);
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--primary);
-    margin-bottom: 0.45rem;
+.tl-chapter-tag--edu {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    line-height: 1.35;
+    white-space: normal;
 }
 
-.tl-edu-title {
-    font-family: var(--font-display);
-    font-size: 1.05rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    color: #fff;
-    margin: 0 0 0.35rem;
-    line-height: 1.3;
+.tl-node--edu .tl-node-year {
+    font-size: clamp(2.5rem, 8vw, 3.5rem);
 }
 
-.tl-edu-role {
-    font-size: 0.82rem;
-    color: rgba(255, 255, 255, 0.45);
-    margin-bottom: 0.85rem;
+.tl-edu-role-line {
+    font-size: 0.84rem;
+    color: rgba(255, 255, 255, 0.48);
     line-height: 1.45;
+    margin: 0 0 0.85rem;
 }
 
-.tl-edu-desc {
-    font-size: 0.92rem;
-    color: rgba(255, 255, 255, 0.62);
-    line-height: 1.65;
-    margin: 0;
-}
-
-a.tl-edu-card--link {
+a.tl-edu-text-wrap {
     display: block;
-    text-decoration: none;
     color: inherit;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-a.tl-edu-card--link:hover {
-    border-color: rgba(255, 26, 26, 0.28);
-    box-shadow: 0 0 28px rgba(255, 26, 26, 0.12);
-    transform: translateY(-2px);
-}
-
-a.tl-edu-card--link:focus-visible {
-    outline: 2px solid var(--primary);
-    outline-offset: 3px;
-}
-
-a.tl-edu-card--link .tl-edu-title {
     text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    border-radius: 4px;
+    transition: opacity 0.2s ease;
 }
 
-/* Cartão “músico em grupo” (pagode) — destaque sutil em relação à docência */
-.tl-edu-card--musician {
-    border-left-color: rgba(255, 190, 120, 0.75);
-    box-shadow: 0 0 20px rgba(255, 160, 80, 0.06);
+a.tl-edu-text-wrap:hover .tl-chapter-title {
+    color: #fff;
 }
 
-a.tl-edu-card--musician:hover {
-    border-left-color: rgba(255, 200, 130, 0.95);
-    box-shadow: 0 0 28px rgba(255, 160, 80, 0.14);
+a.tl-edu-text-wrap:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+}
+
+@media (hover: none) {
+    a.tl-edu-text-wrap:active {
+        opacity: 0.88;
+    }
 }
 
 /* ---- SPINE WRAPPER (só envolve 2011 → 2022) ---- */
@@ -3592,44 +3555,25 @@ a.tl-edu-card--musician:hover {
         justify-content: center;
         row-gap: 0.5rem;
     }
-    .tl-edu-wrap {
-        padding-left: max(1rem, env(safe-area-inset-left));
-        padding-right: max(1rem, env(safe-area-inset-right));
-        padding-bottom: max(4rem, calc(1.5rem + env(safe-area-inset-bottom)));
+    #tl-panel-education {
+        padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
     }
-    .tl-edu-lead {
-        font-size: 0.92rem;
-        margin-bottom: 2rem;
+    #tl-panel-education .tl-edu-lead {
+        font-size: 0.9rem;
+        margin-bottom: 1.75rem;
         max-width: none;
-        padding: 0 0.35rem;
+        padding-left: max(0.75rem, env(safe-area-inset-left));
+        padding-right: max(0.75rem, env(safe-area-inset-right));
     }
-    .tl-edu-list {
-        gap: 1.05rem;
+    .tl-node--edu .tl-chapter-tag--edu {
+        font-size: 0.58rem;
+        letter-spacing: 0.08em;
     }
-    .tl-edu-card,
-    a.tl-edu-card--link {
-        padding: 1.2rem 1rem 1.25rem 1.25rem;
-        min-height: 44px;
-        border-radius: 11px;
+    .tl-node--edu .tl-edu-role-line {
+        font-size: 0.76rem;
     }
-    .tl-edu-period {
-        font-size: 0.68rem;
-        letter-spacing: 0.1em;
-    }
-    .tl-edu-title {
-        font-size: clamp(0.94rem, 3.6vw, 1.05rem);
-        line-height: 1.38;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-    }
-    .tl-edu-role {
-        font-size: 0.78rem;
-        line-height: 1.5;
-        margin-bottom: 0.72rem;
-    }
-    .tl-edu-desc {
-        font-size: 0.88rem;
-        line-height: 1.62;
+    .tl-node--edu .tl-chapter-desc {
+        font-size: 0.9rem;
     }
 }
 
@@ -3663,20 +3607,3 @@ a.tl-edu-card--musician:hover {
     }
 }
 
-/* Toque: sem “lift” no hover; feedback no active */
-@media (hover: none) {
-    a.tl-edu-card--link:hover {
-        transform: none;
-        box-shadow: 0 0 24px rgba(0, 0, 0, 0.35);
-    }
-    a.tl-edu-card--link:active {
-        transform: scale(0.99);
-        opacity: 0.96;
-    }
-    a.tl-edu-card--musician:hover {
-        box-shadow: 0 0 20px rgba(255, 160, 80, 0.06);
-    }
-    a.tl-edu-card--musician:active {
-        opacity: 0.95;
-    }
-}

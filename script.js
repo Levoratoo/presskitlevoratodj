@@ -372,12 +372,16 @@ function initTensionGlitch() {
 // ============================================================
 
 function initSpineLine() {
-    const wrapper   = document.querySelector('.tl-spine-wrapper');
-    const spineLine = document.getElementById('tl-spine-line');
-    const endDot    = document.querySelector('#tl-ch2 .tl-node-dot');
-    if (!wrapper || !spineLine) return;
+    const wrappers = document.querySelectorAll('.tl-spine-wrapper');
+    if (!wrappers.length) return;
 
-    function updateSpine() {
+    function updateSpine(wrapper) {
+        const spineLine = wrapper.querySelector('.tl-spine-line');
+        if (!spineLine) return;
+        const nodes = wrapper.querySelectorAll('.tl-node');
+        const lastNode = nodes[nodes.length - 1];
+        const endDot = lastNode ? lastNode.querySelector('.tl-node-dot') : null;
+
         const wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY;
         let endY;
         if (endDot) {
@@ -387,14 +391,18 @@ function initSpineLine() {
             endY = wrapperTop + wrapper.offsetHeight;
         }
 
-        const totalSpan = endY - wrapperTop;
+        const totalSpan = Math.max(1, endY - wrapperTop);
         const scrolled  = Math.max(0, window.scrollY + window.innerHeight * 0.55 - wrapperTop);
         const pct       = Math.min(100, (scrolled / totalSpan) * 100);
         spineLine.style.height = ((pct / 100) * totalSpan) + 'px';
     }
 
-    window.addEventListener('scroll', updateSpine, { passive: true });
-    updateSpine();
+    function updateAll() {
+        wrappers.forEach(updateSpine);
+    }
+
+    window.addEventListener('scroll', updateAll, { passive: true });
+    updateAll();
 }
 
 // ============================================================
@@ -593,7 +601,7 @@ const i18n = {
         'tl-section-title'   : 'Uma trajetória de <span class="text-glow">20 anos</span>',
         'tl-tab-performance' : 'Performance nos palcos',
         'tl-tab-education'   : 'Educação musical',
-        'tl-edu-lead'        : 'Grupo de pagode, escolas, projetos e aulas — em ordem cronológica, desde 2011 no Ponto do Samba até a docência em cursos e escolas.',
+        'tl-edu-lead'        : 'Escolas, projetos e aulas em ordem cronológica. Clique no texto de cada etapa para abrir o site ou perfil quando houver link.',
         'ch01-tag'           : 'CAPÍTULO 01',
         'ch01-title'         : 'Onde tudo<br><span class="tl-title-accent">começou.</span>',
         'ch01-desc'          : 'Antes do palco, antes da mixagem, antes do nome, havia uma vontade que ninguém conseguia apagar. Em 2011, Pedro pisou num palco pela primeira vez. A história começou aqui.',
@@ -666,7 +674,7 @@ const i18n = {
         'tl-section-title'   : 'A journey of <span class="text-glow">20 years</span>',
         'tl-tab-performance' : 'Stage performance',
         'tl-tab-education'   : 'Music education',
-        'tl-edu-lead'        : 'Pagode group, schools, projects and lessons — in chronological order, from Ponto do Samba in 2011 through teaching in schools and courses.',
+        'tl-edu-lead'        : 'Schools, projects and lessons in chronological order. Tap each block’s text to open the website or profile when a link is available.',
         'ch01-tag'           : 'CHAPTER 01',
         'ch01-title'         : 'Where it all<br><span class="tl-title-accent">began.</span>',
         'ch01-desc'          : 'Before the stage, before the mixing, before the name, there was a will that nobody could extinguish. In 2011, Pedro stepped on a stage for the first time. The story started here.',
@@ -739,7 +747,7 @@ const i18n = {
         'tl-section-title'   : 'Un viaje de <span class="text-glow">20 años</span>',
         'tl-tab-performance' : 'Actuación en escena',
         'tl-tab-education'   : 'Educación musical',
-        'tl-edu-lead'        : 'Grupo de pagode, escuelas, proyectos y clases — en orden cronológico, desde Ponto do Samba en 2011 hasta la docencia en escuelas y cursos.',
+        'tl-edu-lead'        : 'Escuelas, proyectos y clases en orden cronológico. Toca el texto de cada etapa para abrir el sitio o el perfil si hay enlace.',
         'ch01-tag'           : 'CAPÍTULO 01',
         'ch01-title'         : 'Donde todo<br><span class="tl-title-accent">comenzó.</span>',
         'ch01-desc'          : 'Antes del escenario, antes de la mezcla, antes del nombre, había una voluntad que nadie podía apagar. En 2011, Pedro pisó un escenario por primera vez. La historia comenzó aquí.',
@@ -812,7 +820,7 @@ const i18n = {
         'tl-section-title'   : '20年的<span class="text-glow">旅程</span>',
         'tl-tab-performance' : '舞台演出',
         'tl-tab-education'   : '音乐教育',
-        'tl-edu-lead'        : '桑巴组合、学校、项目与课程——按时间顺序，从2011年Ponto do Samba到在学校与课程中任教。',
+        'tl-edu-lead'        : '学校、项目与课程按时间排列。有链接时，点击每段文字可打开网站或主页。',
         'ch01-tag'           : '第一章',
         'ch01-title'         : '一切<br><span class="tl-title-accent">开始的地方。</span>',
         'ch01-desc'          : '在舞台之前，在混音之前，在名字之前，有一种任何人都无法熄灭的意志。2011年，Pedro第一次踏上舞台。故事从这里开始。',
@@ -885,7 +893,7 @@ const i18n = {
         'tl-section-title'   : 'Eine Reise von <span class="text-glow">20 Jahren</span>',
         'tl-tab-performance' : 'Auf der Bühne',
         'tl-tab-education'   : 'Musikpädagogik',
-        'tl-edu-lead'        : 'Pagode-Gruppe, Schulen, Projekte und Unterricht — chronologisch von Ponto do Samba (2011) bis zur Lehre in Schulen und Kursen.',
+        'tl-edu-lead'        : 'Schulen, Projekte und Unterricht chronologisch. Tippen Sie auf den Text, um Website oder Profil zu öffnen, wenn ein Link vorhanden ist.',
         'ch01-tag'           : 'KAPITEL 01',
         'ch01-title'         : 'Wo alles<br><span class="tl-title-accent">begann.</span>',
         'ch01-desc'          : 'Vor der Bühne, vor dem Mixing, vor dem Namen gab es einen Willen, den niemand auslöschen konnte. 2011 betrat Pedro zum ersten Mal eine Bühne. Die Geschichte begann hier.',
@@ -958,7 +966,7 @@ const i18n = {
         'tl-section-title'   : '<span class="text-glow">20年</span>の軌跡',
         'tl-tab-performance' : 'ステージ',
         'tl-tab-education'   : '音楽教育',
-        'tl-edu-lead'        : 'パゴーデグループ、学校、プロジェクト、レッスン——2011年のPonto do Sambaから、学校・コースでの指導まで時系列で。',
+        'tl-edu-lead'        : '学校・プロジェクト・レッスンを時系列で。リンクがある場合は各ブロックのテキストをタップしてサイトやプロフィールを開きます。',
         'ch01-tag'           : 'チャプター 01',
         'ch01-title'         : 'すべてが<br><span class="tl-title-accent">始まった場所。</span>',
         'ch01-desc'          : 'ステージの前、ミキシングの前、名前の前に、誰にも消せない意志があった。2011年、Pedroは初めてステージに立った。物語はここから始まった。',
