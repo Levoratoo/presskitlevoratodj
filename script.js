@@ -1730,10 +1730,16 @@ function initLoadingScreen() {
     const ls = document.getElementById('loading-screen');
     if (!ls) return;
 
+    // Trava scroll enquanto loading está visível
+    document.body.style.overflow = 'hidden';
+
     const hide = () => {
         ls.classList.add('hidden');
-        // Remove do DOM após a transição de fade (1s)
-        ls.addEventListener('transitionend', () => ls.remove(), { once: true });
+        // Libera scroll e remove o elemento após o fade (1s)
+        ls.addEventListener('transitionend', () => {
+            ls.remove();
+            document.body.style.overflow = '';
+        }, { once: true });
         // Typewriter começa depois que a tela de loading termina de sair
         setTimeout(initTypewriter, 1000);
     };

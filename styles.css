@@ -2602,14 +2602,23 @@ section {
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: radial-gradient(ellipse 80% 70% at 50% 55%,
-        rgba(120, 5, 5, 0.18) 0%,
-        #050505 65%);
+    /* Fundo sólido — nada vaza por baixo */
+    background: #050505;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: opacity 1s ease, visibility 1s ease;
     overflow: hidden;
+}
+/* Brilho vermelho central como camada separada, sempre opaca */
+#loading-screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 52%,
+        rgba(140, 5, 5, 0.22) 0%,
+        transparent 70%);
+    pointer-events: none;
 }
 #loading-screen.hidden {
     opacity: 0;
