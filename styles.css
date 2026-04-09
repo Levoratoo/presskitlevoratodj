@@ -1626,7 +1626,7 @@ section {
     background: #050505;
     overflow: hidden;
     content-visibility: auto;
-    contain-intrinsic-size: 0 560px;
+    contain-intrinsic-size: 0 700px;
 }
 
 .lugares-header {
@@ -1646,11 +1646,11 @@ section {
 /* ---- Faixa única de cards ---- */
 .lugares-reel {
     display: flex;
-    gap: 14px;
+    gap: 18px;
     width: max-content;
     will-change: transform;
     transform: translateZ(0);
-    animation: reelScroll 38s linear infinite;
+    animation: reelScroll 45s linear infinite;
 }
 
 .lugares-reel:hover { animation-play-state: paused; }
@@ -1658,9 +1658,9 @@ section {
 /* ---- Card portrait (proporção ~9:16) ---- */
 .lugares-card {
     flex-shrink: 0;
-    width: clamp(170px, 16vw, 240px);
-    height: clamp(290px, 27vw, 410px);
-    border-radius: 14px;
+    width: clamp(220px, 20vw, 310px);
+    height: clamp(380px, 34vw, 530px);
+    border-radius: 16px;
     overflow: hidden;
     position: relative;
     border: 1px solid rgba(255,255,255,0.07);
