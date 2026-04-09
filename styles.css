@@ -2584,8 +2584,8 @@ section {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding-top: calc(var(--nav-total) + 3rem);
-        padding-bottom: 5rem;
+        padding-top: calc(var(--nav-total) + 1.5rem);
+        padding-bottom: 4rem;
         text-align: center;
     }
     .hero-content {
@@ -2599,8 +2599,9 @@ section {
 
     .hero-visual {
         order: 1;
-        width: clamp(220px, 55vw, 340px);
-        height: clamp(220px, 55vw, 340px);
+        width: clamp(180px, 45vw, 280px);
+        height: clamp(180px, 45vw, 280px);
+        margin-top: -1rem;
     }
 
     .hv-badge-top    { right: -4%; top: 4%; }

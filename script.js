@@ -129,32 +129,27 @@ class ShootingStar {
     constructor(initialDelay) { this.reset(initialDelay); }
 
     reset(forceWait) {
-        // Nasce em qualquer ponto do topo ou lateral esquerda
-        const fromTop = Math.random() < 0.6;
-        this.x     = fromTop ? Math.random() * canvas.width
-                             : -10;
-        this.y     = fromTop ? -10
-                             : Math.random() * canvas.height * 0.5;
+        // Nasce no terço central do topo (20 %–80 % da largura) para cruzar o meio da tela
+        this.x = canvas.width * (0.20 + Math.random() * 0.60);
+        this.y = -10;
 
         // Tamanho variado — uns finos e rápidos, outros grossos e lentos
         const big      = Math.random() < 0.25;
-        this.len       = big ? 130 + Math.random() * 120 : 55 + Math.random() * 90;
-        this.speed     = big ? 4   + Math.random() * 4   : 7  + Math.random() * 9;
-        this.lineWidth = big ? 2.2 + Math.random() * 1.2 : 1.0 + Math.random() * 0.8;
+        this.len       = big ? 120 + Math.random() * 100 : 50 + Math.random() * 80;
+        this.speed     = big ? 4   + Math.random() * 3   : 6  + Math.random() * 8;
+        this.lineWidth = big ? 2.0 + Math.random() * 1.0 : 0.9 + Math.random() * 0.7;
 
-        // Ângulo: diagonal para baixo-direita, com variação
-        this.angle   = Math.PI / 4 + (Math.random() - 0.5) * 0.55;
+        // Ângulo: diagonal para baixo-direita com leve variação
+        this.angle   = Math.PI / 4 + (Math.random() - 0.5) * 0.45;
 
         this.alpha   = 0;
         this.life    = 0;
         this.maxLife = 45 + Math.floor(Math.random() * 40);
 
-        // Espera curta para manter muitos simultâneos
         this.waiting = forceWait !== undefined
             ? forceWait
-            : 30 + Math.floor(Math.random() * 180);
+            : 40 + Math.floor(Math.random() * 200);
 
-        // Cor: branco-quente ou vermelho tênue
         this.warm = Math.random() < 0.35;
     }
 
@@ -204,22 +199,37 @@ class ShootingStar {
 }
 
 function buildParticles() {
+    const isMobile = canvas.width < 768;
+
     particles = [];
-    const count = Math.min(550, Math.floor((canvas.width * canvas.height) / 3200));
+    // Menos estrelas no mobile para não travar
+    const density = isMobile ? 6000 : 3200;
+    const cap     = isMobile ? 200  : 500;
+    const count   = Math.min(cap, Math.floor((canvas.width * canvas.height) / density));
     for (let i = 0; i < count; i++) particles.push(new Star());
 
-    // 18 meteoros simultâneos com delays escalonados para saírem em sequência contínua
-    const METEOR_COUNT = 18;
+    // Meteoros: 10 no desktop, 5 no mobile
+    const METEOR_COUNT = isMobile ? 5 : 10;
     shooters = [];
     for (let i = 0; i < METEOR_COUNT; i++) {
-        shooters.push(new ShootingStar(i * 55));
+        shooters.push(new ShootingStar(i * 80));
     }
 }
 
 let tick = 0;
-function tickParticles() {
+let lastFrame = 0;
+// Mobile roda a 30 fps, desktop a 60 fps para economizar bateria/CPU
+const TARGET_FPS  = window.innerWidth < 768 ? 30 : 60;
+const FRAME_MS    = 1000 / TARGET_FPS;
+
+function tickParticles(ts) {
     rafId = requestAnimationFrame(tickParticles);
     if (!canvasVisible) return;
+
+    const delta = ts - lastFrame;
+    if (delta < FRAME_MS - 1) return;   // pula frame para manter FPS alvo
+    lastFrame = ts - (delta % FRAME_MS);
+
     tick++;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (const p of particles) { p.update(tick); p.draw(); }
