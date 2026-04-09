@@ -16,6 +16,9 @@ let shooters    = [];
 let rafId;
 let canvasVisible = true;
 
+// Mouse position relative to the canvas (used by parallax + star repulsion)
+let mouseCX = -9999, mouseCY = -9999;
+
 function resizeCanvas() {
     // Size canvas to the hero section, not the whole viewport
     const hero = document.querySelector('.hero');
@@ -102,6 +105,17 @@ class Star {
         const tw   = Math.sin(t * this.twkSpd + this.twkOff);
         this.alpha = this.baseAlpha * (0.55 + 0.45 * tw);
         this.size  = this.baseSize  * (0.82 + 0.22 * ((tw + 1) / 2));
+
+        // Cursor repulsion — stars flee from mouse
+        const dx   = this.x - mouseCX;
+        const dy   = this.y - mouseCY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const R    = 90; // repulsion radius
+        if (dist < R && dist > 0.5) {
+            const force = (1 - dist / R) * 1.4;
+            this.x += (dx / dist) * force;
+            this.y += (dy / dist) * force;
+        }
     }
 
     draw() {
@@ -1709,6 +1723,181 @@ function initI18n() {
 }
 
 // ============================================================
+// LOADING SCREEN
+// ============================================================
+
+function initLoadingScreen() {
+    const ls = document.getElementById('loading-screen');
+    if (!ls) return;
+
+    const hide = () => {
+        ls.classList.add('hidden');
+        ls.addEventListener('transitionend', () => ls.remove(), { once: true });
+        // Start typewriter after loading screen fades out
+        setTimeout(initTypewriter, 400);
+    };
+
+    if (document.readyState === 'complete') {
+        setTimeout(hide, 300);
+    } else {
+        window.addEventListener('load', () => setTimeout(hide, 300), { once: true });
+    }
+}
+
+// ============================================================
+// CUSTOM CURSOR
+// ============================================================
+
+function initCustomCursor() {
+    // Only on devices with a fine pointer (mouse)
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    const dot  = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    if (!dot || !ring) return;
+
+    let rx = 0, ry = 0; // ring lagged position
+
+    document.addEventListener('mousemove', e => {
+        const x = e.clientX, y = e.clientY;
+        dot.style.left = x + 'px';
+        dot.style.top  = y + 'px';
+        // Ring lerps toward cursor
+        rx += (x - rx) * 0.18;
+        ry += (y - ry) * 0.18;
+        ring.style.left = rx + 'px';
+        ring.style.top  = ry + 'px';
+    });
+
+    // Continuous ring lerp in rAF
+    (function lerpRing() {
+        requestAnimationFrame(lerpRing);
+        ring.style.left = rx + 'px';
+        ring.style.top  = ry + 'px';
+    })();
+
+    document.addEventListener('mouseleave', () => {
+        dot.classList.add('hidden');
+        ring.classList.add('hidden');
+    });
+    document.addEventListener('mouseenter', () => {
+        dot.classList.remove('hidden');
+        ring.classList.remove('hidden');
+    });
+
+    // Expand ring on interactive elements
+    document.addEventListener('mouseover', e => {
+        if (e.target.closest('a, button, [role="button"], .stream-tab, .lang-option')) {
+            document.body.classList.add('cursor-hover');
+        }
+    });
+    document.addEventListener('mouseout', e => {
+        if (e.target.closest('a, button, [role="button"], .stream-tab, .lang-option')) {
+            document.body.classList.remove('cursor-hover');
+        }
+    });
+}
+
+// ============================================================
+// PARALLAX — galaxy background follows mouse
+// ============================================================
+
+function initParallax() {
+    const hero    = document.querySelector('.hero');
+    const bgPhoto = document.querySelector('.hero-bg-photo');
+    if (!hero || !bgPhoto) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    let tx = 0, ty = 0;   // target
+    let cx = 0, cy = 0;   // current (lerped)
+
+    hero.addEventListener('mousemove', e => {
+        const rect = hero.getBoundingClientRect();
+        const normX = (e.clientX - rect.left)  / rect.width  - 0.5; // -0.5 … 0.5
+        const normY = (e.clientY - rect.top)   / rect.height - 0.5;
+
+        // Update shared canvas mouse coords for star repulsion
+        mouseCX = e.clientX - rect.left;
+        mouseCY = e.clientY - rect.top;
+
+        tx = normX * -18; // max ±18px
+        ty = normY * -12;
+    });
+
+    hero.addEventListener('mouseleave', () => {
+        mouseCX = -9999; mouseCY = -9999;
+        tx = 0; ty = 0;
+    });
+
+    (function loopParallax() {
+        requestAnimationFrame(loopParallax);
+        cx += (tx - cx) * 0.06;
+        cy += (ty - cy) * 0.06;
+        bgPhoto.style.transform = `translate(${cx.toFixed(2)}px, ${cy.toFixed(2)}px) scale(1.06)`;
+    })();
+}
+
+// ============================================================
+// TYPEWRITER — "MINIMAL BASS"
+// ============================================================
+
+function initTypewriter() {
+    const el = document.getElementById('typewriter-target');
+    if (!el) return;
+
+    const text   = el.dataset.text || 'MINIMAL BASS';
+    const cursor = document.createElement('span');
+    cursor.className = 'tw-cursor';
+    el.textContent = '';
+    el.appendChild(cursor);
+
+    let i = 0;
+    const TYPE_SPEED = 80; // ms per character
+
+    function typeNext() {
+        if (i >= text.length) {
+            // Remove cursor after 2.5s
+            setTimeout(() => cursor.remove(), 2500);
+            return;
+        }
+        const char = document.createTextNode(text[i]);
+        el.insertBefore(char, cursor);
+        i++;
+        setTimeout(typeNext, TYPE_SPEED + Math.random() * 40);
+    }
+
+    setTimeout(typeNext, 200);
+}
+
+// ============================================================
+// SCROLL REVEAL — stagger children automatically
+// ============================================================
+
+function initScrollReveal() {
+    // Add staggered delays to siblings inside reveal-stagger containers
+    document.querySelectorAll('.reveal-stagger').forEach(parent => {
+        Array.from(parent.children).forEach((child, i) => {
+            child.classList.add('reveal-up');
+            child.style.setProperty('--delay', `${i * 0.1}s`);
+        });
+    });
+
+    const revealEls = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right');
+    if (!revealEls.length) return;
+
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach(el => obs.observe(el));
+}
+
+// ============================================================
 // INIT
 // ============================================================
 
@@ -1728,6 +1917,10 @@ function init() {
     initDownloadsTabs();
     initTimelineStoryTabs();
     initI18n();
+    initLoadingScreen();
+    initCustomCursor();
+    initParallax();
+    initScrollReveal();
 }
 
 if (document.readyState === 'loading') {

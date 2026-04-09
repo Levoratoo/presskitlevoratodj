@@ -42,6 +42,20 @@
 </head>
 <body>
 
+    <!-- ======================================
+         LOADING SCREEN
+    ======================================= -->
+    <div id="loading-screen" aria-hidden="true">
+        <div class="ls-inner">
+            <div class="ls-logo">LEVORATO</div>
+            <div class="ls-sub">DJ &amp; PRODUCER</div>
+            <div class="ls-bar"><div class="ls-bar-fill"></div></div>
+        </div>
+    </div>
+
+    <!-- Custom cursor (desktop only) -->
+    <div id="cursor-dot"  aria-hidden="true"></div>
+    <div id="cursor-ring" aria-hidden="true"></div>
 
     <!-- ======================================
          NAVIGATION
@@ -128,7 +142,7 @@
             <!-- 3. Shimmer em LEVORATO / 4. Underline de fogo em MINIMAL BASS. -->
             <h1 class="hero-title">
                 <span class="title-line-white hero-shimmer">LEVORATO</span>
-                <span class="title-line-red hero-fire-line">MINIMAL BASS</span>
+                <span class="title-line-red hero-fire-line" id="typewriter-target" data-text="MINIMAL BASS"></span>
             </h1>
 
             <p class="hero-desc" data-i18n="hero-desc">
@@ -1026,6 +1040,12 @@
                 <div class="section-tag" data-i18n="music-tag">OUÇA</div>
                 <h2 class="section-title" data-i18n="music-title">Músicas &amp; <span class="text-glow">Releases</span></h2>
                 <p class="section-desc" data-i18n="music-desc">Explore os sets e lançamentos nas plataformas</p>
+                <!-- Equalizer decorativo -->
+                <div class="equalizer" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span><span></span>
+                    <span></span><span></span>
+                </div>
             </div>
 
             <!-- ---- Tab bar ---- -->
