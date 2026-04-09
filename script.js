@@ -1732,15 +1732,26 @@ function initLoadingScreen() {
 
     const hide = () => {
         ls.classList.add('hidden');
+        // Remove do DOM após a transição de fade (1s)
         ls.addEventListener('transitionend', () => ls.remove(), { once: true });
-        // Start typewriter after loading screen fades out
-        setTimeout(initTypewriter, 400);
+        // Typewriter começa depois que a tela de loading termina de sair
+        setTimeout(initTypewriter, 1000);
+    };
+
+    // Sempre aguarda 3 s visíveis antes de fechar, independente do carregamento
+    const MIN_DISPLAY = 3000;
+    const t0 = Date.now();
+
+    const scheduleHide = () => {
+        const elapsed = Date.now() - t0;
+        const wait    = Math.max(0, MIN_DISPLAY - elapsed);
+        setTimeout(hide, wait);
     };
 
     if (document.readyState === 'complete') {
-        setTimeout(hide, 300);
+        scheduleHide();
     } else {
-        window.addEventListener('load', () => setTimeout(hide, 300), { once: true });
+        window.addEventListener('load', scheduleHide, { once: true });
     }
 }
 

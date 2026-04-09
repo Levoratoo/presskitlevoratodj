@@ -2608,7 +2608,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.75s ease, visibility 0.75s ease;
+    transition: opacity 1s ease, visibility 1s ease;
     overflow: hidden;
 }
 #loading-screen.hidden {
