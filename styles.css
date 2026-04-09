@@ -2677,7 +2677,23 @@ section {
     color: var(--primary);
     text-transform: uppercase;
     opacity: 0;
-    animation: lsFadeUp 0.5s ease 0.15s forwards;
+    /* Entra suave, depois treme continuamente */
+    animation:
+        lsFadeUp   0.5s  ease            0.15s forwards,
+        lsTremble  0.09s linear          0.8s  infinite;
+}
+@keyframes lsTremble {
+     0% { transform: translate( 0px,  0px) skewX( 0deg); }
+    10% { transform: translate(-2px, -1px) skewX(-0.4deg); }
+    20% { transform: translate( 2px,  1px) skewX( 0.5deg); }
+    30% { transform: translate(-1px,  2px) skewX(-0.3deg); }
+    40% { transform: translate( 3px, -1px) skewX( 0.6deg); }
+    50% { transform: translate(-2px,  1px) skewX(-0.5deg); }
+    60% { transform: translate( 1px, -2px) skewX( 0.3deg); }
+    70% { transform: translate(-3px,  0px) skewX(-0.4deg); }
+    80% { transform: translate( 2px,  2px) skewX( 0.5deg); }
+    90% { transform: translate(-1px, -1px) skewX(-0.2deg); }
+   100% { transform: translate( 0px,  0px) skewX( 0deg); }
 }
 .ls-eyebrow-line {
     display: block;
