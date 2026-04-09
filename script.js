@@ -1878,7 +1878,7 @@ function initLugaresLazyLoad() {
     const section = document.querySelector('.lugares-section');
     if (!section) return;
 
-    const imgs = section.querySelectorAll('img[data-src]');
+    const imgs = section.querySelectorAll('.lugares-card img[data-src]');
     if (!imgs.length) return;
 
     let loaded = false;
