@@ -620,35 +620,72 @@ section {
     }
 }
 
-/* 3. Shimmer em "LEVORATO" */
-.hero-shimmer {
+/* 3. Glitch em "LEVORATO" */
+.hero-glitch {
     position: relative;
-    overflow: hidden;
     display: inline-block;
 }
 
-.hero-shimmer::after {
-    content: '';
+/* Camada vermelha (shift para esquerda + clip superior) */
+.hero-glitch::before {
+    content: attr(data-text);
     position: absolute;
-    top: 0;
-    left: -100%;
-    width: 60%;
-    height: 100%;
-    background: linear-gradient(
-        105deg,
-        transparent 30%,
-        rgba(255, 255, 255, 0.22) 50%,
-        transparent 70%
-    );
-    animation: heroShimmer 6s ease-in-out infinite;
+    inset: 0;
+    color: var(--text);
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    /* Aberração cromática vermelha */
+    text-shadow: -3px 0 rgba(255, 26, 26, 0.85);
+    clip-path: polygon(0 18%, 100% 18%, 100% 42%, 0 42%);
+    animation: glitchTop 5.5s steps(1) infinite;
     pointer-events: none;
 }
 
-@keyframes heroShimmer {
-    0%   { left: -100%; opacity: 0; }
-    10%  { opacity: 1; }
-    40%  { left: 130%;  opacity: 0; }
-    100% { left: 130%;  opacity: 0; }
+/* Camada ciano (shift para direita + clip inferior) */
+.hero-glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: var(--text);
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    text-shadow: 3px 0 rgba(80, 220, 255, 0.6);
+    clip-path: polygon(0 58%, 100% 58%, 100% 80%, 0 80%);
+    animation: glitchBot 5.5s steps(1) infinite;
+    pointer-events: none;
+}
+
+@keyframes glitchTop {
+    /* Fica invisível a maior parte do tempo */
+    0%,  88%  { opacity: 0; transform: translateX(0); }
+    /* Aparece brevemente com deslocamento */
+    89%        { opacity: 1; transform: translateX(-5px); }
+    90%        { opacity: 1; transform: translateX( 4px); }
+    91%        { opacity: 1; transform: translateX(-3px); }
+    92%        { opacity: 1; transform: translateX( 6px); }
+    93%        { opacity: 0; transform: translateX(0); }
+    /* Segundo micro-glitch */
+    95%        { opacity: 1; transform: translateX(-4px); }
+    96%        { opacity: 0; transform: translateX(0); }
+    100%       { opacity: 0; transform: translateX(0); }
+}
+
+@keyframes glitchBot {
+    0%,  88%  { opacity: 0; transform: translateX(0); }
+    89%        { opacity: 1; transform: translateX( 4px); }
+    90%        { opacity: 1; transform: translateX(-5px); }
+    91%        { opacity: 1; transform: translateX( 3px); }
+    92%        { opacity: 1; transform: translateX(-6px); }
+    93%        { opacity: 0; transform: translateX(0); }
+    95%        { opacity: 1; transform: translateX( 3px); }
+    96%        { opacity: 0; transform: translateX(0); }
+    100%       { opacity: 0; transform: translateX(0); }
 }
 
 /* 4. Underline de fogo em "MINIMAL BASS." */
