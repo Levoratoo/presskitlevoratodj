@@ -526,7 +526,7 @@ section {
 /* Imagem de fundo da hero (Fotos Hero) */
 .hero-bg-photo {
     position: absolute;
-    inset: -5%;          /* margem extra para o parallax não revelar borda */
+    inset: -8%;          /* margem generosa para a órbita não revelar borda */
     z-index: 0;
     pointer-events: none;
     transform-origin: center center;
@@ -534,6 +534,20 @@ section {
     background:
         url("Fotos Hero/ChatGPT Image 9 de abr. de 2026, 10_51_16.png")
         center / cover no-repeat;
+    animation: galaxyOrbit 30s linear infinite;
+}
+
+/* Movimento circular suave e contínuo da galáxia */
+@keyframes galaxyOrbit {
+     0%   { transform: translate(  0px,   0px) scale(1.06); }
+    12.5% { transform: translate( 14px,  -9px) scale(1.06); }
+    25%   { transform: translate( 20px,   0px) scale(1.06); }
+    37.5% { transform: translate( 14px,   9px) scale(1.06); }
+    50%   { transform: translate(  0px,  18px) scale(1.06); }
+    62.5% { transform: translate(-14px,   9px) scale(1.06); }
+    75%   { transform: translate(-20px,   0px) scale(1.06); }
+    87.5% { transform: translate(-14px,  -9px) scale(1.06); }
+   100%   { transform: translate(  0px,   0px) scale(1.06); }
 }
 
 .hero-bg-photo::after {

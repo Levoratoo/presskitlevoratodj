@@ -1820,38 +1820,21 @@ function initCustomCursor() {
 // ============================================================
 
 function initParallax() {
-    const hero    = document.querySelector('.hero');
-    const bgPhoto = document.querySelector('.hero-bg-photo');
-    if (!hero || !bgPhoto) return;
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-
-    let tx = 0, ty = 0;   // target
-    let cx = 0, cy = 0;   // current (lerped)
+    // Movimento da galáxia agora é feito via CSS animation (galaxyOrbit)
+    // Mantemos apenas o rastreamento do mouse para a repulsão das estrelas
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
 
     hero.addEventListener('mousemove', e => {
         const rect = hero.getBoundingClientRect();
-        const normX = (e.clientX - rect.left)  / rect.width  - 0.5; // -0.5 … 0.5
-        const normY = (e.clientY - rect.top)   / rect.height - 0.5;
-
-        // Update shared canvas mouse coords for star repulsion
         mouseCX = e.clientX - rect.left;
         mouseCY = e.clientY - rect.top;
-
-        tx = normX * -18; // max ±18px
-        ty = normY * -12;
     });
 
     hero.addEventListener('mouseleave', () => {
-        mouseCX = -9999; mouseCY = -9999;
-        tx = 0; ty = 0;
+        mouseCX = -9999;
+        mouseCY = -9999;
     });
-
-    (function loopParallax() {
-        requestAnimationFrame(loopParallax);
-        cx += (tx - cx) * 0.06;
-        cy += (ty - cy) * 0.06;
-        bgPhoto.style.transform = `translate(${cx.toFixed(2)}px, ${cy.toFixed(2)}px) scale(1.06)`;
-    })();
 }
 
 // ============================================================
