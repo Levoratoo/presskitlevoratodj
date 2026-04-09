@@ -987,6 +987,13 @@ section {
     left: -10%;
     animation-delay: 2s;
 }
+.hv-badge-mid {
+    top: 50%;
+    right: -12%;
+    transform: translateY(-50%);
+    animation-delay: 1s;
+    animation: floatBadge 4s ease-in-out 1s infinite;
+}
 
 .hv-badge-dot {
     width: 6px;
@@ -2953,6 +2960,7 @@ body.cursor-hover #cursor-ring {
 
     .hv-badge-top    { right: -4%; top: 4%; }
     .hv-badge-bottom { left: -4%; bottom: 8%; }
+    .hv-badge-mid    { right: -4%; top: 50%; }
 }
 
 @media (max-width: 768px) {
