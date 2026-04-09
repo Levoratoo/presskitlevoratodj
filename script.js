@@ -6,7 +6,7 @@
 'use strict';
 
 // ============================================================
-// STAR FIELD — canvas (hero only, pauses when off-screen)
+// STAR FIELD — canvas inside .hero (confined to hero section)
 // ============================================================
 
 const canvas = document.getElementById('particle-canvas');
@@ -17,74 +17,105 @@ let rafId;
 let canvasVisible = true;
 
 function resizeCanvas() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // Size canvas to the hero section, not the whole viewport
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+    canvas.width  = hero.offsetWidth;
+    canvas.height = hero.offsetHeight;
 }
 
 /* ---- Star particle ---- */
 class Star {
-    constructor(randomY) {
-        this.reset(randomY);
-    }
+    constructor() { this.init(true); }
 
-    reset(randomY) {
-        this.x        = Math.random() * canvas.width;
-        this.y        = randomY ? Math.random() * canvas.height : -2;
-        // tier: 0 = tiny (most), 1 = small, 2 = medium, 3 = bright (rare)
-        const r       = Math.random();
-        this.tier     = r < 0.55 ? 0 : r < 0.82 ? 1 : r < 0.96 ? 2 : 3;
-        const sizes   = [0.35, 0.75, 1.25, 2.1];
-        this.baseSize = sizes[this.tier] + Math.random() * sizes[this.tier] * 0.5;
-        this.size     = this.baseSize;
+    init(scatter) {
+        // Scatter = spread across entire canvas; otherwise enter from a random edge
+        if (scatter) {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+        } else {
+            const edge = Math.floor(Math.random() * 4); // 0 top 1 right 2 bottom 3 left
+            this.x = edge === 3 ? -2
+                   : edge === 1 ? canvas.width + 2
+                   : Math.random() * canvas.width;
+            this.y = edge === 0 ? -2
+                   : edge === 2 ? canvas.height + 2
+                   : Math.random() * canvas.height;
+        }
 
-        // very slow drift — stars feel far away
-        this.vx = (Math.random() - 0.5) * 0.06;
-        this.vy =  Math.random()        * 0.07 + 0.01;
+        // tier: 0 tiny (60 %), 1 small (22 %), 2 medium (13 %), 3 bright (5 %)
+        const r      = Math.random();
+        this.tier    = r < 0.60 ? 0 : r < 0.82 ? 1 : r < 0.95 ? 2 : 3;
+        const base   = [0.3, 0.7, 1.2, 2.0][this.tier];
+        this.baseSize = base + Math.random() * base * 0.55;
+        this.size    = this.baseSize;
 
-        // colour: mostly white/silver, ~25 % red-tinted
-        const warm  = Math.random() < 0.25;
-        this.r      = warm ? 255 : 200 + Math.floor(Math.random() * 55);
-        this.g      = warm ? 80 + Math.floor(Math.random() * 60)  : this.r;
-        this.b      = warm ? 80  : this.r;
+        // random direction — any angle, very slow for distant feel
+        const angle  = Math.random() * Math.PI * 2;
+        const speed  = 0.05 + Math.random() * 0.18 + this.tier * 0.04;
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
 
-        // twinkle
-        this.baseAlpha  = 0.12 + Math.random() * 0.55 + this.tier * 0.08;
+        // colour: ~72 % white/silver, 28 % warm red
+        const warm = Math.random() < 0.28;
+        if (warm) {
+            this.cr = 255; this.cg = 60 + Math.floor(Math.random()*80); this.cb = 60;
+        } else {
+            const v = 185 + Math.floor(Math.random() * 70);
+            this.cr = v; this.cg = v; this.cb = v + Math.floor(Math.random() * 20);
+        }
+
+        // twinkle params
+        this.baseAlpha  = 0.10 + Math.random() * 0.50 + this.tier * 0.10;
         this.alpha      = this.baseAlpha;
-        this.twinkleSpd = 0.008 + Math.random() * 0.025;
-        this.twinkleOff = Math.random() * Math.PI * 2;
+        this.twkSpd     = 0.006 + Math.random() * 0.022;
+        this.twkOff     = Math.random() * Math.PI * 2;
 
-        // bright stars get a cross spike
-        this.hasCross = this.tier >= 2;
+        // bright stars: occasional direction nudge interval
+        this.nudgeIn    = 180 + Math.floor(Math.random() * 300);
+        this.nudgeCnt   = 0;
     }
 
     update(t) {
+        // Occasional gentle direction change — makes movement feel organic
+        this.nudgeCnt++;
+        if (this.nudgeCnt >= this.nudgeIn) {
+            this.nudgeCnt = 0;
+            this.nudgeIn  = 180 + Math.floor(Math.random() * 300);
+            const angle   = Math.random() * Math.PI * 2;
+            const speed   = 0.05 + Math.random() * 0.18 + this.tier * 0.04;
+            this.vx = Math.cos(angle) * speed;
+            this.vy = Math.sin(angle) * speed;
+        }
+
         this.x += this.vx;
         this.y += this.vy;
 
-        // wrap horizontally
-        if (this.x < -2)               this.x = canvas.width + 2;
-        if (this.x > canvas.width + 2) this.x = -2;
-        // recycle when it drifts off the bottom
-        if (this.y > canvas.height + 2) this.reset(false);
+        // Wrap around all four edges (stars re-enter from the opposite side)
+        const pad = 3;
+        if (this.x < -pad)                 this.x = canvas.width  + pad;
+        if (this.x > canvas.width  + pad)  this.x = -pad;
+        if (this.y < -pad)                 this.y = canvas.height + pad;
+        if (this.y > canvas.height + pad)  this.y = -pad;
 
-        // twinkle — sinusoidal alpha & size pulse
-        const tw    = Math.sin(t * this.twinkleSpd + this.twinkleOff);
-        this.alpha  = this.baseAlpha * (0.6 + 0.4 * tw);
-        this.size   = this.baseSize  * (0.85 + 0.18 * ((tw + 1) / 2));
+        // Twinkle
+        const tw   = Math.sin(t * this.twkSpd + this.twkOff);
+        this.alpha = this.baseAlpha * (0.55 + 0.45 * tw);
+        this.size  = this.baseSize  * (0.82 + 0.22 * ((tw + 1) / 2));
     }
 
     draw() {
-        const { x, y, size, alpha, r, g, b } = this;
+        const { x, y, size, alpha, cr, cg, cb } = this;
         ctx.beginPath();
         ctx.arc(x, y, size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${r},${g},${b},${alpha.toFixed(3)})`;
+        ctx.fillStyle = `rgba(${cr},${cg},${cb},${alpha.toFixed(3)})`;
         ctx.fill();
 
-        // cross / spike for brighter stars
-        if (this.hasCross && size > 0.9) {
-            const len = size * 3.5;
-            ctx.strokeStyle = `rgba(${r},${g},${b},${(alpha * 0.45).toFixed(3)})`;
-            ctx.lineWidth   = size * 0.35;
+        // Cross spike only for tier 2-3
+        if (this.tier >= 2 && size > 0.8) {
+            const len = size * 4;
+            ctx.strokeStyle = `rgba(${cr},${cg},${cb},${(alpha * 0.4).toFixed(3)})`;
+            ctx.lineWidth   = size * 0.3;
             ctx.beginPath();
             ctx.moveTo(x - len, y); ctx.lineTo(x + len, y);
             ctx.moveTo(x, y - len); ctx.lineTo(x, y + len);
@@ -93,82 +124,79 @@ class Star {
     }
 }
 
-/* ---- Shooting star ---- */
+/* ---- Shooting star (confined to hero canvas) ---- */
 class ShootingStar {
     constructor() { this.reset(); }
 
     reset() {
-        this.x     = Math.random() * canvas.width  * 0.7;
-        this.y     = Math.random() * canvas.height * 0.45;
-        this.len   = 80 + Math.random() * 120;
-        this.speed = 6  + Math.random() * 6;
-        this.angle = Math.PI / 5 + (Math.random() - 0.5) * 0.35;
-        this.alpha = 0;
-        this.life  = 0;
-        this.maxLife = 55 + Math.floor(Math.random() * 30);
-        // pause until randomly triggered
-        this.waiting = Math.floor(Math.random() * 500) + 200;
+        this.x       = Math.random() * canvas.width  * 0.65;
+        this.y       = Math.random() * canvas.height * 0.5;
+        this.len     = 70 + Math.random() * 110;
+        this.speed   = 5  + Math.random() * 7;
+        this.angle   = Math.PI / 5 + (Math.random() - 0.5) * 0.4;
+        this.alpha   = 0;
+        this.life    = 0;
+        this.maxLife = 50 + Math.floor(Math.random() * 35);
+        this.waiting = 200 + Math.floor(Math.random() * 600);
     }
 
     update() {
         if (this.waiting > 0) { this.waiting--; return; }
         this.life++;
-        const progress = this.life / this.maxLife;
-        this.alpha = progress < 0.2 ? progress / 0.2
-                   : progress > 0.7 ? 1 - (progress - 0.7) / 0.3
-                   : 1;
-        this.x += Math.cos(this.angle) * this.speed;
-        this.y += Math.sin(this.angle) * this.speed;
-        if (this.life >= this.maxLife) this.reset();
+        const p    = this.life / this.maxLife;
+        this.alpha = p < 0.2 ? p / 0.2 : p > 0.7 ? 1 - (p - 0.7) / 0.3 : 1;
+        this.x    += Math.cos(this.angle) * this.speed;
+        this.y    += Math.sin(this.angle) * this.speed;
+        if (this.life >= this.maxLife ||
+            this.x > canvas.width + 20 || this.y > canvas.height + 20) {
+            this.reset();
+        }
     }
 
     draw() {
         if (this.waiting > 0 || this.alpha <= 0) return;
-        const ex = this.x - Math.cos(this.angle) * this.len;
-        const ey = this.y - Math.sin(this.angle) * this.len;
+        const ex  = this.x - Math.cos(this.angle) * this.len;
+        const ey  = this.y - Math.sin(this.angle) * this.len;
         const grd = ctx.createLinearGradient(ex, ey, this.x, this.y);
-        grd.addColorStop(0, `rgba(255,255,255,0)`);
-        grd.addColorStop(1, `rgba(255,200,180,${(this.alpha * 0.9).toFixed(3)})`);
+        grd.addColorStop(0, 'rgba(255,255,255,0)');
+        grd.addColorStop(1, `rgba(255,210,190,${(this.alpha * 0.92).toFixed(3)})`);
         ctx.beginPath();
         ctx.moveTo(ex, ey);
         ctx.lineTo(this.x, this.y);
         ctx.strokeStyle = grd;
-        ctx.lineWidth   = 1.4;
+        ctx.lineWidth   = 1.5;
         ctx.stroke();
     }
 }
 
 function buildParticles() {
     particles = [];
-    // Dense star field — scale with screen area, cap at 260 for performance
-    const count = Math.min(260, Math.floor((canvas.width * canvas.height) / 5800));
-    for (let i = 0; i < count; i++) {
-        particles.push(new Star(true));   // true = random initial Y
-    }
-    // 3 concurrent shooting stars
-    shooters = [new ShootingStar(), new ShootingStar(), new ShootingStar()];
+    // ~1 star per 3 200 px² — dense field, capped at 550
+    const count = Math.min(550, Math.floor((canvas.width * canvas.height) / 3200));
+    for (let i = 0; i < count; i++) particles.push(new Star());
+    // 4 concurrent shooting stars at staggered intervals
+    shooters = [new ShootingStar(), new ShootingStar(), new ShootingStar(), new ShootingStar()];
+    shooters.forEach((s, i) => { s.waiting += i * 150; });
 }
 
 let tick = 0;
 function tickParticles() {
     rafId = requestAnimationFrame(tickParticles);
     if (!canvasVisible) return;
-
     tick++;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (const p of particles)  { p.update(tick); p.draw(); }
-    for (const s of shooters)   { s.update();     s.draw(); }
+    for (const p of particles) { p.update(tick); p.draw(); }
+    for (const s of shooters)  { s.update();     s.draw(); }
 }
 
-// Pause canvas loop when hero is off-screen
+// Pause when hero scrolls off screen
 (function watchCanvasVisibility() {
     const heroSection = document.querySelector('.hero');
     if (!heroSection) return;
-
-    const obs = new IntersectionObserver(entries => {
-        canvasVisible = entries[0].isIntersecting;
-    }, { threshold: 0 });
-
+    const obs = new IntersectionObserver(
+        entries => { canvasVisible = entries[0].isIntersecting; },
+        { threshold: 0 }
+    );
     obs.observe(heroSection);
 })();
 
@@ -351,6 +379,16 @@ window.addEventListener('resize', () => {
         buildParticles();
     }, 250);
 }, { passive: true });
+
+// Keep canvas sized to hero even on orientation change / dynamic content
+(function watchHeroSize() {
+    const hero = document.querySelector('.hero');
+    if (!hero || !window.ResizeObserver) return;
+    new ResizeObserver(() => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => { resizeCanvas(); buildParticles(); }, 250);
+    }).observe(hero);
+})();
 
 window.addEventListener('scroll', onScroll, { passive: true });
 
