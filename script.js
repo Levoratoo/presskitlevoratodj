@@ -126,29 +126,48 @@ class Star {
 
 /* ---- Shooting star (confined to hero canvas) ---- */
 class ShootingStar {
-    constructor() { this.reset(); }
+    constructor(initialDelay) { this.reset(initialDelay); }
 
-    reset() {
-        this.x       = Math.random() * canvas.width  * 0.65;
-        this.y       = Math.random() * canvas.height * 0.5;
-        this.len     = 70 + Math.random() * 110;
-        this.speed   = 5  + Math.random() * 7;
-        this.angle   = Math.PI / 5 + (Math.random() - 0.5) * 0.4;
+    reset(forceWait) {
+        // Nasce em qualquer ponto do topo ou lateral esquerda
+        const fromTop = Math.random() < 0.6;
+        this.x     = fromTop ? Math.random() * canvas.width
+                             : -10;
+        this.y     = fromTop ? -10
+                             : Math.random() * canvas.height * 0.5;
+
+        // Tamanho variado — uns finos e rápidos, outros grossos e lentos
+        const big      = Math.random() < 0.25;
+        this.len       = big ? 130 + Math.random() * 120 : 55 + Math.random() * 90;
+        this.speed     = big ? 4   + Math.random() * 4   : 7  + Math.random() * 9;
+        this.lineWidth = big ? 2.2 + Math.random() * 1.2 : 1.0 + Math.random() * 0.8;
+
+        // Ângulo: diagonal para baixo-direita, com variação
+        this.angle   = Math.PI / 4 + (Math.random() - 0.5) * 0.55;
+
         this.alpha   = 0;
         this.life    = 0;
-        this.maxLife = 50 + Math.floor(Math.random() * 35);
-        this.waiting = 200 + Math.floor(Math.random() * 600);
+        this.maxLife = 45 + Math.floor(Math.random() * 40);
+
+        // Espera curta para manter muitos simultâneos
+        this.waiting = forceWait !== undefined
+            ? forceWait
+            : 30 + Math.floor(Math.random() * 180);
+
+        // Cor: branco-quente ou vermelho tênue
+        this.warm = Math.random() < 0.35;
     }
 
     update() {
         if (this.waiting > 0) { this.waiting--; return; }
         this.life++;
         const p    = this.life / this.maxLife;
-        this.alpha = p < 0.2 ? p / 0.2 : p > 0.7 ? 1 - (p - 0.7) / 0.3 : 1;
+        this.alpha = p < 0.15 ? p / 0.15 : p > 0.65 ? 1 - (p - 0.65) / 0.35 : 1;
         this.x    += Math.cos(this.angle) * this.speed;
         this.y    += Math.sin(this.angle) * this.speed;
         if (this.life >= this.maxLife ||
-            this.x > canvas.width + 20 || this.y > canvas.height + 20) {
+            this.x > canvas.width  + 30 ||
+            this.y > canvas.height + 30) {
             this.reset();
         }
     }
@@ -158,25 +177,43 @@ class ShootingStar {
         const ex  = this.x - Math.cos(this.angle) * this.len;
         const ey  = this.y - Math.sin(this.angle) * this.len;
         const grd = ctx.createLinearGradient(ex, ey, this.x, this.y);
-        grd.addColorStop(0, 'rgba(255,255,255,0)');
-        grd.addColorStop(1, `rgba(255,210,190,${(this.alpha * 0.92).toFixed(3)})`);
+        if (this.warm) {
+            grd.addColorStop(0, 'rgba(255,80,40,0)');
+            grd.addColorStop(0.6, `rgba(255,140,80,${(this.alpha * 0.5).toFixed(3)})`);
+            grd.addColorStop(1, `rgba(255,220,200,${(this.alpha * 0.95).toFixed(3)})`);
+        } else {
+            grd.addColorStop(0, 'rgba(255,255,255,0)');
+            grd.addColorStop(0.6, `rgba(220,220,255,${(this.alpha * 0.45).toFixed(3)})`);
+            grd.addColorStop(1, `rgba(255,255,255,${(this.alpha * 0.95).toFixed(3)})`);
+        }
         ctx.beginPath();
         ctx.moveTo(ex, ey);
         ctx.lineTo(this.x, this.y);
         ctx.strokeStyle = grd;
-        ctx.lineWidth   = 1.5;
+        ctx.lineWidth   = this.lineWidth;
         ctx.stroke();
+
+        // Ponto brilhante na ponta do meteoro
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.lineWidth * 1.4, 0, Math.PI * 2);
+        ctx.fillStyle = this.warm
+            ? `rgba(255,200,160,${(this.alpha * 0.9).toFixed(3)})`
+            : `rgba(255,255,255,${(this.alpha * 0.9).toFixed(3)})`;
+        ctx.fill();
     }
 }
 
 function buildParticles() {
     particles = [];
-    // ~1 star per 3 200 px² — dense field, capped at 550
     const count = Math.min(550, Math.floor((canvas.width * canvas.height) / 3200));
     for (let i = 0; i < count; i++) particles.push(new Star());
-    // 4 concurrent shooting stars at staggered intervals
-    shooters = [new ShootingStar(), new ShootingStar(), new ShootingStar(), new ShootingStar()];
-    shooters.forEach((s, i) => { s.waiting += i * 150; });
+
+    // 18 meteoros simultâneos com delays escalonados para saírem em sequência contínua
+    const METEOR_COUNT = 18;
+    shooters = [];
+    for (let i = 0; i < METEOR_COUNT; i++) {
+        shooters.push(new ShootingStar(i * 55));
+    }
 }
 
 let tick = 0;
