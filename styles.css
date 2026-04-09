@@ -1625,6 +1625,14 @@ section {
     padding: 6rem 0 7rem;
     background: #050505;
     overflow: hidden;
+    /* Pula render até estar próximo do viewport — grande ganho de performance */
+    content-visibility: auto;
+    contain-intrinsic-size: 0 600px;
+}
+
+/* Placeholder escuro enquanto a imagem ainda não carregou */
+.lugares-item img {
+    background: #0e0e0e;
 }
 
 .lugares-header {

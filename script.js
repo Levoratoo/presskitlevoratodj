@@ -1870,6 +1870,46 @@ function initTypewriter() {
 }
 
 // ============================================================
+// ============================================================
+// LUGARES — LAZY LOAD das strips (carrega só quando seção entra na tela)
+// ============================================================
+
+function initLugaresLazyLoad() {
+    const section = document.querySelector('.lugares-section');
+    if (!section) return;
+
+    const imgs = section.querySelectorAll('img[data-src]');
+    if (!imgs.length) return;
+
+    let loaded = false;
+
+    const load = () => {
+        if (loaded) return;
+        loaded = true;
+        // Carrega em lotes de 6 com pequeno intervalo para não travar a rede
+        const BATCH = 6;
+        let i = 0;
+        const next = () => {
+            const slice = Array.from(imgs).slice(i, i + BATCH);
+            slice.forEach(img => {
+                img.decoding  = 'async';
+                img.src       = img.dataset.src;
+                img.removeAttribute('data-src');
+            });
+            i += BATCH;
+            if (i < imgs.length) setTimeout(next, 120);
+        };
+        next();
+    };
+
+    // Dispara quando a seção estiver a 400px do viewport
+    const obs = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) { load(); obs.disconnect(); }
+    }, { rootMargin: '400px 0px' });
+
+    obs.observe(section);
+}
+
 // SCROLL REVEAL — stagger children automatically
 // ============================================================
 
@@ -1921,6 +1961,7 @@ function init() {
     initCustomCursor();
     initParallax();
     initScrollReveal();
+    initLugaresLazyLoad();
 }
 
 if (document.readyState === 'loading') {
