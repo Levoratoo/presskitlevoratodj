@@ -6,12 +6,13 @@
 'use strict';
 
 // ============================================================
-// PARTICLE SYSTEM — canvas (hero only, pauses when off-screen)
+// STAR FIELD — canvas (hero only, pauses when off-screen)
 // ============================================================
 
 const canvas = document.getElementById('particle-canvas');
 const ctx    = canvas.getContext('2d');
-let particles = [];
+let particles   = [];
+let shooters    = [];
 let rafId;
 let canvasVisible = true;
 
@@ -20,62 +21,143 @@ function resizeCanvas() {
     canvas.height = window.innerHeight;
 }
 
-class Particle {
-    constructor() {
-        this.init();
+/* ---- Star particle ---- */
+class Star {
+    constructor(randomY) {
+        this.reset(randomY);
     }
 
-    init() {
-        this.x     = Math.random() * canvas.width;
-        this.y     = Math.random() * canvas.height;
-        this.size  = Math.random() * 1.2 + 0.3;
-        this.vx    = (Math.random() - 0.5) * 0.22;
-        this.vy    = (Math.random() - 0.5) * 0.22;
-        this.alpha = Math.random() * 0.4 + 0.06;
-        this.isRed = Math.random() > 0.7;
+    reset(randomY) {
+        this.x        = Math.random() * canvas.width;
+        this.y        = randomY ? Math.random() * canvas.height : -2;
+        // tier: 0 = tiny (most), 1 = small, 2 = medium, 3 = bright (rare)
+        const r       = Math.random();
+        this.tier     = r < 0.55 ? 0 : r < 0.82 ? 1 : r < 0.96 ? 2 : 3;
+        const sizes   = [0.35, 0.75, 1.25, 2.1];
+        this.baseSize = sizes[this.tier] + Math.random() * sizes[this.tier] * 0.5;
+        this.size     = this.baseSize;
+
+        // very slow drift — stars feel far away
+        this.vx = (Math.random() - 0.5) * 0.06;
+        this.vy =  Math.random()        * 0.07 + 0.01;
+
+        // colour: mostly white/silver, ~25 % red-tinted
+        const warm  = Math.random() < 0.25;
+        this.r      = warm ? 255 : 200 + Math.floor(Math.random() * 55);
+        this.g      = warm ? 80 + Math.floor(Math.random() * 60)  : this.r;
+        this.b      = warm ? 80  : this.r;
+
+        // twinkle
+        this.baseAlpha  = 0.12 + Math.random() * 0.55 + this.tier * 0.08;
+        this.alpha      = this.baseAlpha;
+        this.twinkleSpd = 0.008 + Math.random() * 0.025;
+        this.twinkleOff = Math.random() * Math.PI * 2;
+
+        // bright stars get a cross spike
+        this.hasCross = this.tier >= 2;
     }
 
-    update() {
+    update(t) {
         this.x += this.vx;
         this.y += this.vy;
 
-        if (this.x < -2)               this.x = canvas.width  + 2;
+        // wrap horizontally
+        if (this.x < -2)               this.x = canvas.width + 2;
         if (this.x > canvas.width + 2) this.x = -2;
-        if (this.y < -2)               this.y = canvas.height + 2;
-        if (this.y > canvas.height + 2) this.y = -2;
+        // recycle when it drifts off the bottom
+        if (this.y > canvas.height + 2) this.reset(false);
+
+        // twinkle — sinusoidal alpha & size pulse
+        const tw    = Math.sin(t * this.twinkleSpd + this.twinkleOff);
+        this.alpha  = this.baseAlpha * (0.6 + 0.4 * tw);
+        this.size   = this.baseSize  * (0.85 + 0.18 * ((tw + 1) / 2));
     }
 
     draw() {
+        const { x, y, size, alpha, r, g, b } = this;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = this.isRed
-            ? `rgba(255, 26, 26, ${this.alpha})`
-            : `rgba(200, 200, 200, ${this.alpha * 0.35})`;
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${r},${g},${b},${alpha.toFixed(3)})`;
         ctx.fill();
+
+        // cross / spike for brighter stars
+        if (this.hasCross && size > 0.9) {
+            const len = size * 3.5;
+            ctx.strokeStyle = `rgba(${r},${g},${b},${(alpha * 0.45).toFixed(3)})`;
+            ctx.lineWidth   = size * 0.35;
+            ctx.beginPath();
+            ctx.moveTo(x - len, y); ctx.lineTo(x + len, y);
+            ctx.moveTo(x, y - len); ctx.lineTo(x, y + len);
+            ctx.stroke();
+        }
+    }
+}
+
+/* ---- Shooting star ---- */
+class ShootingStar {
+    constructor() { this.reset(); }
+
+    reset() {
+        this.x     = Math.random() * canvas.width  * 0.7;
+        this.y     = Math.random() * canvas.height * 0.45;
+        this.len   = 80 + Math.random() * 120;
+        this.speed = 6  + Math.random() * 6;
+        this.angle = Math.PI / 5 + (Math.random() - 0.5) * 0.35;
+        this.alpha = 0;
+        this.life  = 0;
+        this.maxLife = 55 + Math.floor(Math.random() * 30);
+        // pause until randomly triggered
+        this.waiting = Math.floor(Math.random() * 500) + 200;
+    }
+
+    update() {
+        if (this.waiting > 0) { this.waiting--; return; }
+        this.life++;
+        const progress = this.life / this.maxLife;
+        this.alpha = progress < 0.2 ? progress / 0.2
+                   : progress > 0.7 ? 1 - (progress - 0.7) / 0.3
+                   : 1;
+        this.x += Math.cos(this.angle) * this.speed;
+        this.y += Math.sin(this.angle) * this.speed;
+        if (this.life >= this.maxLife) this.reset();
+    }
+
+    draw() {
+        if (this.waiting > 0 || this.alpha <= 0) return;
+        const ex = this.x - Math.cos(this.angle) * this.len;
+        const ey = this.y - Math.sin(this.angle) * this.len;
+        const grd = ctx.createLinearGradient(ex, ey, this.x, this.y);
+        grd.addColorStop(0, `rgba(255,255,255,0)`);
+        grd.addColorStop(1, `rgba(255,200,180,${(this.alpha * 0.9).toFixed(3)})`);
+        ctx.beginPath();
+        ctx.moveTo(ex, ey);
+        ctx.lineTo(this.x, this.y);
+        ctx.strokeStyle = grd;
+        ctx.lineWidth   = 1.4;
+        ctx.stroke();
     }
 }
 
 function buildParticles() {
     particles = [];
-    // Cap at 60 — enough for effect, light on GPU
-    const count = Math.min(60, Math.floor((canvas.width * canvas.height) / 22000));
+    // Dense star field — scale with screen area, cap at 260 for performance
+    const count = Math.min(260, Math.floor((canvas.width * canvas.height) / 5800));
     for (let i = 0; i < count; i++) {
-        particles.push(new Particle());
+        particles.push(new Star(true));   // true = random initial Y
     }
+    // 3 concurrent shooting stars
+    shooters = [new ShootingStar(), new ShootingStar(), new ShootingStar()];
 }
 
+let tick = 0;
 function tickParticles() {
-    if (!canvasVisible) {
-        rafId = requestAnimationFrame(tickParticles);
-        return;
-    }
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (const p of particles) {
-        p.update();
-        p.draw();
-    }
     rafId = requestAnimationFrame(tickParticles);
+    if (!canvasVisible) return;
+
+    tick++;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const p of particles)  { p.update(tick); p.draw(); }
+    for (const s of shooters)   { s.update();     s.draw(); }
 }
 
 // Pause canvas loop when hero is off-screen
@@ -487,27 +569,57 @@ function initHeroParticles() {
     const container = document.getElementById('hero-particles');
     if (!container) return;
 
-    // Fewer particles on mobile/low-end
     const isMobile = window.innerWidth < 768;
-    const COUNT    = isMobile ? 40 : 70;
-    const COLORS   = ['#ff1a1a', '#ff3b3b', '#cc0000', '#ff5555', '#800000'];
+    const COUNT    = isMobile ? 80 : 160;
     const frag     = document.createDocumentFragment();
 
     for (let i = 0; i < COUNT; i++) {
-        const el    = document.createElement('span');
-        const size  = (Math.random() * 7 + 2).toFixed(1);
-        const top   = (Math.random() * 100).toFixed(1);
-        const left  = (Math.random() * 100).toFixed(1);
-        const dur   = (Math.random() * 3.5 + 2.5).toFixed(2);
-        const delay = (Math.random() * 5).toFixed(2);
-        const op    = (Math.random() * 0.5 + 0.2).toFixed(2);
-        const rise  = `-${(Math.random() * 30 + 10).toFixed(0)}px`;
-        const color = COLORS[Math.floor(Math.random() * COLORS.length)];
-        // Only add glow to larger particles to save GPU
-        const glow  = size > 6 ? `0 0 ${Math.round(size * 1.3)}px ${color}88` : 'none';
+        const el = document.createElement('span');
+
+        // tier: 0 tiny, 1 small, 2 medium, 3 bright
+        const r    = Math.random();
+        const tier = r < 0.55 ? 0 : r < 0.82 ? 1 : r < 0.96 ? 2 : 3;
+        const baseSize = [1, 1.8, 2.8, 4][tier];
+        const size = (baseSize + Math.random() * baseSize * 0.6).toFixed(2);
+
+        const top   = (Math.random() * 100).toFixed(2);
+        const left  = (Math.random() * 100).toFixed(2);
+
+        // twinkle: fast small, slow big
+        const dur   = (tier === 0 ? (Math.random() * 2 + 1.5)
+                     : tier === 3 ? (Math.random() * 5 + 4)
+                     : (Math.random() * 3 + 2)).toFixed(2);
+        const delay = (Math.random() * 8).toFixed(2);
+        const rise  = `-${(Math.random() * 18 + 5).toFixed(0)}px`;
+
+        // colour: ~70 % white/silver, 30 % red
+        const warm  = Math.random() < 0.3;
+        const color = warm
+            ? ['#ff1a1a','#ff3b3b','#cc0000','#ff5555'][Math.floor(Math.random()*4)]
+            : ['#ffffff','#e8e8ff','#ffd8d8','#ffe0e0'][Math.floor(Math.random()*4)];
+
+        const baseOp = tier === 0 ? 0.25 + Math.random() * 0.35
+                     : tier === 3 ? 0.65 + Math.random() * 0.35
+                     : 0.35 + Math.random() * 0.45;
+
+        // bright stars get a glow
+        const glowPx = tier >= 2 ? Math.round(+size * 2.5) : tier === 1 ? Math.round(+size * 1.5) : 0;
+        const glow   = glowPx > 0 ? `0 0 ${glowPx}px ${color}cc` : 'none';
 
         el.className = 'hp';
-        el.style.cssText = `width:${size}px;height:${size}px;top:${top}%;left:${left}%;background:${color};box-shadow:${glow};animation-duration:${dur}s;animation-delay:-${delay}s;--hp-op:${op};--hp-rise:${rise};`;
+        el.style.cssText = [
+            `width:${size}px`,
+            `height:${size}px`,
+            `top:${top}%`,
+            `left:${left}%`,
+            `background:${color}`,
+            `box-shadow:${glow}`,
+            `animation-duration:${dur}s`,
+            `animation-delay:-${delay}s`,
+            `--hp-op:${baseOp.toFixed(2)}`,
+            `--hp-rise:${rise}`
+        ].join(';');
+
         frag.appendChild(el);
     }
 

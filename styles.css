@@ -589,13 +589,34 @@ section {
     position: absolute;
     border-radius: 50%;
     will-change: transform, opacity;
-    animation: hpFloat ease-in-out infinite;
+    animation: starTwinkle ease-in-out infinite;
 }
 
-@keyframes hpFloat {
-    0%   { transform: translateY(0)   scale(1);    opacity: var(--hp-op); }
-    50%  { transform: translateY(var(--hp-rise)) scale(1.3); opacity: 1; }
-    100% { transform: translateY(0)   scale(1);    opacity: var(--hp-op); }
+/* Estrelas pulsam em tamanho e opacidade, derivam levemente */
+@keyframes starTwinkle {
+    0%   {
+        transform: translateY(0)          translateX(0)  scale(1);
+        opacity: calc(var(--hp-op) * 0.4);
+    }
+    20%  {
+        opacity: var(--hp-op);
+    }
+    35%  {
+        transform: translateY(calc(var(--hp-rise) * 0.4)) translateX(2px)  scale(1.45);
+        opacity: 1;
+    }
+    55%  {
+        transform: translateY(calc(var(--hp-rise) * 0.7)) translateX(-2px) scale(1.1);
+        opacity: calc(var(--hp-op) * 0.7);
+    }
+    75%  {
+        transform: translateY(calc(var(--hp-rise) * 0.9)) translateX(1px)  scale(1.3);
+        opacity: var(--hp-op);
+    }
+    100% {
+        transform: translateY(var(--hp-rise))              translateX(0)  scale(1);
+        opacity: calc(var(--hp-op) * 0.4);
+    }
 }
 
 /* 3. Shimmer em "LEVORATO" */
