@@ -2032,6 +2032,43 @@ section {
     border: 0;
 }
 
+.sc-card-link {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 1.4rem 1.2rem;
+    text-decoration: none;
+    color: rgba(255,255,255,0.75);
+    background: rgba(255,85,0,0.04);
+    border-top: 1px solid rgba(255,85,0,0.12);
+    transition: background 0.25s, color 0.25s;
+}
+
+.sc-card-link:hover {
+    background: rgba(255,85,0,0.12);
+    color: #fff;
+}
+
+.sc-card-link__icon {
+    font-size: 1.6rem;
+    color: #ff5500;
+    flex-shrink: 0;
+}
+
+.sc-card-link__text {
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    flex: 1;
+}
+
+.sc-card-link__arrow {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.3);
+    flex-shrink: 0;
+}
+
 .sc-card--tall iframe  { height: 380px; }
 .sc-card--video iframe { height: 420px; }
 
