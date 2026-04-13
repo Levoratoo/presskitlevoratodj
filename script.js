@@ -1766,53 +1766,17 @@ function initLoadingScreen() {
 // ============================================================
 
 function initCustomCursor() {
-    // Only on devices with a fine pointer (mouse)
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
-    const dot  = document.getElementById('cursor-dot');
-    const ring = document.getElementById('cursor-ring');
-    if (!dot || !ring) return;
-
-    let rx = 0, ry = 0; // ring lagged position
+    const dot = document.getElementById('cursor-dot');
+    if (!dot) return;
 
     document.addEventListener('mousemove', e => {
-        const x = e.clientX, y = e.clientY;
-        dot.style.left = x + 'px';
-        dot.style.top  = y + 'px';
-        // Ring lerps toward cursor
-        rx += (x - rx) * 0.18;
-        ry += (y - ry) * 0.18;
-        ring.style.left = rx + 'px';
-        ring.style.top  = ry + 'px';
-    });
+        dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    }, { passive: true });
 
-    // Continuous ring lerp in rAF
-    (function lerpRing() {
-        requestAnimationFrame(lerpRing);
-        ring.style.left = rx + 'px';
-        ring.style.top  = ry + 'px';
-    })();
-
-    document.addEventListener('mouseleave', () => {
-        dot.classList.add('hidden');
-        ring.classList.add('hidden');
-    });
-    document.addEventListener('mouseenter', () => {
-        dot.classList.remove('hidden');
-        ring.classList.remove('hidden');
-    });
-
-    // Expand ring on interactive elements
-    document.addEventListener('mouseover', e => {
-        if (e.target.closest('a, button, [role="button"], .stream-tab, .lang-option')) {
-            document.body.classList.add('cursor-hover');
-        }
-    });
-    document.addEventListener('mouseout', e => {
-        if (e.target.closest('a, button, [role="button"], .stream-tab, .lang-option')) {
-            document.body.classList.remove('cursor-hover');
-        }
-    });
+    document.addEventListener('mouseleave', () => dot.classList.add('hidden'));
+    document.addEventListener('mouseenter', () => dot.classList.remove('hidden'));
 }
 
 // ============================================================
