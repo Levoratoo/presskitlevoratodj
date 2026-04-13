@@ -2861,30 +2861,9 @@ section {
     transition: transform 0.06s ease, opacity 0.2s ease;
     will-change: left, top;
 }
-#cursor-ring {
-    position: fixed;
-    width: 34px;
-    height: 34px;
-    border: 1.5px solid rgba(255, 26, 26, 0.55);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9997;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s ease, width 0.25s ease, height 0.25s ease,
-                border-color 0.25s ease, opacity 0.2s ease;
-    will-change: left, top;
-    animation: ringPulse 2.5s ease-in-out infinite;
-}
-#cursor-dot.hidden, #cursor-ring.hidden { opacity: 0; }
-body.cursor-hover #cursor-dot  { transform: translate(-2px, -2px) scale(1.15); }
-body.cursor-hover #cursor-ring {
-    width: 52px; height: 52px;
-    border-color: rgba(255,26,26,0.85);
-}
-@keyframes ringPulse {
-    0%, 100% { box-shadow: 0 0 0   3px rgba(255,26,26,0); }
-    50%       { box-shadow: 0 0 12px 4px rgba(255,26,26,0.18); }
-}
+#cursor-ring { display: none; }
+#cursor-dot.hidden { opacity: 0; }
+body.cursor-hover #cursor-dot { transform: translate(-2px, -2px) scale(1.15); }
 
 /* -------------------------------------------------------
    TYPEWRITER CURSOR
