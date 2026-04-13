@@ -2845,8 +2845,7 @@ section {
    CUSTOM CURSOR
 ------------------------------------------------------- */
 @media (hover: hover) and (pointer: fine) {
-    body { cursor: none; }
-    a, button, [role="button"], label { cursor: none; }
+    *, *::before, *::after { cursor: none !important; }
 }
 #cursor-dot {
     position: fixed;
