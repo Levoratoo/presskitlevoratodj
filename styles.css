@@ -2842,12 +2842,10 @@ section {
 }
 
 /* -------------------------------------------------------
-   CUSTOM CURSOR
+   CUSTOM CURSOR (só mouse — em touch fica oculto, evita seta presa no canto)
 ------------------------------------------------------- */
-@media (hover: hover) and (pointer: fine) {
-    *, *::before, *::after { cursor: none !important; }
-}
 #cursor-dot {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -2863,6 +2861,14 @@ section {
 }
 #cursor-ring { display: none; }
 #cursor-dot.hidden { opacity: 0; }
+
+@media (hover: hover) and (pointer: fine) {
+    *, *::before, *::after { cursor: none !important; }
+    #cursor-dot { display: block; }
+}
+@media (pointer: coarse) {
+    #cursor-dot { display: none !important; }
+}
 
 /* -------------------------------------------------------
    TYPEWRITER CURSOR
