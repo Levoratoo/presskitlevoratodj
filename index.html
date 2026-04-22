@@ -2,6 +2,9 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <!-- Touch: evita cursor customizado (alguns Android reportam pointer:fine e a seta fica presa) -->
+    <script>(function(){var t=('ontouchstart'in window)||((navigator.maxTouchPoints||0)>0);if(t)document.documentElement.classList.add('touch-device');})();</script>
+    <style>html.touch-device #cursor-dot,html.touch-device #cursor-ring{display:none!important}</style>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <!-- Descrição: entidades HTML evitam mojibake em WhatsApp / crawlers -->

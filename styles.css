@@ -2870,6 +2870,17 @@ section {
     #cursor-dot { display: none !important; }
 }
 
+/* Touch (classe definida no <head> — cobre Android com media queries incorretas) */
+html.touch-device #cursor-dot,
+html.touch-device #cursor-ring {
+    display: none !important;
+}
+html.touch-device *,
+html.touch-device *::before,
+html.touch-device *::after {
+    cursor: revert !important;
+}
+
 /* -------------------------------------------------------
    TYPEWRITER CURSOR
 ------------------------------------------------------- */

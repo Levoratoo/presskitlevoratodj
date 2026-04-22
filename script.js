@@ -1766,6 +1766,7 @@ function initLoadingScreen() {
 // ============================================================
 
 function initCustomCursor() {
+    if (document.documentElement.classList.contains('touch-device')) return;
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
     const dot = document.getElementById('cursor-dot');
