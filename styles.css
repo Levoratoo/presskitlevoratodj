@@ -1660,11 +1660,12 @@ section {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 1rem 1.75rem;
+    gap: 1rem;
     margin-bottom: 2rem;
     padding: 0 clamp(1rem, 4vw, 2rem);
-    max-width: 56rem;
+    width: 100%;
     margin-inline: auto;
+    text-align: center;
 }
 
 .lugares-view-toggle {
@@ -1710,23 +1711,34 @@ section {
     outline-offset: 2px;
 }
 
-.lugares-view-legend {
-    flex: 1 1 220px;
-    margin: 0;
-    max-width: 26rem;
-    font-size: 0.82rem;
-    line-height: 1.55;
-    color: rgba(255, 255, 255, 0.45);
-    text-align: center;
+.lugares-view-icon--carousel {
+    width: 15px;
+    height: 11px;
+    flex-shrink: 0;
+    border: 2px solid currentColor;
+    border-radius: 2px;
+    box-sizing: border-box;
 }
 
-@media (min-width: 720px) {
-    .lugares-view-toolbar {
-        justify-content: center;
-    }
-    .lugares-view-legend {
-        text-align: left;
-    }
+.lugares-view-icon--grid {
+    display: inline-grid;
+    grid-template-columns: repeat(2, 5px);
+    grid-template-rows: repeat(2, 5px);
+    gap: 2px;
+    padding: 3px;
+    border: 2px solid currentColor;
+    border-radius: 2px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.lugares-view-icon--grid > span {
+    display: block;
+    width: 5px;
+    height: 5px;
+    background: currentColor;
+    border-radius: 1px;
+    opacity: 0.92;
 }
 
 .lugares-view-panel[data-lugares-panel="list"][hidden] {
@@ -1821,6 +1833,61 @@ section {
 .lugares-card:hover img {
     transform: scale(1.05);
     filter: brightness(1);
+}
+
+/* #lugares: flyers inteiros, sem moldura pesada (tocando mantém card + cover) */
+#lugares .lugares-reel {
+    align-items: center;
+    animation-duration: 80s;
+}
+
+#lugares .lugares-card {
+    width: clamp(200px, 17vw, 270px);
+    height: auto;
+    border: none;
+    background: transparent;
+    overflow: visible;
+    border-radius: 0;
+}
+
+#lugares .lugares-card img {
+    width: 100%;
+    height: auto;
+    max-height: min(72vh, 640px);
+    object-fit: contain;
+    object-position: center;
+    border-radius: 10px;
+    filter: brightness(0.92);
+}
+
+#lugares .lugares-card:hover {
+    border-color: transparent;
+    box-shadow: none;
+}
+
+#lugares .lugares-card:hover img {
+    transform: scale(1.02);
+    filter: brightness(1);
+}
+
+#lugares .lugares-card img,
+#lugares .lugares-list-cell img {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+#lugares .lugares-list-cell {
+    border: none;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    min-height: 0;
+    box-shadow: none;
+}
+
+#lugares .lugares-list-cell img {
+    border-radius: 10px;
 }
 
 @keyframes reelScroll {
@@ -3822,6 +3889,13 @@ html.touch-device *::after {
     .tl-vc-item  { width: clamp(140px, 40vw, 180px); flex-shrink: 0; }
     .tl-vc-item img { width: clamp(140px, 40vw, 180px); height: 210px; }
 
+    #tl-ch4 .tl-vc-item img {
+        width: clamp(140px, 40vw, 180px);
+        height: auto;
+        max-height: 200px;
+        object-fit: contain;
+    }
+
     /* Node year menor */
     .tl-node-year { font-size: 2.2rem; }
 
@@ -4594,6 +4668,33 @@ a.tl-edu-text-wrap:focus-visible {
 }
 .tl-vc-item:hover::after { transform: scaleX(1); }
 
+/* Novo Ciclo: fotos enviadas pelo artista — inteiras, cantos suaves, sem moldura */
+#tl-ch4 .tl-vc-mask {
+    height: min(580px, 62vh);
+}
+
+#tl-ch4 .tl-vc-item {
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+}
+
+#tl-ch4 .tl-vc-item img {
+    aspect-ratio: auto;
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    max-height: min(52vh, 400px);
+    object-fit: contain;
+    object-position: center;
+    border-radius: 10px;
+    transform: none;
+}
+
+#tl-ch4 .tl-vc-item:hover img {
+    transform: scale(1.03);
+}
+
 @keyframes vc-scroll-up {
     from { transform: translateY(0); }
     to   { transform: translateY(-50%); }
@@ -4668,6 +4769,13 @@ a.tl-edu-text-wrap:focus-visible {
         scroll-snap-align: start;
     }
     .tl-vc-item img { width: clamp(160px, 42vw, 220px); height: 260px; aspect-ratio: unset; }
+
+    #tl-ch4 .tl-vc-item img {
+        width: clamp(160px, 42vw, 220px);
+        height: auto;
+        max-height: 260px;
+        object-fit: contain;
+    }
 
     .tl-spine { left: clamp(1.5rem, 4vw, 3rem); }
     .tl-node-year { font-size: 3rem; }

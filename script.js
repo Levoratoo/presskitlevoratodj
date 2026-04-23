@@ -905,7 +905,6 @@ const i18n = {
         'lugares-title'      : 'Lugares onde<br><span class="text-glow">já toquei</span>',
         'lugares-view-carousel' : 'Carrossel',
         'lugares-view-list'     : 'Lista completa',
-        'lugares-view-legend'   : 'No carrossel as artes aparecem em destaque vertical. Na lista, cada flyer aparece inteiro, sem corte.',
         'lugares-view-group-aria': 'Modo de visualização dos flyers',
         'tocando-tag'        : 'NA PISTA',
         'tocando-title'      : 'Fotos<br><span class="text-glow">ao vivo</span>',
@@ -1073,7 +1072,6 @@ const i18n = {
         'lugares-title'      : 'Places where<br><span class="text-glow">I\'ve played</span>',
         'lugares-view-carousel' : 'Carousel',
         'lugares-view-list'     : 'Full grid',
-        'lugares-view-legend'   : 'Carousel spotlights flyers in portrait. Grid shows each flyer in full, uncropped.',
         'lugares-view-group-aria': 'Flyer view mode',
         'tocando-tag'        : 'ON STAGE',
         'tocando-title'      : 'Live<br><span class="text-glow">photos</span>',
@@ -1241,7 +1239,6 @@ const i18n = {
         'lugares-title'      : 'Lugares donde<br><span class="text-glow">he tocado</span>',
         'lugares-view-carousel' : 'Carrusel',
         'lugares-view-list'     : 'Cuadrícula',
-        'lugares-view-legend'   : 'En el carrusel los flyers se ven en vertical. En la cuadrícula, cada flyer completo, sin recorte.',
         'lugares-view-group-aria': 'Modo de vista de flyers',
         'tocando-tag'        : 'EN CABINA',
         'tocando-title'      : 'Fotos<br><span class="text-glow">en vivo</span>',
@@ -1409,7 +1406,6 @@ const i18n = {
         'lugares-title'      : '我曾<br><span class="text-glow">演出的地方</span>',
         'lugares-view-carousel' : '轮播',
         'lugares-view-list'     : '完整网格',
-        'lugares-view-legend'   : '轮播以竖幅突出海报；网格展示每张海报完整画面、不裁切。',
         'lugares-view-group-aria': '海报显示模式',
         'tocando-tag'        : '现场演出',
         'tocando-title'      : '演出<br><span class="text-glow">照片</span>',
@@ -1577,7 +1573,6 @@ const i18n = {
         'lugares-title'      : 'Orte, wo ich<br><span class="text-glow">gespielt habe</span>',
         'lugares-view-carousel' : 'Karussell',
         'lugares-view-list'     : 'Raster',
-        'lugares-view-legend'   : 'Im Karussell stehen die Flyer im Hochformat im Fokus. Im Raster siehst du jeden Flyer vollständig, ohne Beschnitt.',
         'lugares-view-group-aria': 'Flyer-Ansicht',
         'tocando-tag'        : 'AUF DER BÜHNE',
         'tocando-title'      : 'Live<br><span class="text-glow">Fotos</span>',
@@ -1745,7 +1740,6 @@ const i18n = {
         'lugares-title'      : '演奏した<br><span class="text-glow">場所</span>',
         'lugares-view-carousel' : 'カルーセル',
         'lugares-view-list'     : '一覧グリッド',
-        'lugares-view-legend'   : 'カルーセルは縦長で強調。グリッドは各フライヤーを切らずに全体表示します。',
         'lugares-view-group-aria': 'フライヤー表示モード',
         'tocando-tag'        : 'ライブ演奏',
         'tocando-title'      : 'ライブ<br><span class="text-glow">フォト</span>',
@@ -2025,6 +2019,65 @@ function initTypewriter() {
 // LUGARES — LAZY LOAD das strips (carrega só quando seção entra na tela)
 // ============================================================
 
+/** Conteúdo de fotos-lugares (ordenado por nome, como no Explorer). Inclua novas extensões aqui ao adicionar arquivos. */
+const LUGARES_FOTOS_ARQUIVOS = [
+    '080ba4a2-6fc4-4dd6-af9d-64d97b18bdb7.jpg',
+    '2ypeQQl3XmWsDCfcX_Fiw.jpg',
+    '3d683a54-699a-442f-997e-6b3914de586e.jpg',
+    '57651593-6818-4aac-b6e3-4d5a296cc811.jpg',
+    '658850963_17877833673551439_6563297154581046200_n.jpg',
+    '6B48GgdD9AZDT1aOwWa3m.jpg',
+    '8kGzDF8zqof76MrhQ5Oqb.jpg',
+    '8odgK1X3XrTW-spBru2zW.jpg',
+    '98PcD-9Th72QsbuMI55oY.jpg',
+    '9wTX7nTw5tblUnYUROyac.jpg',
+    '-BsZvoYvBU9fSIQBQ8bN6.jpg',
+    'c233bb84-4a1b-42a2-900d-92dd2073df7f.jpg',
+    'ERHoqD7RTjb3QzyTUE6NU.jpg',
+    'fa7f8055-a36c-479a-9f96-1204a0a1d332.jpg',
+    'Gisi9oQeKSJQYh3QedUge.jpg',
+    'J_GUkrxIxG-s-cGALzK-r.jpg',
+    'jYxzfkvzraoeKg3B2MxfK.jpg',
+    'K73kkhZduNpwX5FAxC_Sl.jpg',
+    'MWM3txr_stAlx01gDVE9X.jpg',
+    'QDYqFwEcUMne-EjEtGReS.jpg',
+    'RUYUSr5vbXr46lOg8j04E.jpg',
+    'Screenshot_12.jpg',
+    'Screenshot_228.jpg',
+    'Screenshot_28.jpg',
+    'Screenshot_293.jpg',
+    'Screenshot_3022.jpg',
+    'Screenshot_312.jpg',
+    'shOiQyJJcss6cEjW2tTMw.jpg',
+    'V8Kx0NEu4lvLNZLJfVgYX.jpg',
+    'VbzHEPqD9noV6axRMgLU0.webp',
+    'zIk9WjVkVXGdutpyhT0Ev.jpg'
+];
+
+function initLugaresFlyersGallery() {
+    const section = document.getElementById('lugares');
+    if (!section) return;
+    const reel = section.querySelector('#lugares-panel-carousel .lugares-reel');
+    const grid = section.querySelector('#lugares-panel-list .lugares-list-grid');
+    if (!reel || !grid || !LUGARES_FOTOS_ARQUIVOS.length) return;
+
+    const base = 'fotos-lugares/';
+    const svgPh = 'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27/%3E';
+    const alt = 'Flyer de show — Levorato';
+
+    const carouselChunk = LUGARES_FOTOS_ARQUIVOS.map((f) => {
+        const path = base + encodeURIComponent(f);
+        return `<div class="lugares-card"><img data-src="${path}" src="${svgPh}" alt="${alt.replace(/"/g, '&quot;')}" loading="lazy"></div>`;
+    }).join('');
+
+    reel.innerHTML = carouselChunk + carouselChunk;
+
+    grid.innerHTML = LUGARES_FOTOS_ARQUIVOS.map((f) => {
+        const path = base + encodeURIComponent(f);
+        return `<figure class="lugares-list-cell"><img src="${path}" alt="${alt.replace(/"/g, '&quot;')}" loading="lazy" decoding="async"></figure>`;
+    }).join('');
+}
+
 function initLugaresViewToggle() {
     const section = document.getElementById('lugares');
     if (!section) return;
@@ -2210,6 +2263,7 @@ function init() {
     initCustomCursor();
     initParallax();
     initScrollReveal();
+    initLugaresFlyersGallery();
     initPhotoReelLazyLoad();
     initLugaresViewToggle();
     initYoutubeLiteEmbeds();
