@@ -2069,24 +2069,89 @@ section {
    AFTER MOVIES
 ------------------------------------------------------- */
 .aftermovies-section {
-    padding: 5.5rem 0 6.5rem;
-    background:
-        radial-gradient(ellipse 50% 40% at 50% 0%, rgba(255, 26, 26, 0.06) 0%, transparent 55%),
-        #050505;
-    border-top: 1px solid rgba(255, 26, 26, 0.1);
+    position: relative;
+    padding: 5.5rem 0 6.75rem;
+    background: var(--bg-video-blocks);
+    border-top: 1px solid rgba(255, 26, 26, 0.12);
+    overflow: hidden;
+}
+
+.aftermovies-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(88%, 640px);
+    height: 200px;
+    pointer-events: none;
+    background: radial-gradient(ellipse 72% 100% at 50% 0%, rgba(255, 26, 26, 0.09) 0%, transparent 72%);
+    z-index: 0;
+}
+
+.aftermovies-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+.aftermovies-section .section-header {
+    text-align: center;
+    margin-bottom: 2.75rem;
+}
+
+.aftermovies-section .section-header .section-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 1.2rem;
+    letter-spacing: 0.28em;
+    font-weight: 700;
+    border: 1px solid rgba(255, 26, 26, 0.48);
+    background: linear-gradient(150deg, rgba(255, 26, 26, 0.14) 0%, rgba(6, 6, 6, 0.72) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow:
+        0 0 32px rgba(255, 26, 26, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.aftermovies-section .section-header .section-title {
+    margin-top: 1.1rem;
+    text-shadow: 0 4px 48px rgba(0, 0, 0, 0.5);
+}
+
+.aftermovies-section .section-header .section-desc {
+    max-width: 36rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0.85rem;
+    color: rgba(255, 255, 255, 0.52);
+    line-height: 1.65;
+}
+
+.aftermovies-section .section-header::after {
+    content: '';
+    display: block;
+    width: min(12rem, 45vw);
+    height: 2px;
+    margin: 1.35rem auto 0;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 26, 26, 0.88), transparent);
+    opacity: 0.85;
 }
 
 .aftermovies-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2.25rem;
-    max-width: 980px;
+    gap: clamp(1.75rem, 4vw, 3rem);
+    max-width: 1000px;
     margin: 0 auto;
     align-items: start;
 }
 
 .aftermovie-card {
     text-align: center;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .aftermovie-card-title {
@@ -2097,6 +2162,7 @@ section {
     color: var(--text);
     margin: 0 0 0.35rem;
     line-height: 1.1;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
 }
 
 .aftermovie-card-sub {
@@ -2105,7 +2171,8 @@ section {
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--primary);
-    margin: 0 0 1rem;
+    margin: 0 0 1.1rem;
+    text-shadow: 0 0 20px rgba(255, 26, 26, 0.2);
 }
 
 /* Story-style 9:16 frame; height cap keeps title/subtitle + video on screen */
@@ -2115,14 +2182,19 @@ section {
     height: var(--aftermov-story-h);
     max-height: min(68vh, 620px);
     margin-inline: auto;
-    border-radius: 16px;
+    border-radius: 18px;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.11);
     background: #0a0a0a;
     box-shadow:
-        0 0 0 1px rgba(255, 26, 26, 0.12),
-        0 16px 48px rgba(0, 0, 0, 0.55);
+        0 0 0 1px rgba(255, 26, 26, 0.14),
+        0 16px 48px rgba(0, 0, 0, 0.58),
+        0 0 48px rgba(255, 26, 26, 0.05);
     position: relative;
+    transition:
+        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.35s ease,
+        border-color 0.3s ease;
 }
 
 .aftermovie-embed {
@@ -2132,6 +2204,10 @@ section {
     height: 100%;
 }
 
+.aftermovie-embed .yt-lite__thumb {
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
+}
+
 .aftermovie-embed .yt-lite,
 .aftermovie-embed iframe {
     position: absolute;
@@ -2139,6 +2215,48 @@ section {
     width: 100%;
     height: 100%;
     border: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .aftermovie-card:hover {
+        transform: translateY(-6px);
+    }
+
+    .aftermovie-card:hover .aftermovie-video-wrap {
+        transform: scale(1.02);
+        border-color: rgba(255, 26, 26, 0.4);
+        box-shadow:
+            0 0 0 1px rgba(255, 26, 26, 0.35),
+            0 22px 56px rgba(0, 0, 0, 0.72),
+            0 0 52px rgba(255, 26, 26, 0.12);
+    }
+
+    .aftermovie-card:hover .aftermovie-embed .yt-lite__thumb {
+        transform: scale(1.05);
+        filter: brightness(1.06) saturate(1.05);
+    }
+
+    .aftermovie-card:hover .aftermovie-embed .yt-lite__play-icon {
+        transform: scale(1.08);
+        box-shadow:
+            0 8px 32px rgba(255, 26, 26, 0.4),
+            0 0 0 4px rgba(255, 26, 26, 0.16);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .aftermovie-card,
+    .aftermovie-video-wrap,
+    .aftermovie-embed .yt-lite__thumb {
+        transition: none;
+    }
+
+    .aftermovie-card:hover,
+    .aftermovie-card:hover .aftermovie-video-wrap,
+    .aftermovie-card:hover .aftermovie-embed .yt-lite__thumb,
+    .aftermovie-card:hover .aftermovie-embed .yt-lite__play-icon {
+        transform: none;
+    }
 }
 
 @media (max-width: 768px) {
