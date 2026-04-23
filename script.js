@@ -2021,12 +2021,12 @@ function initTypewriter() {
 
 /** fotos-lugares: bloco prioritário primeiro (carrossel + lista); depois o restante em ordem de nome. */
 const LUGARES_FOTOS_PRIORIDADE = [
-    'Screenshot_312.jpg',
     '8kGzDF8zqof76MrhQ5Oqb.jpg',
     '658850963_17877833673551439_6563297154581046200_n.jpg',
     '3d683a54-699a-442f-997e-6b3914de586e.jpg',
     'MWM3txr_stAlx01gDVE9X.jpg',
-    '57651593-6818-4aac-b6e3-4d5a296cc811.jpg'
+    '57651593-6818-4aac-b6e3-4d5a296cc811.jpg',
+    'Screenshot_312.jpg'
 ];
 
 const LUGARES_FOTOS_RESTO = [
