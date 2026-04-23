@@ -2051,14 +2051,23 @@ section {
     margin-bottom: 2.5rem;
 }
 
+/* Faixa edge-to-edge como lugares / fotos ao vivo */
+.drops-carousel-bleed {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
 .drops-carousel-wrap {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 0.25rem;
+    gap: clamp(0.5rem, 1.5vw, 1.1rem);
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0 clamp(0.35rem, 2vw, 1.25rem);
+    box-sizing: border-box;
 }
 
 .drops-viewport {
@@ -2071,8 +2080,8 @@ section {
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 26, 26, 0.4) transparent;
-    mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
 }
 
 .drops-viewport::-webkit-scrollbar {
@@ -2085,14 +2094,14 @@ section {
 
 .drops-track {
     display: flex;
-    gap: 1.1rem;
-    padding: 0.5rem 0.35rem 1rem;
+    gap: clamp(1.35rem, 2.8vw, 2.75rem);
+    padding: 0.5rem clamp(0.75rem, 4vw, 3.5rem) 1rem;
     width: max-content;
 }
 
 .drops-slide {
     flex: 0 0 auto;
-    width: clamp(200px, 22vw, 280px);
+    width: clamp(230px, 19vw, 340px);
     scroll-snap-align: center;
 }
 
@@ -2146,8 +2155,12 @@ section {
 
 @media (max-width: 640px) {
     .drops-carousel-wrap {
-        gap: 0.35rem;
-        padding: 0;
+        gap: 0.4rem;
+        padding: 0 0.15rem;
+    }
+    .drops-track {
+        gap: clamp(1rem, 4vw, 1.5rem);
+        padding: 0.5rem clamp(0.5rem, 3vw, 1.25rem) 1rem;
     }
     .drops-nav {
         width: 38px;
@@ -2155,7 +2168,7 @@ section {
         font-size: 0.9rem;
     }
     .drops-slide {
-        width: clamp(180px, 72vw, 260px);
+        width: clamp(200px, 76vw, 300px);
     }
 }
 
