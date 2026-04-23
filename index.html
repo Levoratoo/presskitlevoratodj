@@ -851,7 +851,22 @@
             <h2 class="section-title" data-i18n="lugares-title">Lugares onde<br><span class="text-glow">já toquei</span></h2>
         </div>
 
+        <div class="lugares-view-toolbar reveal-up">
+            <div class="lugares-view-toggle" role="group" data-i18n-aria="lugares-view-group-aria" aria-label="Modo de visualização dos flyers">
+                <button type="button" class="lugares-view-btn is-active" id="lugares-view-carousel-btn" data-lugares-mode="carousel" aria-pressed="true">
+                    <i class="fas fa-clapperboard" aria-hidden="true"></i>
+                    <span data-i18n="lugares-view-carousel">Carrossel</span>
+                </button>
+                <button type="button" class="lugares-view-btn" id="lugares-view-list-btn" data-lugares-mode="list" aria-pressed="false">
+                    <i class="fas fa-border-all" aria-hidden="true"></i>
+                    <span data-i18n="lugares-view-list">Lista completa</span>
+                </button>
+            </div>
+            <p class="lugares-view-legend" data-i18n="lugares-view-legend">No carrossel as artes aparecem em destaque vertical. Na lista, cada flyer aparece inteiro, sem corte.</p>
+        </div>
+
         <!-- Carrossel único, portrait, scroll automático -->
+        <div class="lugares-view-panel" id="lugares-panel-carousel" data-lugares-panel="carousel">
         <div class="lugares-reel-wrap">
             <div class="lugares-reel">
                 <div class="lugares-card"><img data-src="fotos-lugares/Screenshot_3022.jpg" src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27/%3E" alt="Flyer — Hoffman, Timbó" loading="lazy"></div>
@@ -883,6 +898,26 @@
                 <div class="lugares-card"><img data-src="fotos-lugares/2ypeQQl3XmWsDCfcX_Fiw.jpg"                            src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27/%3E" alt="Show" loading="lazy"></div>
                 <div class="lugares-card"><img data-src="fotos-lugares/8kGzDF8zqof76MrhQ5Oqb.jpg"                            src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27/%3E" alt="Show" loading="lazy"></div>
                 <div class="lugares-card"><img data-src="fotos-lugares/080ba4a2-6fc4-4dd6-af9d-64d97b18bdb7.jpg"             src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27/%3E" alt="Show" loading="lazy"></div>
+            </div>
+        </div>
+        </div>
+
+        <div class="lugares-view-panel" id="lugares-panel-list" data-lugares-panel="list" hidden>
+            <div class="lugares-list-grid">
+                <figure class="lugares-list-cell"><img src="fotos-lugares/Screenshot_3022.jpg" alt="Flyer — Hoffman, Timbó" loading="lazy" decoding="async"></figure>
+                <figure class="lugares-list-cell"><img src="fotos-lugares/Screenshot_312.jpg" alt="Flyer — Permita-se, São José" loading="lazy" decoding="async"></figure>
+                <figure class="lugares-list-cell"><img src="fotos-lugares/Screenshot_293.jpg" alt="Flyer — Tech Smoke, Itapema" loading="lazy" decoding="async"></figure>
+                <figure class="lugares-list-cell"><img src="fotos-lugares/3d683a54-699a-442f-997e-6b3914de586e.jpg" alt="Show" loading="lazy" decoding="async"></figure>
+                <figure class="lugares-list-cell"><img src="fotos-lugares/658850963_17877833673551439_6563297154581046200_n.jpg" alt="Show" loading="lazy" decoding="async"></figure>
+                <figure class="lugares-list-cell"><img src="fotos-lugares/57651593-6818-4aac-b6e3-4d5a296cc811.jpg" alt="Show" loading="lazy" decoding="async"></figure>
+                <figure class="lugares-list-cell"><img src="fotos-lugares/zIk9WjVkVXGdutpyhT0Ev.jpg" alt="Show" loading="lazy" decoding="async"></figure>
+                <figure class="lugares-list-cell"><img src="fotos-lugares/Screenshot_28.jpg" alt="Show" loading="lazy" decoding="async"></figure>
+                <figure class="lugares-list-cell"><img src="fotos-lugares/fa7f8055-a36c-479a-9f96-1204a0a1d332.jpg" alt="Show" loading="lazy" decoding="async"></figure>
+                <figure class="lugares-list-cell"><img src="fotos-lugares/9wTX7nTw5tblUnYUROyac.jpg" alt="Show" loading="lazy" decoding="async"></figure>
+                <figure class="lugares-list-cell"><img src="fotos-lugares/c233bb84-4a1b-42a2-900d-92dd2073df7f.jpg" alt="Show" loading="lazy" decoding="async"></figure>
+                <figure class="lugares-list-cell"><img src="fotos-lugares/2ypeQQl3XmWsDCfcX_Fiw.jpg" alt="Show" loading="lazy" decoding="async"></figure>
+                <figure class="lugares-list-cell"><img src="fotos-lugares/8kGzDF8zqof76MrhQ5Oqb.jpg" alt="Show" loading="lazy" decoding="async"></figure>
+                <figure class="lugares-list-cell"><img src="fotos-lugares/080ba4a2-6fc4-4dd6-af9d-64d97b18bdb7.jpg" alt="Show" loading="lazy" decoding="async"></figure>
             </div>
         </div>
     </section>

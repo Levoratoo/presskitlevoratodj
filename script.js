@@ -903,6 +903,10 @@ const i18n = {
         'sobre-p5'           : 'Meu maior sonho é não entregar apenas o que o público quer, mas levar todo mundo para um lugar onde ninguém esteve antes.',
         'lugares-tag'        : 'PRESENÇA DE PALCO',
         'lugares-title'      : 'Lugares onde<br><span class="text-glow">já toquei</span>',
+        'lugares-view-carousel' : 'Carrossel',
+        'lugares-view-list'     : 'Lista completa',
+        'lugares-view-legend'   : 'No carrossel as artes aparecem em destaque vertical. Na lista, cada flyer aparece inteiro, sem corte.',
+        'lugares-view-group-aria': 'Modo de visualização dos flyers',
         'tocando-tag'        : 'NA PISTA',
         'tocando-title'      : 'Fotos<br><span class="text-glow">ao vivo</span>',
         'dl-tag'             : 'MATERIAL DE IMPRENSA',
@@ -1067,6 +1071,10 @@ const i18n = {
         'sobre-p5'           : 'My biggest dream is not just to deliver what the crowd wants, but to take everyone to a place where no one has ever been before.',
         'lugares-tag'        : 'STAGE PRESENCE',
         'lugares-title'      : 'Places where<br><span class="text-glow">I\'ve played</span>',
+        'lugares-view-carousel' : 'Carousel',
+        'lugares-view-list'     : 'Full grid',
+        'lugares-view-legend'   : 'Carousel spotlights flyers in portrait. Grid shows each flyer in full, uncropped.',
+        'lugares-view-group-aria': 'Flyer view mode',
         'tocando-tag'        : 'ON STAGE',
         'tocando-title'      : 'Live<br><span class="text-glow">photos</span>',
         'dl-tag'             : 'PRESS MATERIAL',
@@ -1231,6 +1239,10 @@ const i18n = {
         'sobre-p5'           : 'Mi mayor sueño no es solo entregar lo que el público quiere, sino llevar a todos a un lugar donde nadie ha estado antes.',
         'lugares-tag'        : 'PRESENCIA EN ESCENARIO',
         'lugares-title'      : 'Lugares donde<br><span class="text-glow">he tocado</span>',
+        'lugares-view-carousel' : 'Carrusel',
+        'lugares-view-list'     : 'Cuadrícula',
+        'lugares-view-legend'   : 'En el carrusel los flyers se ven en vertical. En la cuadrícula, cada flyer completo, sin recorte.',
+        'lugares-view-group-aria': 'Modo de vista de flyers',
         'tocando-tag'        : 'EN CABINA',
         'tocando-title'      : 'Fotos<br><span class="text-glow">en vivo</span>',
         'dl-tag'             : 'MATERIAL DE PRENSA',
@@ -1395,6 +1407,10 @@ const i18n = {
         'sobre-p5'           : '我最大的梦想不只是提供观众想要的，而是带所有人去一个从未有人到过的地方。',
         'lugares-tag'        : '舞台足迹',
         'lugares-title'      : '我曾<br><span class="text-glow">演出的地方</span>',
+        'lugares-view-carousel' : '轮播',
+        'lugares-view-list'     : '完整网格',
+        'lugares-view-legend'   : '轮播以竖幅突出海报；网格展示每张海报完整画面、不裁切。',
+        'lugares-view-group-aria': '海报显示模式',
         'tocando-tag'        : '现场演出',
         'tocando-title'      : '演出<br><span class="text-glow">照片</span>',
         'dl-tag'             : '媒体素材',
@@ -1559,6 +1575,10 @@ const i18n = {
         'sobre-p5'           : 'Mein größter Traum ist nicht nur, das zu liefern, was das Publikum will, sondern alle an einen Ort zu bringen, wo noch niemand gewesen ist.',
         'lugares-tag'        : 'BÜHNENPRÄSENZ',
         'lugares-title'      : 'Orte, wo ich<br><span class="text-glow">gespielt habe</span>',
+        'lugares-view-carousel' : 'Karussell',
+        'lugares-view-list'     : 'Raster',
+        'lugares-view-legend'   : 'Im Karussell stehen die Flyer im Hochformat im Fokus. Im Raster siehst du jeden Flyer vollständig, ohne Beschnitt.',
+        'lugares-view-group-aria': 'Flyer-Ansicht',
         'tocando-tag'        : 'AUF DER BÜHNE',
         'tocando-title'      : 'Live<br><span class="text-glow">Fotos</span>',
         'dl-tag'             : 'PRESSEMATERIAL',
@@ -1723,6 +1743,10 @@ const i18n = {
         'sobre-p5'           : '私の最大の夢は、オーディエンスが求めるものを届けるだけでなく、誰も行ったことのない場所へ皆を連れて行くことです。',
         'lugares-tag'        : 'ステージ実績',
         'lugares-title'      : '演奏した<br><span class="text-glow">場所</span>',
+        'lugares-view-carousel' : 'カルーセル',
+        'lugares-view-list'     : '一覧グリッド',
+        'lugares-view-legend'   : 'カルーセルは縦長で強調。グリッドは各フライヤーを切らずに全体表示します。',
+        'lugares-view-group-aria': 'フライヤー表示モード',
         'tocando-tag'        : 'ライブ演奏',
         'tocando-title'      : 'ライブ<br><span class="text-glow">フォト</span>',
         'dl-tag'             : 'プレス素材',
@@ -2001,9 +2025,33 @@ function initTypewriter() {
 // LUGARES — LAZY LOAD das strips (carrega só quando seção entra na tela)
 // ============================================================
 
+function initLugaresViewToggle() {
+    const section = document.getElementById('lugares');
+    if (!section) return;
+    const btnCarousel = document.getElementById('lugares-view-carousel-btn');
+    const btnList = document.getElementById('lugares-view-list-btn');
+    const panelCarousel = document.getElementById('lugares-panel-carousel');
+    const panelList = document.getElementById('lugares-panel-list');
+    if (!btnCarousel || !btnList || !panelCarousel || !panelList) return;
+
+    const setMode = (mode) => {
+        const isList = mode === 'list';
+        section.classList.toggle('lugares-mode-list', isList);
+        panelCarousel.hidden = isList;
+        panelList.hidden = !isList;
+        btnCarousel.classList.toggle('is-active', !isList);
+        btnList.classList.toggle('is-active', isList);
+        btnCarousel.setAttribute('aria-pressed', isList ? 'false' : 'true');
+        btnList.setAttribute('aria-pressed', isList ? 'true' : 'false');
+    };
+
+    btnCarousel.addEventListener('click', () => setMode('carousel'));
+    btnList.addEventListener('click', () => setMode('list'));
+}
+
 function initPhotoReelLazyLoad() {
     document.querySelectorAll('.photo-reel-lazy').forEach(section => {
-        const imgs = section.querySelectorAll('.lugares-card img[data-src]');
+        const imgs = section.querySelectorAll('.lugares-reel-wrap .lugares-card img[data-src]');
         if (!imgs.length) return;
 
         let loaded = false;
@@ -2163,6 +2211,7 @@ function init() {
     initParallax();
     initScrollReveal();
     initPhotoReelLazyLoad();
+    initLugaresViewToggle();
     initYoutubeLiteEmbeds();
     initDropsCarousel();
 }

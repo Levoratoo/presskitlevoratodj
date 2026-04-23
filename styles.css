@@ -1650,8 +1650,122 @@ section {
 
 .lugares-header {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     padding: 0 2rem;
+}
+
+/* ---- Toolbar: carrossel vs lista (flyer inteiro) ---- */
+.lugares-view-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem 1.75rem;
+    margin-bottom: 2rem;
+    padding: 0 clamp(1rem, 4vw, 2rem);
+    max-width: 56rem;
+    margin-inline: auto;
+}
+
+.lugares-view-toggle {
+    display: inline-flex;
+    gap: 0.45rem;
+    flex-shrink: 0;
+    padding: 4px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 26, 26, 0.25);
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.lugares-view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 1.1rem;
+    border: 0;
+    border-radius: 999px;
+    font-family: var(--font);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    background: transparent;
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lugares-view-btn:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.lugares-view-btn.is-active {
+    color: #fff;
+    background: rgba(255, 26, 26, 0.88);
+    box-shadow: 0 0 20px rgba(255, 26, 26, 0.25);
+}
+
+.lugares-view-btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.lugares-view-legend {
+    flex: 1 1 220px;
+    margin: 0;
+    max-width: 26rem;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.45);
+    text-align: center;
+}
+
+@media (min-width: 720px) {
+    .lugares-view-toolbar {
+        justify-content: center;
+    }
+    .lugares-view-legend {
+        text-align: left;
+    }
+}
+
+.lugares-view-panel[data-lugares-panel="list"][hidden] {
+    display: none !important;
+}
+
+.lugares-mode-list .lugares-reel {
+    animation-play-state: paused;
+}
+
+/* Grade — imagem completa (contain), sem crop */
+.lugares-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+    gap: 1rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 4vw, 2rem) 1rem;
+}
+
+.lugares-list-cell {
+    margin: 0;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    min-height: 120px;
+}
+
+.lugares-list-cell img {
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    object-position: center;
+    display: block;
 }
 
 /* ---- Reel wrapper com fade lateral ---- */
