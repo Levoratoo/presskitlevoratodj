@@ -1856,7 +1856,10 @@ section {
     max-height: min(72vh, 640px);
     object-fit: contain;
     object-position: center;
-    border-radius: 10px;
+    border-radius: 14px;
+    border: 3px solid rgba(255, 255, 255, 0.22);
+    box-sizing: border-box;
+    outline: none;
     filter: brightness(0.92);
 }
 
@@ -1868,13 +1871,7 @@ section {
 #lugares .lugares-card:hover img {
     transform: scale(1.02);
     filter: brightness(1);
-}
-
-#lugares .lugares-card img,
-#lugares .lugares-list-cell img {
-    border: none;
-    outline: none;
-    box-shadow: none;
+    border-color: rgba(255, 26, 26, 0.5);
 }
 
 #lugares .lugares-list-cell {
@@ -1887,7 +1884,14 @@ section {
 }
 
 #lugares .lugares-list-cell img {
-    border-radius: 10px;
+    border-radius: 14px;
+    border: 3px solid rgba(255, 255, 255, 0.22);
+    box-sizing: border-box;
+    outline: none;
+}
+
+#lugares .lugares-list-cell:hover img {
+    border-color: rgba(255, 26, 26, 0.45);
 }
 
 @keyframes reelScroll {
