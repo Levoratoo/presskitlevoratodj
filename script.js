@@ -2019,15 +2019,20 @@ function initTypewriter() {
 // LUGARES — LAZY LOAD das strips (carrega só quando seção entra na tela)
 // ============================================================
 
-/** Conteúdo de fotos-lugares (ordenado por nome, como no Explorer). Inclua novas extensões aqui ao adicionar arquivos. */
-const LUGARES_FOTOS_ARQUIVOS = [
+/** fotos-lugares: bloco prioritário primeiro (carrossel + lista); depois o restante em ordem de nome. */
+const LUGARES_FOTOS_PRIORIDADE = [
+    'Screenshot_312.jpg',
+    '8kGzDF8zqof76MrhQ5Oqb.jpg',
+    '658850963_17877833673551439_6563297154581046200_n.jpg',
+    '3d683a54-699a-442f-997e-6b3914de586e.jpg',
+    'MWM3txr_stAlx01gDVE9X.jpg',
+    '57651593-6818-4aac-b6e3-4d5a296cc811.jpg'
+];
+
+const LUGARES_FOTOS_RESTO = [
     '080ba4a2-6fc4-4dd6-af9d-64d97b18bdb7.jpg',
     '2ypeQQl3XmWsDCfcX_Fiw.jpg',
-    '3d683a54-699a-442f-997e-6b3914de586e.jpg',
-    '57651593-6818-4aac-b6e3-4d5a296cc811.jpg',
-    '658850963_17877833673551439_6563297154581046200_n.jpg',
     '6B48GgdD9AZDT1aOwWa3m.jpg',
-    '8kGzDF8zqof76MrhQ5Oqb.jpg',
     '8odgK1X3XrTW-spBru2zW.jpg',
     '98PcD-9Th72QsbuMI55oY.jpg',
     '9wTX7nTw5tblUnYUROyac.jpg',
@@ -2039,7 +2044,6 @@ const LUGARES_FOTOS_ARQUIVOS = [
     'J_GUkrxIxG-s-cGALzK-r.jpg',
     'jYxzfkvzraoeKg3B2MxfK.jpg',
     'K73kkhZduNpwX5FAxC_Sl.jpg',
-    'MWM3txr_stAlx01gDVE9X.jpg',
     'QDYqFwEcUMne-EjEtGReS.jpg',
     'RUYUSr5vbXr46lOg8j04E.jpg',
     'Screenshot_12.jpg',
@@ -2047,12 +2051,13 @@ const LUGARES_FOTOS_ARQUIVOS = [
     'Screenshot_28.jpg',
     'Screenshot_293.jpg',
     'Screenshot_3022.jpg',
-    'Screenshot_312.jpg',
     'shOiQyJJcss6cEjW2tTMw.jpg',
     'V8Kx0NEu4lvLNZLJfVgYX.jpg',
     'VbzHEPqD9noV6axRMgLU0.webp',
     'zIk9WjVkVXGdutpyhT0Ev.jpg'
 ];
+
+const LUGARES_FOTOS_ARQUIVOS = LUGARES_FOTOS_PRIORIDADE.concat(LUGARES_FOTOS_RESTO);
 
 function initLugaresFlyersGallery() {
     const section = document.getElementById('lugares');
