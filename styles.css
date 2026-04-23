@@ -2018,6 +2018,128 @@ section {
 }
 
 /* -------------------------------------------------------
+   DROPS — Shorts (carrossel manual + setas)
+------------------------------------------------------- */
+.drops-section {
+    padding: 5rem 0 6rem;
+    background: #050505;
+    border-top: 1px solid rgba(255, 26, 26, 0.1);
+    overflow: hidden;
+}
+
+.drops-section .section-header {
+    margin-bottom: 2.5rem;
+}
+
+.drops-carousel-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 0.25rem;
+}
+
+.drops-viewport {
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 26, 26, 0.4) transparent;
+    mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+}
+
+.drops-viewport::-webkit-scrollbar {
+    height: 6px;
+}
+.drops-viewport::-webkit-scrollbar-thumb {
+    background: rgba(255, 26, 26, 0.35);
+    border-radius: 999px;
+}
+
+.drops-track {
+    display: flex;
+    gap: 1.1rem;
+    padding: 0.5rem 0.35rem 1rem;
+    width: max-content;
+}
+
+.drops-slide {
+    flex: 0 0 auto;
+    width: clamp(200px, 22vw, 280px);
+    scroll-snap-align: center;
+}
+
+.drops-embed {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+        0 0 0 1px rgba(255, 26, 26, 0.15),
+        0 12px 36px rgba(0, 0, 0, 0.55);
+}
+
+.drops-embed iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.drops-nav {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 26, 26, 0.45);
+    background: rgba(10, 10, 10, 0.92);
+    color: var(--primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
+    z-index: 2;
+}
+
+.drops-nav:hover:not(:disabled) {
+    background: rgba(255, 26, 26, 0.15);
+    border-color: var(--primary);
+    transform: scale(1.05);
+}
+
+.drops-nav:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+    .drops-carousel-wrap {
+        gap: 0.35rem;
+        padding: 0;
+    }
+    .drops-nav {
+        width: 38px;
+        height: 38px;
+        font-size: 0.9rem;
+    }
+    .drops-slide {
+        width: clamp(180px, 72vw, 260px);
+    }
+}
+
+/* -------------------------------------------------------
    MUSIC
 ------------------------------------------------------- */
 .music {

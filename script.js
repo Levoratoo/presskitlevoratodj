@@ -941,6 +941,11 @@ const i18n = {
         'aftermov-grand-sub' : 'Itajaí · Aether',
         'aftermov-sixx-title': 'Sixx House',
         'aftermov-sixx-sub'  : 'Minimal Bass · abertura',
+        'drops-tag'          : 'DROPS',
+        'drops-title'        : 'Cortes direto da <span class="text-glow">pista</span>',
+        'drops-desc'         : 'Shorts do set — dá play e navega com as setas.',
+        'drops-prev-aria'    : 'Shorts anteriores',
+        'drops-next-aria'    : 'Próximos shorts',
         'music-tag'          : 'OUÇA',
         'music-title'        : 'Músicas &amp; <span class="text-glow">Releases</span>',
         'music-desc'         : 'Explore os sets e lançamentos nas plataformas',
@@ -1100,6 +1105,11 @@ const i18n = {
         'aftermov-grand-sub' : 'Itajaí · Aether',
         'aftermov-sixx-title': 'Sixx House',
         'aftermov-sixx-sub'  : 'Minimal Bass · opening',
+        'drops-tag'          : 'DROPS',
+        'drops-title'        : 'Cuts straight from the <span class="text-glow">floor</span>',
+        'drops-desc'         : 'Set shorts — press play and use the arrows to browse.',
+        'drops-prev-aria'    : 'Previous shorts',
+        'drops-next-aria'    : 'Next shorts',
         'music-tag'          : 'LISTEN',
         'music-title'        : 'Music &amp; <span class="text-glow">Releases</span>',
         'music-desc'         : 'Explore sets and releases on the platforms',
@@ -1259,6 +1269,11 @@ const i18n = {
         'aftermov-grand-sub' : 'Itajaí · Aether',
         'aftermov-sixx-title': 'Sixx House',
         'aftermov-sixx-sub'  : 'Minimal Bass · apertura',
+        'drops-tag'          : 'DROPS',
+        'drops-title'        : 'Cortes directos de la <span class="text-glow">pista</span>',
+        'drops-desc'         : 'Shorts del set — reproduce y navega con las flechas.',
+        'drops-prev-aria'    : 'Shorts anteriores',
+        'drops-next-aria'    : 'Shorts siguientes',
         'music-tag'          : 'ESCUCHA',
         'music-title'        : 'Música &amp; <span class="text-glow">Releases</span>',
         'music-desc'         : 'Explora los sets y lanzamientos en las plataformas',
@@ -1418,6 +1433,11 @@ const i18n = {
         'aftermov-grand-sub' : 'Itajaí · Aether',
         'aftermov-sixx-title': 'Sixx House',
         'aftermov-sixx-sub'  : 'Minimal Bass · 开场',
+        'drops-tag'          : 'DROPS',
+        'drops-title'        : '舞池<span class="text-glow">直拍</span>片段',
+        'drops-desc'         : 'Set 短视频 — 点击播放，用箭头浏览。',
+        'drops-prev-aria'    : '上一个短片',
+        'drops-next-aria'    : '下一个短片',
         'music-tag'          : '收听',
         'music-title'        : '音乐 &amp; <span class="text-glow">发行</span>',
         'music-desc'         : '在各平台探索曲目集和发行作品',
@@ -1577,6 +1597,11 @@ const i18n = {
         'aftermov-grand-sub' : 'Itajaí · Aether',
         'aftermov-sixx-title': 'Sixx House',
         'aftermov-sixx-sub'  : 'Minimal Bass · Opening',
+        'drops-tag'          : 'DROPS',
+        'drops-title'        : 'Cuts direkt vom <span class="text-glow">Floor</span>',
+        'drops-desc'         : 'Set-Shorts — Play drücken und mit den Pfeilen blättern.',
+        'drops-prev-aria'    : 'Vorherige Shorts',
+        'drops-next-aria'    : 'Nächste Shorts',
         'music-tag'          : 'HÖREN',
         'music-title'        : 'Musik &amp; <span class="text-glow">Releases</span>',
         'music-desc'         : 'Entdecke Sets und Releases auf den Plattformen',
@@ -1736,6 +1761,11 @@ const i18n = {
         'aftermov-grand-sub' : 'Itajaí · Aether',
         'aftermov-sixx-title': 'Sixx House',
         'aftermov-sixx-sub'  : 'Minimal Bass · オープニング',
+        'drops-tag'          : 'DROPS',
+        'drops-title'        : 'フロアからの<span class="text-glow">切り抜き</span>',
+        'drops-desc'         : 'セットのショート — 再生して矢印で移動。',
+        'drops-prev-aria'    : '前のショート',
+        'drops-next-aria'    : '次のショート',
         'music-tag'          : '聴く',
         'music-title'        : 'ミュージック &amp; <span class="text-glow">リリース</span>',
         'music-desc'         : 'プラットフォームでセットとリリースを探索',
@@ -2032,6 +2062,53 @@ function initScrollReveal() {
 }
 
 // ============================================================
+// DROPS — carrossel manual (setas, sem autoplay de scroll)
+// ============================================================
+
+function initDropsCarousel() {
+    const wrap = document.querySelector('.drops-carousel-wrap');
+    if (!wrap) return;
+    const viewport = wrap.querySelector('.drops-viewport');
+    const track = wrap.querySelector('.drops-track');
+    const prev = wrap.querySelector('.drops-nav--prev');
+    const next = wrap.querySelector('.drops-nav--next');
+    const slides = wrap.querySelectorAll('.drops-slide');
+    if (!viewport || !track || !prev || !next || !slides.length) return;
+
+    const getStep = () => {
+        const gapStr = getComputedStyle(track).gap || '0px';
+        const gap = parseFloat(gapStr) || 0;
+        return slides[0].offsetWidth + gap;
+    };
+
+    const updateNav = () => {
+        const max = Math.max(0, viewport.scrollWidth - viewport.clientWidth - 1);
+        prev.disabled = viewport.scrollLeft <= 1;
+        next.disabled = viewport.scrollLeft >= max - 1;
+    };
+
+    prev.addEventListener('click', () => {
+        viewport.scrollBy({ left: -getStep(), behavior: 'smooth' });
+    });
+    next.addEventListener('click', () => {
+        viewport.scrollBy({ left: getStep(), behavior: 'smooth' });
+    });
+
+    let scrollTicking = false;
+    viewport.addEventListener('scroll', () => {
+        if (scrollTicking) return;
+        scrollTicking = true;
+        requestAnimationFrame(() => {
+            updateNav();
+            scrollTicking = false;
+        });
+    }, { passive: true });
+
+    window.addEventListener('resize', updateNav);
+    updateNav();
+}
+
+// ============================================================
 // INIT
 // ============================================================
 
@@ -2056,6 +2133,7 @@ function init() {
     initParallax();
     initScrollReveal();
     initPhotoReelLazyLoad();
+    initDropsCarousel();
 }
 
 if (document.readyState === 'loading') {
