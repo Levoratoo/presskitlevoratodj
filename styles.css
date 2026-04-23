@@ -1473,9 +1473,7 @@ section {
     background: rgba(255,255,255,0.025);
     border: 1px solid rgba(255,255,255,0.07);
     cursor: pointer;
-    content-visibility: auto;
-    contain: layout style paint;
-    contain-intrinsic-size: 200px 300px;
+    contain: layout style;
     transition: transform 0.32s cubic-bezier(0.22,1,0.36,1),
                 border-color 0.32s ease,
                 box-shadow 0.32s ease;
@@ -1639,8 +1637,6 @@ section {
     padding: 5rem 0 6rem;
     background: #050505;
     overflow: hidden;
-    content-visibility: auto;
-    contain-intrinsic-size: 0 700px;
 }
 
 .tocando-section {

@@ -2059,8 +2059,45 @@ function initLugaresFlyersGallery() {
 
     grid.innerHTML = LUGARES_FOTOS_ARQUIVOS.map((f) => {
         const path = base + encodeURIComponent(f);
-        return `<figure class="lugares-list-cell"><img src="${path}" alt="${alt.replace(/"/g, '&quot;')}" loading="lazy" decoding="async"></figure>`;
+        return `<figure class="lugares-list-cell"><img data-src="${path}" src="${svgPh}" alt="${alt.replace(/"/g, '&quot;')}" loading="lazy" decoding="async"></figure>`;
     }).join('');
+}
+
+/** List grid: defer image requests until the user opens “lista completa” (big win on mobile). */
+function initLugaresListLazyLoad() {
+    const grid = document.querySelector('#lugares-panel-list .lugares-list-grid');
+    const btnList = document.getElementById('lugares-view-list-btn');
+    if (!grid || !btnList) return;
+
+    let started = false;
+    const BATCH = 10;
+
+    const pump = () => {
+        const next = () => {
+            const pending = grid.querySelectorAll('img[data-src]');
+            const slice = Array.from(pending).slice(0, BATCH);
+            if (!slice.length) return;
+            slice.forEach((img) => {
+                img.decoding = 'async';
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+            });
+            if (grid.querySelector('img[data-src]')) requestAnimationFrame(next);
+        };
+        next();
+    };
+
+    const start = () => {
+        if (started) return;
+        started = true;
+        requestAnimationFrame(pump);
+    };
+
+    btnList.addEventListener('click', () => {
+        requestAnimationFrame(() => {
+            if (btnList.classList.contains('is-active')) start();
+        });
+    });
 }
 
 function initLugaresViewToggle() {
@@ -2097,7 +2134,7 @@ function initPhotoReelLazyLoad() {
         const load = () => {
             if (loaded) return;
             loaded = true;
-            const BATCH = 6;
+            const BATCH = 14;
             let i = 0;
             const next = () => {
                 const slice = Array.from(imgs).slice(i, i + BATCH);
@@ -2107,14 +2144,14 @@ function initPhotoReelLazyLoad() {
                     img.removeAttribute('data-src');
                 });
                 i += BATCH;
-                if (i < imgs.length) setTimeout(next, 120);
+                if (i < imgs.length) requestAnimationFrame(next);
             };
             next();
         };
 
         const obs = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting) { load(); obs.disconnect(); }
-        }, { rootMargin: '400px 0px' });
+        }, { rootMargin: '280px 0px 720px 0px', threshold: 0 });
 
         obs.observe(section);
     });
@@ -2249,8 +2286,9 @@ function init() {
     initParallax();
     initScrollReveal();
     initLugaresFlyersGallery();
-    initPhotoReelLazyLoad();
     initLugaresViewToggle();
+    initLugaresListLazyLoad();
+    initPhotoReelLazyLoad();
     initYoutubeLiteEmbeds();
     initDropsCarousel();
 }
