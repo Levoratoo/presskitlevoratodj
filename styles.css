@@ -2006,6 +2006,73 @@ section {
 }
 
 /* -------------------------------------------------------
+   AFTER MOVIES
+------------------------------------------------------- */
+.aftermovies-section {
+    padding: 5.5rem 0 6.5rem;
+    background:
+        radial-gradient(ellipse 50% 40% at 50% 0%, rgba(255, 26, 26, 0.06) 0%, transparent 55%),
+        #050505;
+    border-top: 1px solid rgba(255, 26, 26, 0.1);
+}
+
+.aftermovies-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.25rem;
+    max-width: 980px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.aftermovie-card {
+    text-align: center;
+}
+
+.aftermovie-card-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 2.4rem);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    margin: 0 0 0.35rem;
+    line-height: 1.1;
+}
+
+.aftermovie-card-sub {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin: 0 0 1rem;
+}
+
+.aftermovie-video-wrap {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #0a0a0a;
+    box-shadow:
+        0 0 0 1px rgba(255, 26, 26, 0.12),
+        0 16px 48px rgba(0, 0, 0, 0.55);
+}
+
+.aftermovie-video-wrap video {
+    width: 100%;
+    height: auto;
+    display: block;
+    vertical-align: top;
+}
+
+@media (max-width: 768px) {
+    .aftermovies-grid {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+    }
+}
+
+/* -------------------------------------------------------
    MUSIC
 ------------------------------------------------------- */
 .music {
