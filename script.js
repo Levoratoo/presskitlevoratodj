@@ -805,6 +805,7 @@ const i18n = {
         'nav-historia'       : 'História',
         'nav-sobre'          : 'Sobre',
         'nav-musicas'        : 'Músicas',
+        'nav-tocando'        : 'Ao vivo',
         'hero-desc'          : 'Sets construídos a partir da identidade musical.<br>Cada pista, uma história. Cada drop, uma experiência.',
         'hero-listen'        : 'Ouvir Agora',
         'stat-years'         : 'Anos de Música',
@@ -902,6 +903,8 @@ const i18n = {
         'sobre-p5'           : 'Meu maior sonho é não entregar apenas o que o público quer, mas levar todo mundo para um lugar onde ninguém esteve antes.',
         'lugares-tag'        : 'PRESENÇA DE PALCO',
         'lugares-title'      : 'Lugares onde<br><span class="text-glow">já toquei</span>',
+        'tocando-tag'        : 'NA PISTA',
+        'tocando-title'      : 'Fotos<br><span class="text-glow">ao vivo</span>',
         'dl-tag'             : 'MATERIAL DE IMPRENSA',
         'dl-title'           : 'Fotos em <span class="text-glow">alta qualidade</span>',
         'dl-desc'            : 'Baixe individualmente ou o pacote completo sem perda de qualidade.',
@@ -942,6 +945,7 @@ const i18n = {
         'nav-historia'       : 'History',
         'nav-sobre'          : 'About',
         'nav-musicas'        : 'Music',
+        'nav-tocando'        : 'Live',
         'hero-desc'          : 'Sets built from musical identity.<br>Every track, a story. Every drop, an experience.',
         'hero-listen'        : 'Listen Now',
         'stat-years'         : 'Years of Music',
@@ -1039,6 +1043,8 @@ const i18n = {
         'sobre-p5'           : 'My biggest dream is not just to deliver what the crowd wants, but to take everyone to a place where no one has ever been before.',
         'lugares-tag'        : 'STAGE PRESENCE',
         'lugares-title'      : 'Places where<br><span class="text-glow">I\'ve played</span>',
+        'tocando-tag'        : 'ON STAGE',
+        'tocando-title'      : 'Live<br><span class="text-glow">photos</span>',
         'dl-tag'             : 'PRESS MATERIAL',
         'dl-title'           : 'Photos in <span class="text-glow">high quality</span>',
         'dl-desc'            : 'Download individually or the full package without quality loss.',
@@ -1079,6 +1085,7 @@ const i18n = {
         'nav-historia'       : 'Historia',
         'nav-sobre'          : 'Sobre',
         'nav-musicas'        : 'Música',
+        'nav-tocando'        : 'En vivo',
         'hero-desc'          : 'Sets construidos desde la identidad musical.<br>Cada pista, una historia. Cada drop, una experiencia.',
         'hero-listen'        : 'Escuchar Ahora',
         'stat-years'         : 'Años de Música',
@@ -1176,6 +1183,8 @@ const i18n = {
         'sobre-p5'           : 'Mi mayor sueño no es solo entregar lo que el público quiere, sino llevar a todos a un lugar donde nadie ha estado antes.',
         'lugares-tag'        : 'PRESENCIA EN ESCENARIO',
         'lugares-title'      : 'Lugares donde<br><span class="text-glow">he tocado</span>',
+        'tocando-tag'        : 'EN CABINA',
+        'tocando-title'      : 'Fotos<br><span class="text-glow">en vivo</span>',
         'dl-tag'             : 'MATERIAL DE PRENSA',
         'dl-title'           : 'Fotos en <span class="text-glow">alta calidad</span>',
         'dl-desc'            : 'Descarga individualmente o el paquete completo sin pérdida de calidad.',
@@ -1216,6 +1225,7 @@ const i18n = {
         'nav-historia'       : '历程',
         'nav-sobre'          : '关于',
         'nav-musicas'        : '音乐',
+        'nav-tocando'        : '现场',
         'hero-desc'          : '从音乐身份构建的曲目集。<br>每首曲目，一个故事。每次降拍，一次体验。',
         'hero-listen'        : '立即收听',
         'stat-years'         : '音乐生涯年数',
@@ -1313,6 +1323,8 @@ const i18n = {
         'sobre-p5'           : '我最大的梦想不只是提供观众想要的，而是带所有人去一个从未有人到过的地方。',
         'lugares-tag'        : '舞台足迹',
         'lugares-title'      : '我曾<br><span class="text-glow">演出的地方</span>',
+        'tocando-tag'        : '现场演出',
+        'tocando-title'      : '演出<br><span class="text-glow">照片</span>',
         'dl-tag'             : '媒体素材',
         'dl-title'           : '高清<span class="text-glow">照片素材</span>',
         'dl-desc'            : '单独下载或下载完整套装，无损画质。',
@@ -1353,6 +1365,7 @@ const i18n = {
         'nav-historia'       : 'Geschichte',
         'nav-sobre'          : 'Über mich',
         'nav-musicas'        : 'Musik',
+        'nav-tocando'        : 'Live',
         'hero-desc'          : 'Sets aufgebaut aus musikalischer Identität.<br>Jeder Track, eine Geschichte. Jeder Drop, ein Erlebnis.',
         'hero-listen'        : 'Jetzt hören',
         'stat-years'         : 'Jahre Musik',
@@ -1450,6 +1463,8 @@ const i18n = {
         'sobre-p5'           : 'Mein größter Traum ist nicht nur, das zu liefern, was das Publikum will, sondern alle an einen Ort zu bringen, wo noch niemand gewesen ist.',
         'lugares-tag'        : 'BÜHNENPRÄSENZ',
         'lugares-title'      : 'Orte, wo ich<br><span class="text-glow">gespielt habe</span>',
+        'tocando-tag'        : 'AUF DER BÜHNE',
+        'tocando-title'      : 'Live<br><span class="text-glow">Fotos</span>',
         'dl-tag'             : 'PRESSEMATERIAL',
         'dl-title'           : 'Fotos in <span class="text-glow">hoher Qualität</span>',
         'dl-desc'            : 'Einzeln oder als komplettes Paket ohne Qualitätsverlust herunterladen.',
@@ -1490,6 +1505,7 @@ const i18n = {
         'nav-historia'       : 'ヒストリー',
         'nav-sobre'          : 'プロフィール',
         'nav-musicas'        : 'ミュージック',
+        'nav-tocando'        : 'ライブ',
         'hero-desc'          : '音楽的アイデンティティから構築されたセット。<br>すべてのトラックに物語がある。すべてのドロップに体験がある。',
         'hero-listen'        : '今すぐ聴く',
         'stat-years'         : '音楽歴（年）',
@@ -1587,6 +1603,8 @@ const i18n = {
         'sobre-p5'           : '私の最大の夢は、オーディエンスが求めるものを届けるだけでなく、誰も行ったことのない場所へ皆を連れて行くことです。',
         'lugares-tag'        : 'ステージ実績',
         'lugares-title'      : '演奏した<br><span class="text-glow">場所</span>',
+        'tocando-tag'        : 'ライブ演奏',
+        'tocando-title'      : 'ライブ<br><span class="text-glow">フォト</span>',
         'dl-tag'             : 'プレス素材',
         'dl-title'           : '高画質<span class="text-glow">フォト素材</span>',
         'dl-desc'            : '個別またはフルパッケージを画質を損なわずにダウンロード。',
@@ -1839,40 +1857,37 @@ function initTypewriter() {
 // LUGARES — LAZY LOAD das strips (carrega só quando seção entra na tela)
 // ============================================================
 
-function initLugaresLazyLoad() {
-    const section = document.querySelector('.lugares-section');
-    if (!section) return;
+function initPhotoReelLazyLoad() {
+    document.querySelectorAll('.photo-reel-lazy').forEach(section => {
+        const imgs = section.querySelectorAll('.lugares-card img[data-src]');
+        if (!imgs.length) return;
 
-    const imgs = section.querySelectorAll('.lugares-card img[data-src]');
-    if (!imgs.length) return;
+        let loaded = false;
 
-    let loaded = false;
-
-    const load = () => {
-        if (loaded) return;
-        loaded = true;
-        // Carrega em lotes de 6 com pequeno intervalo para não travar a rede
-        const BATCH = 6;
-        let i = 0;
-        const next = () => {
-            const slice = Array.from(imgs).slice(i, i + BATCH);
-            slice.forEach(img => {
-                img.decoding  = 'async';
-                img.src       = img.dataset.src;
-                img.removeAttribute('data-src');
-            });
-            i += BATCH;
-            if (i < imgs.length) setTimeout(next, 120);
+        const load = () => {
+            if (loaded) return;
+            loaded = true;
+            const BATCH = 6;
+            let i = 0;
+            const next = () => {
+                const slice = Array.from(imgs).slice(i, i + BATCH);
+                slice.forEach(img => {
+                    img.decoding = 'async';
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                });
+                i += BATCH;
+                if (i < imgs.length) setTimeout(next, 120);
+            };
+            next();
         };
-        next();
-    };
 
-    // Dispara quando a seção estiver a 400px do viewport
-    const obs = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) { load(); obs.disconnect(); }
-    }, { rootMargin: '400px 0px' });
+        const obs = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) { load(); obs.disconnect(); }
+        }, { rootMargin: '400px 0px' });
 
-    obs.observe(section);
+        obs.observe(section);
+    });
 }
 
 // SCROLL REVEAL — stagger children automatically
@@ -1926,7 +1941,7 @@ function init() {
     initCustomCursor();
     initParallax();
     initScrollReveal();
-    initLugaresLazyLoad();
+    initPhotoReelLazyLoad();
 }
 
 if (document.readyState === 'loading') {

@@ -1621,12 +1621,24 @@ section {
 /* -------------------------------------------------------
    LUGARES
 ------------------------------------------------------- */
-.lugares-section {
+.lugares-section,
+.tocando-section {
     padding: 5rem 0 6rem;
     background: #050505;
     overflow: hidden;
     content-visibility: auto;
     contain-intrinsic-size: 0 700px;
+}
+
+.tocando-section {
+    border-top: 1px solid rgba(255, 26, 26, 0.08);
+    background:
+        radial-gradient(ellipse 55% 40% at 50% 0%, rgba(255, 26, 26, 0.06) 0%, transparent 55%),
+        #050505;
+}
+
+.lugares-reel.tocando-reel {
+    animation-duration: 40s;
 }
 
 .lugares-header {
