@@ -946,6 +946,7 @@ const i18n = {
         'drops-desc'         : 'Shorts do set — dá play e navega com as setas.',
         'drops-prev-aria'    : 'Shorts anteriores',
         'drops-next-aria'    : 'Próximos shorts',
+        'yt-lite-play-aria'  : 'Reproduzir vídeo',
         'music-tag'          : 'OUÇA',
         'music-title'        : 'Músicas &amp; <span class="text-glow">Releases</span>',
         'music-desc'         : 'Explore os sets e lançamentos nas plataformas',
@@ -1110,6 +1111,7 @@ const i18n = {
         'drops-desc'         : 'Set shorts — press play and use the arrows to browse.',
         'drops-prev-aria'    : 'Previous shorts',
         'drops-next-aria'    : 'Next shorts',
+        'yt-lite-play-aria'  : 'Play video',
         'music-tag'          : 'LISTEN',
         'music-title'        : 'Music &amp; <span class="text-glow">Releases</span>',
         'music-desc'         : 'Explore sets and releases on the platforms',
@@ -1274,6 +1276,7 @@ const i18n = {
         'drops-desc'         : 'Shorts del set — reproduce y navega con las flechas.',
         'drops-prev-aria'    : 'Shorts anteriores',
         'drops-next-aria'    : 'Shorts siguientes',
+        'yt-lite-play-aria'  : 'Reproducir vídeo',
         'music-tag'          : 'ESCUCHA',
         'music-title'        : 'Música &amp; <span class="text-glow">Releases</span>',
         'music-desc'         : 'Explora los sets y lanzamientos en las plataformas',
@@ -1438,6 +1441,7 @@ const i18n = {
         'drops-desc'         : 'Set 短视频 — 点击播放，用箭头浏览。',
         'drops-prev-aria'    : '上一个短片',
         'drops-next-aria'    : '下一个短片',
+        'yt-lite-play-aria'  : '播放视频',
         'music-tag'          : '收听',
         'music-title'        : '音乐 &amp; <span class="text-glow">发行</span>',
         'music-desc'         : '在各平台探索曲目集和发行作品',
@@ -1602,6 +1606,7 @@ const i18n = {
         'drops-desc'         : 'Set-Shorts — Play drücken und mit den Pfeilen blättern.',
         'drops-prev-aria'    : 'Vorherige Shorts',
         'drops-next-aria'    : 'Nächste Shorts',
+        'yt-lite-play-aria'  : 'Video abspielen',
         'music-tag'          : 'HÖREN',
         'music-title'        : 'Musik &amp; <span class="text-glow">Releases</span>',
         'music-desc'         : 'Entdecke Sets und Releases auf den Plattformen',
@@ -1766,6 +1771,7 @@ const i18n = {
         'drops-desc'         : 'セットのショート — 再生して矢印で移動。',
         'drops-prev-aria'    : '前のショート',
         'drops-next-aria'    : '次のショート',
+        'yt-lite-play-aria'  : '動画を再生',
         'music-tag'          : '聴く',
         'music-title'        : 'ミュージック &amp; <span class="text-glow">リリース</span>',
         'music-desc'         : 'プラットフォームでセットとリリースを探索',
@@ -2062,6 +2068,36 @@ function initScrollReveal() {
 }
 
 // ============================================================
+// YouTube lite — thumbnail + play; iframe só após clique
+// ============================================================
+
+function activateYoutubeLite(el) {
+    if (!el || el.dataset.ytReady === '1') return;
+    const rawId = el.dataset.ytId || '';
+    if (!/^[a-zA-Z0-9_-]{6,32}$/.test(rawId)) return;
+    el.dataset.ytReady = '1';
+    const title = el.dataset.ytTitle || 'YouTube';
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube.com/embed/${rawId}?autoplay=1&rel=0&playsinline=1`;
+    iframe.title = title;
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0';
+    el.replaceChildren(iframe);
+}
+
+function initYoutubeLiteEmbeds() {
+    document.querySelectorAll('.yt-lite').forEach((el) => {
+        const play = el.querySelector('.yt-lite__play');
+        const go = () => activateYoutubeLite(el);
+        play?.addEventListener('click', (e) => {
+            e.preventDefault();
+            go();
+        });
+    });
+}
+
+// ============================================================
 // DROPS — carrossel manual (setas, sem autoplay de scroll)
 // ============================================================
 
@@ -2133,6 +2169,7 @@ function init() {
     initParallax();
     initScrollReveal();
     initPhotoReelLazyLoad();
+    initYoutubeLiteEmbeds();
     initDropsCarousel();
 }
 
