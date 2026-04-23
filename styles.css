@@ -1835,28 +1835,35 @@ section {
     filter: brightness(1);
 }
 
-/* #lugares: flyers inteiros, sem moldura pesada (tocando mantém card + cover) */
+/* #lugares: slots uniformes (9:16), flyer inteiro com contain (tocando não usa #lugares) */
 #lugares .lugares-reel {
-    align-items: center;
+    align-items: stretch;
     animation-duration: 80s;
 }
 
 #lugares .lugares-card {
-    width: clamp(200px, 17vw, 270px);
+    width: clamp(220px, 18vw, 280px);
+    aspect-ratio: 9 / 16;
     height: auto;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    padding: 8px;
+    box-sizing: border-box;
     border: none;
-    background: transparent;
-    overflow: visible;
-    border-radius: 0;
+    border-radius: 16px;
+    background: #080808;
+    overflow: hidden;
 }
 
 #lugares .lugares-card img {
-    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
     height: auto;
-    max-height: min(72vh, 640px);
     object-fit: contain;
     object-position: center;
-    border-radius: 14px;
+    border-radius: 12px;
     border: 3px solid rgba(255, 255, 255, 0.22);
     box-sizing: border-box;
     outline: none;
@@ -1874,20 +1881,38 @@ section {
     border-color: rgba(255, 26, 26, 0.5);
 }
 
+#lugares .lugares-list-grid {
+    grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+    align-items: stretch;
+}
+
 #lugares .lugares-list-cell {
+    aspect-ratio: 9 / 16;
+    margin: 0;
     border: none;
-    background: transparent;
-    padding: 0;
-    border-radius: 0;
+    border-radius: 16px;
+    background: #080808;
+    padding: 8px;
     min-height: 0;
     box-shadow: none;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 #lugares .lugares-list-cell img {
-    border-radius: 14px;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 12px;
     border: 3px solid rgba(255, 255, 255, 0.22);
     box-sizing: border-box;
     outline: none;
+    display: block;
 }
 
 #lugares .lugares-list-cell:hover img {
