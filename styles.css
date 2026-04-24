@@ -779,7 +779,8 @@ section {
 .hero-content {
     position: relative;
     z-index: 3;
-    max-width: 580px;
+    /* Largura maior para o wordmark; texto do hero continua limitado em .hero-desc */
+    max-width: min(820px, 52vw);
     flex-shrink: 0;
     animation: fadeInUp 0.85s ease both;
 }
@@ -831,7 +832,7 @@ section {
 /* Brilho vermelho no contorno da arte (mesma linguagem do texto antigo) */
 .hero-logo-wordmark {
     display: block;
-    width: clamp(360px, 68vw, 760px);
+    width: min(100%, clamp(420px, 78vw, 900px));
     max-width: 100%;
     height: auto;
     object-fit: contain;
@@ -854,18 +855,19 @@ section {
 
 .title-line-red {
     font-family: var(--font-display);
-    font-size: clamp(3.6rem, 8.5vw, 7.5rem);
+    font-size: clamp(1.35rem, 2.85vw, 2.35rem);
     font-weight: 400;
     color: var(--primary);
-    letter-spacing: 0.02em;
-    line-height: 0.88;
+    letter-spacing: 0.12em;
+    line-height: 1;
     text-transform: uppercase;
-    text-shadow: 0 0 30px rgba(255, 26, 26, 0.4);
+    text-shadow: 0 0 18px rgba(255, 26, 26, 0.35);
+    white-space: nowrap;
 }
 
-/* Puxa “MINIMAL BASS” para junto do wordmark (menos vão vertical). */
+/* Junto do wordmark — pouco vão vertical */
 .hero-title .title-line-red {
-    margin-top: clamp(-0.85rem, -2vw, -0.35rem);
+    margin-top: clamp(-1.1rem, -2.5vw, -0.5rem);
 }
 
 .hero-desc {
@@ -3799,7 +3801,7 @@ html.touch-device *::after {
     }
 
     .hero-logo-wordmark {
-        width: clamp(300px, 92vw, 620px);
+        width: min(100%, clamp(340px, 94vw, 720px));
         object-position: center;
     }
 
@@ -3911,9 +3913,12 @@ html.touch-device *::after {
 
     .music-grid { grid-template-columns: 1fr; }
 
-    /* Hero — logo e subtítulo */
-    .hero-logo-wordmark { width: clamp(280px, 94vw, 480px); }
-    .title-line-red      { font-size: clamp(2.75rem, 12vw, 4.25rem); }
+    /* Hero — logo grande; subtítulo numa linha */
+    .hero-logo-wordmark { width: min(100%, clamp(300px, 96vw, 560px)); }
+    .title-line-red {
+        font-size: clamp(1.05rem, 4.2vw, 1.65rem);
+        letter-spacing: 0.1em;
+    }
 
     .hero-buttons,
     .booking-buttons {
