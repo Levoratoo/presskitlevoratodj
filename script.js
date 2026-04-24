@@ -2158,8 +2158,8 @@ function initPhotoReelLazyLoad() {
 }
 
 /**
- * Carrosséis “lugares” e “fotos ao vivo”: scroll horizontal nativo (arrastar no dedo)
- * + avanço automático (mesma ideia do antigo reelScroll, metade do scrollWidth = loop).
+ * Carrosséis lugares, drops (Shorts) e fotos ao vivo: scroll horizontal + arrastar no dedo
+ * + avanço automático (metade do scrollWidth = loop com faixa duplicada).
  */
 function initReelMarquee() {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -2214,6 +2214,10 @@ function initReelMarquee() {
     const lugWrap = lugPanel?.querySelector('.lugares-reel-wrap');
     if (lugWrap) pushState(lugWrap, 80);
 
+    const dropsPanel = document.getElementById('drops-panel-carousel');
+    const dropsWrap = dropsPanel?.querySelector('.lugares-reel-wrap');
+    if (dropsWrap) pushState(dropsWrap, 70);
+
     const tocWrap = document.querySelector('#fotos-tocando .lugares-reel-wrap');
     if (tocWrap) pushState(tocWrap, 40);
 
@@ -2229,7 +2233,7 @@ function initReelMarquee() {
             const { wrap, reel, durationSec } = st;
             if (!wrap.isConnected) continue;
 
-            const panel = wrap.closest('#lugares-panel-carousel');
+            const panel = wrap.closest('[id$="-panel-carousel"]');
             if (panel && panel.hidden) continue;
 
             const half = reel.scrollWidth / 2;
@@ -2309,50 +2313,63 @@ function initYoutubeLiteEmbeds() {
 }
 
 // ============================================================
-// DROPS — carrossel manual (setas, sem autoplay de scroll)
+// DROPS — mesmo padrão que Lugares (faixa + lista completa)
 // ============================================================
 
-function initDropsCarousel() {
-    const wrap = document.querySelector('.drops-carousel-wrap');
-    if (!wrap) return;
-    const viewport = wrap.querySelector('.drops-viewport');
-    const track = wrap.querySelector('.drops-track');
-    const prev = wrap.querySelector('.drops-nav--prev');
-    const next = wrap.querySelector('.drops-nav--next');
-    const slides = wrap.querySelectorAll('.drops-slide');
-    if (!viewport || !track || !prev || !next || !slides.length) return;
+const DROPS_YT_IDS = [
+    'FxDeW8F1x4Y', 'OrjA4zT8qLg', 'OncQDlCPrIY', 'X7ZXIbF0W3Y', 'Ik9kKAWSV6w',
+    '106HbkQz1-o', 'ANkRN_S3txY', 'IAWIwqYmD3M', '7qd8XtHfyKc', 'ls2U2iFyJI4',
+];
 
-    const getStep = () => {
-        const gapStr = getComputedStyle(track).gap || '0px';
-        const gap = parseFloat(gapStr) || 0;
-        return slides[0].offsetWidth + gap;
+function dropsYtLiteInner(ytId) {
+    const title = 'Drop Levorato';
+    return (
+        '<div class="yt-lite" data-yt-id="' + ytId + '" data-yt-title="' + title + '">' +
+        '<img class="yt-lite__thumb" src="https://i.ytimg.com/vi/' + ytId + '/hqdefault.jpg" alt="" loading="lazy" decoding="async">' +
+        '<button type="button" class="yt-lite__play" data-i18n-aria="yt-lite-play-aria" aria-label="Reproduzir vídeo">' +
+        '<span class="yt-lite__play-icon" aria-hidden="true"><i class="fas fa-play"></i></span></button></div>'
+    );
+}
+
+function initDropsGalleries() {
+    const reel = document.getElementById('drops-reel');
+    const grid = document.getElementById('drops-list-grid');
+    if (!reel || !grid) return;
+
+    const carouselCard = (id) =>
+        '<div class="lugares-card drops-card"><div class="drops-embed">' + dropsYtLiteInner(id) + '</div></div>';
+
+    const chunk = DROPS_YT_IDS.map(carouselCard).join('');
+    reel.innerHTML = chunk + chunk;
+
+    grid.innerHTML = DROPS_YT_IDS.map((id) => (
+        '<figure class="lugares-list-cell drops-list-cell"><div class="drops-embed">' +
+        dropsYtLiteInner(id) + '</div></figure>'
+    )).join('');
+}
+
+function initDropsViewToggle() {
+    const section = document.getElementById('drops');
+    if (!section) return;
+    const btnCarousel = document.getElementById('drops-view-carousel-btn');
+    const btnList = document.getElementById('drops-view-list-btn');
+    const panelCarousel = document.getElementById('drops-panel-carousel');
+    const panelList = document.getElementById('drops-panel-list');
+    if (!btnCarousel || !btnList || !panelCarousel || !panelList) return;
+
+    const setMode = (mode) => {
+        const isList = mode === 'list';
+        section.classList.toggle('drops-mode-list', isList);
+        panelCarousel.hidden = isList;
+        panelList.hidden = !isList;
+        btnCarousel.classList.toggle('is-active', !isList);
+        btnList.classList.toggle('is-active', isList);
+        btnCarousel.setAttribute('aria-pressed', isList ? 'false' : 'true');
+        btnList.setAttribute('aria-pressed', isList ? 'true' : 'false');
     };
 
-    const updateNav = () => {
-        const max = Math.max(0, viewport.scrollWidth - viewport.clientWidth - 1);
-        prev.disabled = viewport.scrollLeft <= 1;
-        next.disabled = viewport.scrollLeft >= max - 1;
-    };
-
-    prev.addEventListener('click', () => {
-        viewport.scrollBy({ left: -getStep(), behavior: 'smooth' });
-    });
-    next.addEventListener('click', () => {
-        viewport.scrollBy({ left: getStep(), behavior: 'smooth' });
-    });
-
-    let scrollTicking = false;
-    viewport.addEventListener('scroll', () => {
-        if (scrollTicking) return;
-        scrollTicking = true;
-        requestAnimationFrame(() => {
-            updateNav();
-            scrollTicking = false;
-        });
-    }, { passive: true });
-
-    window.addEventListener('resize', updateNav);
-    updateNav();
+    btnCarousel.addEventListener('click', () => setMode('carousel'));
+    btnList.addEventListener('click', () => setMode('list'));
 }
 
 // ============================================================
@@ -2374,6 +2391,8 @@ function init() {
     initStreamTabs();
     initDownloadsTabs();
     initTimelineStoryTabs();
+    initDropsGalleries();
+    initDropsViewToggle();
     initI18n();
     initLoadingScreen();
     initCustomCursor();
@@ -2385,7 +2404,6 @@ function init() {
     initPhotoReelLazyLoad();
     initReelMarquee();
     initYoutubeLiteEmbeds();
-    initDropsCarousel();
 }
 
 if (document.readyState === 'loading') {

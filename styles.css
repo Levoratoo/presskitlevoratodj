@@ -1740,7 +1740,8 @@ section {
     opacity: 0.92;
 }
 
-.lugares-view-panel[data-lugares-panel="list"][hidden] {
+.lugares-view-panel[data-lugares-panel="list"][hidden],
+.lugares-view-panel[data-drops-panel="list"][hidden] {
     display: none !important;
 }
 
@@ -2369,17 +2370,16 @@ section {
 }
 
 /* -------------------------------------------------------
-   DROPS — Shorts (carrossel manual + setas)
+   DROPS — Shorts (layout como Lugares: toolbar + faixa + lista)
 ------------------------------------------------------- */
 .drops-section {
     position: relative;
-    padding: 5.25rem 0 6.5rem;
+    padding: 5rem 0 6rem;
     background: var(--bg-video-blocks);
     border-top: 1px solid rgba(255, 26, 26, 0.12);
     overflow: hidden;
 }
 
-/* Halo atrás do bloco do título */
 .drops-section::before {
     content: '';
     position: absolute;
@@ -2393,105 +2393,71 @@ section {
     z-index: 0;
 }
 
-.drops-section .container {
+.drops-section .lugares-header {
     position: relative;
     z-index: 1;
 }
 
-.drops-section .section-header {
+#drops .lugares-reel {
+    align-items: stretch;
+}
+
+/* Cards no carrossel — mesmo “poster” 9:16 que lugares */
+#drops .lugares-card {
     position: relative;
-    text-align: center;
-    margin-bottom: 2.85rem;
+    width: clamp(220px, 18vw, 280px);
+    aspect-ratio: 9 / 16;
+    height: auto;
+    flex-shrink: 0;
+    padding: 0;
+    border: none;
+    border-radius: 14px;
+    background: #000;
+    overflow: hidden;
 }
 
-.drops-section .section-header .section-tag {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.42rem 1.3rem;
-    letter-spacing: 0.32em;
-    font-weight: 700;
-    border: 1px solid rgba(255, 26, 26, 0.52);
-    background: linear-gradient(150deg, rgba(255, 26, 26, 0.16) 0%, rgba(6, 6, 6, 0.72) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow:
-        0 0 36px rgba(255, 26, 26, 0.14),
-        inset 0 1px 0 rgba(255, 255, 255, 0.07);
+#drops .lugares-card .drops-embed {
+    position: absolute;
+    inset: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    aspect-ratio: unset;
 }
 
-.drops-section .section-header .section-title {
-    margin-top: 1.15rem;
-    margin-bottom: 0;
-    text-shadow: 0 4px 52px rgba(0, 0, 0, 0.5);
+#drops .lugares-card:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: transparent;
 }
 
-.drops-section .section-header::after {
-    content: '';
-    display: block;
-    width: min(15rem, 55vw);
-    height: 2px;
-    margin: 1.4rem auto 0;
-    border-radius: 2px;
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 26, 26, 0.95) 50%, transparent 100%);
-    opacity: 0.88;
+/* Lista completa — grelha de shorts */
+#drops .lugares-list-grid {
+    grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 4vw, 2rem) 1rem;
 }
 
-/* Faixa edge-to-edge como lugares / fotos ao vivo */
-.drops-carousel-bleed {
+#drops .lugares-list-cell {
     position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
-.drops-carousel-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: clamp(0.5rem, 1.5vw, 1.1rem);
-    width: 100%;
-    max-width: none;
+    aspect-ratio: 9 / 16;
     margin: 0;
-    padding: 0 clamp(0.35rem, 2vw, 1.25rem);
+    padding: 0;
+    border: none;
+    border-radius: 14px;
+    background: #000;
+    min-height: 0;
+    overflow: hidden;
     box-sizing: border-box;
 }
 
-.drops-viewport {
-    flex: 1;
-    min-width: 0;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 26, 26, 0.4) transparent;
-    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
-}
-
-.drops-viewport::-webkit-scrollbar {
-    height: 6px;
-}
-.drops-viewport::-webkit-scrollbar-thumb {
-    background: rgba(255, 26, 26, 0.35);
-    border-radius: 999px;
-}
-
-.drops-track {
-    display: flex;
-    gap: clamp(1.35rem, 2.8vw, 2.75rem);
-    padding: 0.5rem clamp(0.75rem, 4vw, 3.5rem) 1rem;
-    width: max-content;
-}
-
-.drops-slide {
-    flex: 0 0 auto;
-    width: clamp(230px, 19vw, 340px);
-    scroll-snap-align: center;
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+#drops .lugares-list-cell .drops-embed {
+    position: absolute;
+    inset: 0;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
 }
 
 .drops-embed {
@@ -2516,43 +2482,25 @@ section {
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .drops-slide:hover {
-        transform: translateY(-8px);
-    }
-
-    .drops-slide:hover .drops-embed {
-        transform: scale(1.025);
-        border-color: rgba(255, 26, 26, 0.42);
-        box-shadow:
-            0 0 0 1px rgba(255, 26, 26, 0.38),
-            0 22px 56px rgba(0, 0, 0, 0.72),
-            0 0 56px rgba(255, 26, 26, 0.14);
-    }
-
-    .drops-slide:hover .drops-embed .yt-lite__thumb {
-        transform: scale(1.06);
+    #drops .lugares-card:hover .drops-embed .yt-lite__thumb {
+        transform: scale(1.04);
         filter: brightness(1.05) saturate(1.05);
     }
 
-    .drops-slide:hover .drops-embed .yt-lite__play-icon {
-        transform: scale(1.1);
-        box-shadow:
-            0 8px 36px rgba(255, 26, 26, 0.45),
-            0 0 0 4px rgba(255, 26, 26, 0.18);
+    #drops .lugares-list-cell:hover .drops-embed .yt-lite__thumb {
+        transform: scale(1.03);
+        filter: brightness(1.04);
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .drops-slide,
     .drops-embed,
     .drops-embed .yt-lite__thumb {
         transition: none;
     }
 
-    .drops-slide:hover,
-    .drops-slide:hover .drops-embed,
-    .drops-slide:hover .drops-embed .yt-lite__thumb,
-    .drops-slide:hover .drops-embed .yt-lite__play-icon {
+    #drops .lugares-card:hover .drops-embed .yt-lite__thumb,
+    #drops .lugares-list-cell:hover .drops-embed .yt-lite__thumb {
         transform: none;
     }
 }
@@ -2633,72 +2581,6 @@ section {
         width: 3.1rem;
         height: 3.1rem;
         font-size: 0.95rem;
-    }
-}
-
-.drops-nav {
-    flex-shrink: 0;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 26, 26, 0.48);
-    background: rgba(12, 12, 12, 0.88);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    color: var(--primary);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    box-shadow:
-        0 6px 28px rgba(0, 0, 0, 0.45),
-        inset 0 1px 0 rgba(255, 255, 255, 0.06);
-    transition:
-        background 0.25s ease,
-        border-color 0.25s ease,
-        transform 0.2s ease,
-        opacity 0.2s ease,
-        box-shadow 0.25s ease;
-    z-index: 2;
-}
-
-.drops-nav:hover:not(:disabled) {
-    background: rgba(255, 26, 26, 0.18);
-    border-color: var(--primary);
-    transform: scale(1.07);
-    box-shadow:
-        0 0 28px rgba(255, 26, 26, 0.22),
-        0 8px 32px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.drops-nav:active:not(:disabled) {
-    transform: scale(1.02);
-}
-
-.drops-nav:disabled {
-    opacity: 0.32;
-    cursor: not-allowed;
-    box-shadow: none;
-}
-
-@media (max-width: 640px) {
-    .drops-carousel-wrap {
-        gap: 0.4rem;
-        padding: 0 0.15rem;
-    }
-    .drops-track {
-        gap: clamp(1rem, 4vw, 1.5rem);
-        padding: 0.5rem clamp(0.5rem, 3vw, 1.25rem) 1rem;
-    }
-    .drops-nav {
-        width: 38px;
-        height: 38px;
-        font-size: 0.9rem;
-    }
-    .drops-slide {
-        width: clamp(200px, 76vw, 300px);
     }
 }
 

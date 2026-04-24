@@ -1179,38 +1179,35 @@
     </section>
 
     <!-- ======================================
-         DROPS (YouTube Shorts)
+         DROPS (YouTube Shorts) — layout como Lugares: carrossel + lista
     ======================================= -->
     <section class="drops-section" id="drops">
-        <div class="container">
-            <div class="section-header reveal-up">
-                <div class="section-tag" data-i18n="drops-tag">DROPS</div>
-                <h2 class="section-title" data-i18n="drops-title">Cortes direto da <span class="text-glow">pista</span></h2>
+        <div class="lugares-header reveal-up">
+            <div class="section-tag" data-i18n="drops-tag">DROPS</div>
+            <h2 class="section-title" data-i18n="drops-title">Cortes direto da <span class="text-glow">pista</span></h2>
+        </div>
+
+        <div class="lugares-view-toolbar reveal-up">
+            <div class="lugares-view-toggle" role="group" data-i18n-aria="lugares-view-group-aria" aria-label="Modo de visualização dos drops">
+                <button type="button" class="lugares-view-btn is-active" id="drops-view-carousel-btn" data-drops-mode="carousel" aria-pressed="true">
+                    <span class="lugares-view-icon lugares-view-icon--carousel" aria-hidden="true"></span>
+                    <span data-i18n="lugares-view-carousel">Carrossel</span>
+                </button>
+                <button type="button" class="lugares-view-btn" id="drops-view-list-btn" data-drops-mode="list" aria-pressed="false">
+                    <span class="lugares-view-icon lugares-view-icon--grid" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+                    <span data-i18n="lugares-view-list">Lista completa</span>
+                </button>
             </div>
         </div>
-        <div class="drops-carousel-bleed reveal-up">
-            <div class="drops-carousel-wrap">
-                <button type="button" class="drops-nav drops-nav--prev" data-i18n-aria="drops-prev-aria" aria-label="Shorts anteriores">
-                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
-                </button>
-                <div class="drops-viewport" id="drops-viewport">
-                    <div class="drops-track" id="drops-track">
-                        <div class="drops-slide"><div class="drops-embed"><div class="yt-lite" data-yt-id="FxDeW8F1x4Y" data-yt-title="Drop Levorato"><img class="yt-lite__thumb" src="https://i.ytimg.com/vi/FxDeW8F1x4Y/hqdefault.jpg" alt="" loading="lazy" decoding="async"><button type="button" class="yt-lite__play" data-i18n-aria="yt-lite-play-aria" aria-label="Reproduzir vídeo"><span class="yt-lite__play-icon" aria-hidden="true"><i class="fas fa-play"></i></span></button></div></div></div>
-                        <div class="drops-slide"><div class="drops-embed"><div class="yt-lite" data-yt-id="OrjA4zT8qLg" data-yt-title="Drop Levorato"><img class="yt-lite__thumb" src="https://i.ytimg.com/vi/OrjA4zT8qLg/hqdefault.jpg" alt="" loading="lazy" decoding="async"><button type="button" class="yt-lite__play" data-i18n-aria="yt-lite-play-aria" aria-label="Reproduzir vídeo"><span class="yt-lite__play-icon" aria-hidden="true"><i class="fas fa-play"></i></span></button></div></div></div>
-                        <div class="drops-slide"><div class="drops-embed"><div class="yt-lite" data-yt-id="OncQDlCPrIY" data-yt-title="Drop Levorato"><img class="yt-lite__thumb" src="https://i.ytimg.com/vi/OncQDlCPrIY/hqdefault.jpg" alt="" loading="lazy" decoding="async"><button type="button" class="yt-lite__play" data-i18n-aria="yt-lite-play-aria" aria-label="Reproduzir vídeo"><span class="yt-lite__play-icon" aria-hidden="true"><i class="fas fa-play"></i></span></button></div></div></div>
-                        <div class="drops-slide"><div class="drops-embed"><div class="yt-lite" data-yt-id="X7ZXIbF0W3Y" data-yt-title="Drop Levorato"><img class="yt-lite__thumb" src="https://i.ytimg.com/vi/X7ZXIbF0W3Y/hqdefault.jpg" alt="" loading="lazy" decoding="async"><button type="button" class="yt-lite__play" data-i18n-aria="yt-lite-play-aria" aria-label="Reproduzir vídeo"><span class="yt-lite__play-icon" aria-hidden="true"><i class="fas fa-play"></i></span></button></div></div></div>
-                        <div class="drops-slide"><div class="drops-embed"><div class="yt-lite" data-yt-id="Ik9kKAWSV6w" data-yt-title="Drop Levorato"><img class="yt-lite__thumb" src="https://i.ytimg.com/vi/Ik9kKAWSV6w/hqdefault.jpg" alt="" loading="lazy" decoding="async"><button type="button" class="yt-lite__play" data-i18n-aria="yt-lite-play-aria" aria-label="Reproduzir vídeo"><span class="yt-lite__play-icon" aria-hidden="true"><i class="fas fa-play"></i></span></button></div></div></div>
-                        <div class="drops-slide"><div class="drops-embed"><div class="yt-lite" data-yt-id="106HbkQz1-o" data-yt-title="Drop Levorato"><img class="yt-lite__thumb" src="https://i.ytimg.com/vi/106HbkQz1-o/hqdefault.jpg" alt="" loading="lazy" decoding="async"><button type="button" class="yt-lite__play" data-i18n-aria="yt-lite-play-aria" aria-label="Reproduzir vídeo"><span class="yt-lite__play-icon" aria-hidden="true"><i class="fas fa-play"></i></span></button></div></div></div>
-                        <div class="drops-slide"><div class="drops-embed"><div class="yt-lite" data-yt-id="ANkRN_S3txY" data-yt-title="Drop Levorato"><img class="yt-lite__thumb" src="https://i.ytimg.com/vi/ANkRN_S3txY/hqdefault.jpg" alt="" loading="lazy" decoding="async"><button type="button" class="yt-lite__play" data-i18n-aria="yt-lite-play-aria" aria-label="Reproduzir vídeo"><span class="yt-lite__play-icon" aria-hidden="true"><i class="fas fa-play"></i></span></button></div></div></div>
-                        <div class="drops-slide"><div class="drops-embed"><div class="yt-lite" data-yt-id="IAWIwqYmD3M" data-yt-title="Drop Levorato"><img class="yt-lite__thumb" src="https://i.ytimg.com/vi/IAWIwqYmD3M/hqdefault.jpg" alt="" loading="lazy" decoding="async"><button type="button" class="yt-lite__play" data-i18n-aria="yt-lite-play-aria" aria-label="Reproduzir vídeo"><span class="yt-lite__play-icon" aria-hidden="true"><i class="fas fa-play"></i></span></button></div></div></div>
-                        <div class="drops-slide"><div class="drops-embed"><div class="yt-lite" data-yt-id="7qd8XtHfyKc" data-yt-title="Drop Levorato"><img class="yt-lite__thumb" src="https://i.ytimg.com/vi/7qd8XtHfyKc/hqdefault.jpg" alt="" loading="lazy" decoding="async"><button type="button" class="yt-lite__play" data-i18n-aria="yt-lite-play-aria" aria-label="Reproduzir vídeo"><span class="yt-lite__play-icon" aria-hidden="true"><i class="fas fa-play"></i></span></button></div></div></div>
-                        <div class="drops-slide"><div class="drops-embed"><div class="yt-lite" data-yt-id="ls2U2iFyJI4" data-yt-title="Drop Levorato"><img class="yt-lite__thumb" src="https://i.ytimg.com/vi/ls2U2iFyJI4/hqdefault.jpg" alt="" loading="lazy" decoding="async"><button type="button" class="yt-lite__play" data-i18n-aria="yt-lite-play-aria" aria-label="Reproduzir vídeo"><span class="yt-lite__play-icon" aria-hidden="true"><i class="fas fa-play"></i></span></button></div></div></div>
-                    </div>
-                </div>
-                <button type="button" class="drops-nav drops-nav--next" data-i18n-aria="drops-next-aria" aria-label="Próximos shorts">
-                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                </button>
+
+        <div class="lugares-view-panel" id="drops-panel-carousel" data-drops-panel="carousel">
+            <div class="lugares-reel-wrap">
+                <div class="lugares-reel" id="drops-reel"></div>
             </div>
+        </div>
+
+        <div class="lugares-view-panel" id="drops-panel-list" data-drops-panel="list" hidden>
+            <div class="lugares-list-grid" id="drops-list-grid"></div>
         </div>
     </section>
 
