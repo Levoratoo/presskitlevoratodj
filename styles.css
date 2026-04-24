@@ -875,7 +875,7 @@ section {
 
 .hero-desc {
     font-size: clamp(0.9rem, 1.5vw, 1.05rem);
-    color: var(--text-muted);
+    color: var(--text);
     line-height: 1.8;
     font-weight: 300;
     margin-bottom: 2.5rem;
@@ -932,7 +932,7 @@ section {
 .stat-label {
     font-size: 0.58rem;
     letter-spacing: 0.2em;
-    color: var(--text-dim);
+    color: var(--text);
     text-transform: uppercase;
     font-weight: 500;
 }
