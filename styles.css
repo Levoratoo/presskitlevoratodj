@@ -823,11 +823,11 @@ section {
     min-width: 0;
 }
 
-/* Wordmark — um pouco mais largo que o parágrafo (420px) para hierarquia visual; min-width:0 evita flex usar 1326px intrínsecos */
+/* Wordmark — largura maior que o parágrafo (420px); min-width:0 evita flex usar 1326px intrínsecos */
 .hero-logo-wrap {
     display: block;
     width: 100%;
-    max-width: 460px;
+    max-width: 520px;
     min-width: 0;
     line-height: 0;
 }
@@ -3799,7 +3799,7 @@ html.touch-device *::after {
     }
 
     .hero-logo-wrap {
-        max-width: min(460px, 92vw);
+        max-width: min(520px, 92vw);
         margin-left: auto;
         margin-right: auto;
     }
@@ -3918,7 +3918,7 @@ html.touch-device *::after {
     .music-grid { grid-template-columns: 1fr; }
 
     .hero-logo-wrap {
-        max-width: min(460px, 92vw);
+        max-width: min(520px, 92vw);
     }
 
     .hero-logo-wordmark {
