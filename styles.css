@@ -1668,6 +1668,18 @@ section {
     padding: 0 2rem;
 }
 
+/* Título em frase (não só caixa alta) + badge sem contorno fino */
+#lugares .lugares-header .section-tag {
+    border: none;
+    background: rgba(255, 26, 26, 0.09);
+}
+
+#lugares .lugares-header .section-title {
+    text-transform: none;
+    letter-spacing: 0.012em;
+    line-height: 1;
+}
+
 /* ---- Toolbar: carrossel vs lista (flyer inteiro) ---- */
 .lugares-view-toolbar {
     display: flex;
