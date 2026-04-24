@@ -2157,6 +2157,100 @@ function initPhotoReelLazyLoad() {
     });
 }
 
+/**
+ * Carrosséis “lugares” e “fotos ao vivo”: scroll horizontal nativo (arrastar no dedo)
+ * + avanço automático (mesma ideia do antigo reelScroll, metade do scrollWidth = loop).
+ */
+function initReelMarquee() {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const states = [];
+
+    function pushState(wrap, durationSec) {
+        const reel = wrap.querySelector('.lugares-reel');
+        if (!reel) return;
+
+        const st = {
+            wrap,
+            reel,
+            durationSec,
+            suppressUntil: 0,
+            pausedHover: false,
+        };
+        states.push(st);
+
+        const blockAuto = () => {
+            st.suppressUntil = Number.MAX_SAFE_INTEGER;
+        };
+        const releaseAutoSoon = () => {
+            st.suppressUntil = performance.now() + 1800;
+        };
+
+        wrap.addEventListener('touchstart', blockAuto, { passive: true });
+        wrap.addEventListener('touchend', releaseAutoSoon, { passive: true });
+        wrap.addEventListener('touchcancel', releaseAutoSoon, { passive: true });
+
+        wrap.addEventListener('wheel', () => {
+            st.suppressUntil = performance.now() + 900;
+        }, { passive: true });
+
+        wrap.addEventListener('mouseenter', () => {
+            st.pausedHover = true;
+        });
+        wrap.addEventListener('mouseleave', () => {
+            st.pausedHover = false;
+        });
+
+        const onDocMouseUp = () => {
+            document.removeEventListener('mouseup', onDocMouseUp);
+            releaseAutoSoon();
+        };
+        wrap.addEventListener('mousedown', () => {
+            st.suppressUntil = Number.MAX_SAFE_INTEGER;
+            document.addEventListener('mouseup', onDocMouseUp);
+        });
+    }
+
+    const lugPanel = document.getElementById('lugares-panel-carousel');
+    const lugWrap = lugPanel?.querySelector('.lugares-reel-wrap');
+    if (lugWrap) pushState(lugWrap, 80);
+
+    const tocWrap = document.querySelector('#fotos-tocando .lugares-reel-wrap');
+    if (tocWrap) pushState(tocWrap, 40);
+
+    if (!states.length) return;
+
+    let lastT = performance.now();
+    function tick(now) {
+        const dt = Math.min((now - lastT) / 1000, 0.064);
+        lastT = now;
+        const t = performance.now();
+
+        for (const st of states) {
+            const { wrap, reel, durationSec } = st;
+            if (!wrap.isConnected) continue;
+
+            const panel = wrap.closest('#lugares-panel-carousel');
+            if (panel && panel.hidden) continue;
+
+            const half = reel.scrollWidth / 2;
+            if (half < 24) continue;
+
+            while (wrap.scrollLeft >= half) wrap.scrollLeft -= half;
+
+            if (reduceMotion) continue;
+
+            const paused = st.pausedHover || t < st.suppressUntil;
+            if (!paused) {
+                const pxPerSec = half / durationSec;
+                wrap.scrollLeft += pxPerSec * dt;
+            }
+        }
+
+        requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+}
+
 // SCROLL REVEAL — stagger children automatically
 // ============================================================
 
@@ -2289,6 +2383,7 @@ function init() {
     initLugaresViewToggle();
     initLugaresListLazyLoad();
     initPhotoReelLazyLoad();
+    initReelMarquee();
     initYoutubeLiteEmbeds();
     initDropsCarousel();
 }

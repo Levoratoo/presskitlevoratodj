@@ -1646,9 +1646,6 @@ section {
         #050505;
 }
 
-.lugares-reel.tocando-reel {
-    animation-duration: 40s;
-}
 
 .lugares-header {
     text-align: center;
@@ -1747,10 +1744,6 @@ section {
     display: none !important;
 }
 
-.lugares-mode-list .lugares-reel {
-    animation-play-state: paused;
-}
-
 /* Grade — imagem completa (contain), sem crop */
 .lugares-list-grid {
     display: grid;
@@ -1782,12 +1775,21 @@ section {
     display: block;
 }
 
-/* ---- Reel wrapper com fade lateral ---- */
+/* ---- Reel wrapper: scroll horizontal nativo (arrastar no mobile) + marquee em JS ---- */
 .lugares-reel-wrap {
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     width: 100%;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+    scrollbar-width: none;
     mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+}
+
+.lugares-reel-wrap::-webkit-scrollbar {
+    display: none;
 }
 
 /* ---- Faixa única de cards ---- */
@@ -1795,12 +1797,8 @@ section {
     display: flex;
     gap: 18px;
     width: max-content;
-    will-change: transform;
     transform: translateZ(0);
-    animation: reelScroll 45s linear infinite;
 }
-
-.lugares-reel:hover { animation-play-state: paused; }
 
 /* ---- Card portrait (proporção ~9:16) ---- */
 .lugares-card {
@@ -1840,7 +1838,6 @@ section {
 /* #lugares: todas as cartas iguais — só a arte, sem borda; cover preenche o 9:16 (tocando não usa #lugares) */
 #lugares .lugares-reel {
     align-items: stretch;
-    animation-duration: 80s;
 }
 
 #lugares .lugares-card {
