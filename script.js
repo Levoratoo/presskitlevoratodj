@@ -5,6 +5,19 @@
 
 'use strict';
 
+/** Agrupa trabalho de scroll no próximo frame (menos reflows / jank). */
+function rafThrottle(fn) {
+    let scheduled = false;
+    return function throttled(...args) {
+        if (scheduled) return;
+        scheduled = true;
+        requestAnimationFrame(() => {
+            scheduled = false;
+            fn.apply(this, args);
+        });
+    };
+}
+
 // ============================================================
 // STAR FIELD — canvas inside .hero (confined to hero section)
 // ============================================================
@@ -431,7 +444,7 @@ window.addEventListener('resize', () => {
     }).observe(hero);
 })();
 
-window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('scroll', rafThrottle(onScroll), { passive: true });
 
 // ============================================================
 // TIMELINE — DRAG-TO-SCROLL DJ GALLERY
@@ -515,17 +528,31 @@ function initTensionGlitch() {
     const el = document.getElementById('tl-glitch');
     if (!el) return;
 
-    let glitchVisible = false;
-    const obs = new IntersectionObserver(entries => {
-        glitchVisible = entries[0].isIntersecting;
-    }, { threshold: 0 });
-    obs.observe(el);
+    let glitchTimer = null;
 
-    setInterval(() => {
-        if (!glitchVisible || Math.random() > 0.55) return;
+    const pulse = () => {
+        if (Math.random() > 0.55) return;
         el.style.transform = `translateX(${(Math.random() - 0.5) * 8}px)`;
         setTimeout(() => { el.style.transform = ''; }, 80);
-    }, 600);
+    };
+
+    const start = () => {
+        if (glitchTimer) return;
+        glitchTimer = setInterval(pulse, 650);
+    };
+    const stop = () => {
+        if (glitchTimer) {
+            clearInterval(glitchTimer);
+            glitchTimer = null;
+        }
+        el.style.transform = '';
+    };
+
+    const obs = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) start();
+        else stop();
+    }, { threshold: 0, rootMargin: '48px 0px' });
+    obs.observe(el);
 }
 
 // ============================================================
@@ -562,7 +589,8 @@ function initSpineLine() {
         wrappers.forEach(updateSpine);
     }
 
-    window.addEventListener('scroll', updateAll, { passive: true });
+    const scheduleUpdate = rafThrottle(updateAll);
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
     updateAll();
 }
 
@@ -638,6 +666,40 @@ function initTensionEntry() {
     }, { threshold: 0.35 });
 
     tensionObs.observe(tension);
+}
+
+/** Pausa animações pesadas do bloco “E agora?” quando fora do ecrã. */
+function initTensionInViewPause() {
+    const tension = document.getElementById('tl-ch3');
+    if (!tension) return;
+    const sync = () => {
+        const r = tension.getBoundingClientRect();
+        tension.classList.toggle('tl-tension--in-view', r.bottom > 0 && r.top < window.innerHeight);
+    };
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+            tension.classList.toggle('tl-tension--in-view', e.isIntersecting);
+        });
+    }, { threshold: 0, rootMargin: '64px 0px' });
+    io.observe(tension);
+    sync();
+}
+
+/** Carrosséis verticais da timeline: animação só quando visíveis (poupa CPU ao scroll longe). */
+function initVcMaskPause() {
+    document.querySelectorAll('.tl-vc-mask').forEach((mask) => {
+        const sync = () => {
+            const r = mask.getBoundingClientRect();
+            mask.classList.toggle('tl-vc-mask--in-view', r.bottom > 0 && r.top < window.innerHeight);
+        };
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((e) => {
+                mask.classList.toggle('tl-vc-mask--in-view', e.isIntersecting);
+            });
+        }, { threshold: 0, rootMargin: '100px 0px' });
+        io.observe(mask);
+        sync();
+    });
 }
 
 // ============================================================
@@ -2140,24 +2202,35 @@ function initPhotoReelLazyLoad() {
         const load = () => {
             if (loaded) return;
             loaded = true;
-            const BATCH = 14;
-            let i = 0;
+            const list = Array.from(imgs);
+            const narrow = window.innerWidth < 768;
+            const head = narrow ? 4 : 6;
+            const BATCH = narrow ? 3 : 5;
+
+            list.slice(0, head).forEach((img) => {
+                img.decoding = 'async';
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+            });
+
+            let i = head;
             const next = () => {
-                const slice = Array.from(imgs).slice(i, i + BATCH);
-                slice.forEach(img => {
+                const slice = list.slice(i, i + BATCH);
+                slice.forEach((img) => {
+                    if (!img.dataset.src) return;
                     img.decoding = 'async';
                     img.src = img.dataset.src;
                     img.removeAttribute('data-src');
                 });
                 i += BATCH;
-                if (i < imgs.length) requestAnimationFrame(next);
+                if (i < list.length) requestAnimationFrame(next);
             };
-            next();
+            if (i < list.length) requestAnimationFrame(next);
         };
 
         const obs = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting) { load(); obs.disconnect(); }
-        }, { rootMargin: '280px 0px 720px 0px', threshold: 0 });
+        }, { rootMargin: '420px 0px 900px 0px', threshold: 0 });
 
         obs.observe(section);
     });
@@ -2231,6 +2304,29 @@ function initReelMarquee() {
 
     let lastT = performance.now();
     function tick(now) {
+        requestAnimationFrame(tick);
+
+        if (document.hidden) {
+            lastT = now;
+            return;
+        }
+
+        let anyVisible = false;
+        const vh = window.innerHeight;
+        for (const st of states) {
+            const { wrap } = st;
+            if (!wrap.isConnected) continue;
+            const r = wrap.getBoundingClientRect();
+            if (r.bottom > -100 && r.top < vh + 100) {
+                anyVisible = true;
+                break;
+            }
+        }
+        if (!anyVisible) {
+            lastT = now;
+            return;
+        }
+
         const dt = Math.min((now - lastT) / 1000, 0.064);
         lastT = now;
         const t = performance.now();
@@ -2241,6 +2337,9 @@ function initReelMarquee() {
 
             const panel = wrap.closest('[id$="-panel-carousel"]');
             if (panel && panel.hidden) continue;
+
+            const r = wrap.getBoundingClientRect();
+            if (r.bottom < -80 || r.top > window.innerHeight + 80) continue;
 
             const half = reel.scrollWidth / 2;
             if (half < 24) continue;
@@ -2255,8 +2354,6 @@ function initReelMarquee() {
                 wrap.scrollLeft += pxPerSec * dt;
             }
         }
-
-        requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
 }
@@ -2393,6 +2490,8 @@ function init() {
     initSpineLine();
     initTimelineReveal();
     initTensionEntry();
+    initTensionInViewPause();
+    initVcMaskPause();
     initHeroParticles();
     initStreamTabs();
     initDownloadsTabs();
