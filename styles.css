@@ -811,13 +811,35 @@ section {
     animation: pulseDot 2s ease-in-out infinite;
 }
 
-/* Title — huge, bold, two lines */
+/* Title — wordmark + MINIMAL BASS */
 .hero-title {
     display: flex;
     flex-direction: column;
     line-height: 1;
     margin-bottom: 1.8rem;
-    gap: 0.1em;
+    gap: clamp(0.35rem, 1.5vw, 0.65rem);
+    align-items: flex-start;
+}
+
+.hero-logo-wrap {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    line-height: 0;
+}
+
+/* Brilho vermelho no contorno da arte (mesma linguagem do texto antigo) */
+.hero-logo-wordmark {
+    display: block;
+    width: clamp(260px, 52vw, 520px);
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: left center;
+    filter:
+        drop-shadow(0 0 10px rgba(255, 26, 26, 0.65))
+        drop-shadow(0 0 26px rgba(255, 26, 26, 0.4))
+        drop-shadow(0 0 48px rgba(255, 26, 26, 0.22));
 }
 
 .title-line-white {
@@ -3762,6 +3784,20 @@ html.touch-device *::after {
     .hero-buttons { justify-content: center; }
     .hero-stats   { justify-content: center; }
 
+    .hero-title {
+        align-items: center;
+    }
+
+    .hero-logo-wrap {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-logo-wordmark {
+        width: clamp(240px, 78vw, 440px);
+        object-position: center;
+    }
+
     .hero-visual {
         order: 1;
         width: clamp(180px, 45vw, 280px);
@@ -3870,9 +3906,9 @@ html.touch-device *::after {
 
     .music-grid { grid-template-columns: 1fr; }
 
-    /* Hero titles — evitar overflow no mobile */
-    .title-line-white { font-size: clamp(2.8rem, 13vw, 5rem); }
-    .title-line-red   { font-size: clamp(2rem, 10vw, 3.5rem); }
+    /* Hero — logo e subtítulo */
+    .hero-logo-wordmark { width: clamp(200px, 84vw, 360px); }
+    .title-line-red      { font-size: clamp(2rem, 10vw, 3.5rem); }
 
     .hero-buttons,
     .booking-buttons {
