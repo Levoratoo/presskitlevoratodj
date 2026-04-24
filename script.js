@@ -2211,19 +2211,32 @@ function initReelMarquee() {
             suppressUntil: 0,
             pausedHover: false,
             kind: opts.kind || 'reel',
+            touchActive: false,
+            scrollPos: wrap.scrollLeft || 0,
         };
         states.push(st);
 
         const blockAuto = () => {
+            st.scrollPos = wrap.scrollLeft || 0;
             st.suppressUntil = Number.MAX_SAFE_INTEGER;
         };
         const releaseAutoSoon = () => {
+            st.scrollPos = wrap.scrollLeft || 0;
             st.suppressUntil = performance.now() + resumeAfterMs;
         };
 
-        wrap.addEventListener('touchstart', blockAuto, { passive: true });
-        wrap.addEventListener('touchend', releaseAutoSoon, { passive: true });
-        wrap.addEventListener('touchcancel', releaseAutoSoon, { passive: true });
+        wrap.addEventListener('touchstart', () => {
+            st.touchActive = true;
+            blockAuto();
+        }, { passive: true });
+        wrap.addEventListener('touchend', () => {
+            st.touchActive = false;
+            releaseAutoSoon();
+        }, { passive: true });
+        wrap.addEventListener('touchcancel', () => {
+            st.touchActive = false;
+            releaseAutoSoon();
+        }, { passive: true });
 
         wrap.addEventListener('wheel', () => {
             st.suppressUntil = performance.now() + 900;
@@ -2250,7 +2263,9 @@ function initReelMarquee() {
         if (opts.kind === 'tl-vc') {
             wrap.addEventListener('pointerdown', blockAuto, { passive: true });
             wrap.addEventListener('pointerup', releaseAutoSoon, { passive: true });
-            wrap.addEventListener('pointercancel', releaseAutoSoon, { passive: true });
+            wrap.addEventListener('pointercancel', () => {
+                if (!st.touchActive) releaseAutoSoon();
+            }, { passive: true });
         }
     }
 
@@ -2331,15 +2346,24 @@ function initReelMarquee() {
             const half = reel.scrollWidth / 2;
             if (half < 24) continue;
 
-            while (wrap.scrollLeft >= half) wrap.scrollLeft -= half;
+            if (Math.abs(wrap.scrollLeft - st.scrollPos) > 4) {
+                st.scrollPos = wrap.scrollLeft || 0;
+            }
+            while (st.scrollPos >= half) st.scrollPos -= half;
+            if (wrap.scrollLeft >= half) wrap.scrollLeft = st.scrollPos;
 
             if (reduceMotion) continue;
 
             const paused = st.pausedHover || t < st.suppressUntil;
-            if (!paused) {
-                const pxPerSec = half / durationSec;
-                wrap.scrollLeft += pxPerSec * dt;
+            if (paused) {
+                st.scrollPos = wrap.scrollLeft || 0;
+                continue;
             }
+
+            const pxPerSec = half / durationSec;
+            st.scrollPos += pxPerSec * dt;
+            while (st.scrollPos >= half) st.scrollPos -= half;
+            wrap.scrollLeft = st.scrollPos;
         }
     }
     requestAnimationFrame(tick);
