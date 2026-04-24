@@ -2180,17 +2180,29 @@ function initPhotoReelLazyLoad() {
     });
 }
 
+/** Duração do loop (CSS --vc-speed) para autoplay horizontal dos carrosséis da timeline no mobile. */
+function parseTimelineVcDurationSec(track) {
+    const raw = getComputedStyle(track).getPropertyValue('--vc-speed').trim();
+    const m = /^([\d.]+)\s*s$/i.exec(raw);
+    if (m) {
+        const n = parseFloat(m[1]);
+        if (n > 0) return n;
+    }
+    return 20;
+}
+
 /**
- * Carrosséis lugares, drops (Shorts) e fotos ao vivo: scroll horizontal + arrastar no dedo
- * + avanço automático (metade do scrollWidth = loop com faixa duplicada).
+ * Carrosséis lugares, drops (Shorts), fotos ao vivo e faixas da história (timeline, mobile):
+ * scroll horizontal + arrastar no dedo + avanço automático (metade do scrollWidth = loop).
  */
 function initReelMarquee() {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const states = [];
 
-    function pushState(wrap, durationSec) {
-        const reel = wrap.querySelector('.lugares-reel');
+    function pushMarqueeState(wrap, reel, durationSec, opts = {}) {
         if (!reel) return;
+        const resumeAfterMs = opts.resumeAfterMs ?? 1800;
+        const pauseOnHover = opts.pauseOnHover !== false;
 
         const st = {
             wrap,
@@ -2198,6 +2210,7 @@ function initReelMarquee() {
             durationSec,
             suppressUntil: 0,
             pausedHover: false,
+            kind: opts.kind || 'reel',
         };
         states.push(st);
 
@@ -2205,7 +2218,7 @@ function initReelMarquee() {
             st.suppressUntil = Number.MAX_SAFE_INTEGER;
         };
         const releaseAutoSoon = () => {
-            st.suppressUntil = performance.now() + 1800;
+            st.suppressUntil = performance.now() + resumeAfterMs;
         };
 
         wrap.addEventListener('touchstart', blockAuto, { passive: true });
@@ -2216,12 +2229,14 @@ function initReelMarquee() {
             st.suppressUntil = performance.now() + 900;
         }, { passive: true });
 
-        wrap.addEventListener('mouseenter', () => {
-            st.pausedHover = true;
-        });
-        wrap.addEventListener('mouseleave', () => {
-            st.pausedHover = false;
-        });
+        if (pauseOnHover) {
+            wrap.addEventListener('mouseenter', () => {
+                st.pausedHover = true;
+            });
+            wrap.addEventListener('mouseleave', () => {
+                st.pausedHover = false;
+            });
+        }
 
         const onDocMouseUp = () => {
             document.removeEventListener('mouseup', onDocMouseUp);
@@ -2231,18 +2246,40 @@ function initReelMarquee() {
             st.suppressUntil = Number.MAX_SAFE_INTEGER;
             document.addEventListener('mouseup', onDocMouseUp);
         });
+
+        if (opts.kind === 'tl-vc') {
+            wrap.addEventListener('pointerdown', blockAuto, { passive: true });
+            wrap.addEventListener('pointerup', releaseAutoSoon, { passive: true });
+            wrap.addEventListener('pointercancel', releaseAutoSoon, { passive: true });
+        }
+    }
+
+    function pushLugaresStyleState(wrap, durationSec) {
+        const reel = wrap.querySelector('.lugares-reel');
+        pushMarqueeState(wrap, reel, durationSec, { pauseOnHover: true, kind: 'reel' });
     }
 
     const lugPanel = document.getElementById('lugares-panel-carousel');
     const lugWrap = lugPanel?.querySelector('.lugares-reel-wrap');
-    if (lugWrap) pushState(lugWrap, 80);
+    if (lugWrap) pushLugaresStyleState(lugWrap, 80);
 
     const dropsPanel = document.getElementById('drops-panel-carousel');
     const dropsWrap = dropsPanel?.querySelector('.lugares-reel-wrap');
-    if (dropsWrap) pushState(dropsWrap, 70);
+    if (dropsWrap) pushLugaresStyleState(dropsWrap, 70);
 
     const tocWrap = document.querySelector('#fotos-tocando .lugares-reel-wrap');
-    if (tocWrap) pushState(tocWrap, 40);
+    if (tocWrap) pushLugaresStyleState(tocWrap, 40);
+
+    document.querySelectorAll('.tl-vc-mask').forEach((mask) => {
+        const track = mask.querySelector('.tl-vc-track');
+        if (!track) return;
+        const durationSec = parseTimelineVcDurationSec(track);
+        pushMarqueeState(mask, track, durationSec, {
+            resumeAfterMs: 0,
+            pauseOnHover: false,
+            kind: 'tl-vc',
+        });
+    });
 
     if (!states.length) return;
 
@@ -2279,8 +2316,14 @@ function initReelMarquee() {
             const { wrap, reel, durationSec } = st;
             if (!wrap.isConnected) continue;
 
-            const panel = wrap.closest('[id$="-panel-carousel"]');
-            if (panel && panel.hidden) continue;
+            if (st.kind === 'tl-vc') {
+                if (window.innerWidth > 900) continue;
+                const tlPanel = wrap.closest('.tl-timeline-panel');
+                if (tlPanel && !tlPanel.classList.contains('active')) continue;
+            } else {
+                const panel = wrap.closest('[id$="-panel-carousel"]');
+                if (panel && panel.hidden) continue;
+            }
 
             const r = wrap.getBoundingClientRect();
             if (r.bottom < -80 || r.top > window.innerHeight + 80) continue;
