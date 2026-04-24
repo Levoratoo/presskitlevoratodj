@@ -858,7 +858,7 @@ section {
 
 .title-line-red {
     font-family: var(--font-display);
-    font-size: clamp(2.2rem, 4.8vw, 3.85rem);
+    font-size: clamp(2rem, 4.2vw, 3.5rem);
     font-weight: 400;
     color: var(--primary);
     letter-spacing: 0.1em;
@@ -3926,7 +3926,7 @@ html.touch-device *::after {
     }
 
     .title-line-red {
-        font-size: clamp(1.52rem, 5.8vw, 2.35rem);
+        font-size: clamp(1.4rem, 5.2vw, 2.15rem);
         letter-spacing: 0.07em;
     }
 
