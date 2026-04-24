@@ -521,41 +521,6 @@ function initTimelineMobileCarousels() {
 }
 
 // ============================================================
-// TIMELINE — TENSION BLOCK GLITCH
-// ============================================================
-
-function initTensionGlitch() {
-    const el = document.getElementById('tl-glitch');
-    if (!el) return;
-
-    let glitchTimer = null;
-
-    const pulse = () => {
-        if (Math.random() > 0.55) return;
-        el.style.transform = `translateX(${(Math.random() - 0.5) * 8}px)`;
-        setTimeout(() => { el.style.transform = ''; }, 80);
-    };
-
-    const start = () => {
-        if (glitchTimer) return;
-        glitchTimer = setInterval(pulse, 650);
-    };
-    const stop = () => {
-        if (glitchTimer) {
-            clearInterval(glitchTimer);
-            glitchTimer = null;
-        }
-        el.style.transform = '';
-    };
-
-    const obs = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) start();
-        else stop();
-    }, { threshold: 0, rootMargin: '48px 0px' });
-    obs.observe(el);
-}
-
-// ============================================================
 // TIMELINE — SPINE LINE SCROLL ANIMATION
 // ============================================================
 
@@ -641,34 +606,7 @@ function initTimelineReveal() {
     document.head.appendChild(style);
 }
 
-// ============================================================
-// TIMELINE — TENSION SECTION: red flicker on entry
-// ============================================================
-
-function initTensionEntry() {
-    const tension = document.getElementById('tl-ch3');
-    if (!tension) return;
-
-    const tensionObs = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const bg = tension.querySelector('.tl-tension-bg');
-                if (!bg) return;
-                let count = 0;
-                const flicker = setInterval(() => {
-                    bg.style.opacity = count % 2 === 0 ? '1.6' : '0.4';
-                    count++;
-                    if (count >= 6) { clearInterval(flicker); bg.style.opacity = ''; }
-                }, 80);
-                tensionObs.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.35 });
-
-    tensionObs.observe(tension);
-}
-
-/** Pausa animações pesadas do bloco “E agora?” quando fora do ecrã. */
+/** Pausa a seta do bloco “E agora?” quando fora do ecrã. */
 function initTensionInViewPause() {
     const tension = document.getElementById('tl-ch3');
     if (!tension) return;
@@ -2486,10 +2424,8 @@ function init() {
     onScroll();
     initDjGallery();
     initTimelineMobileCarousels();
-    initTensionGlitch();
     initSpineLine();
     initTimelineReveal();
-    initTensionEntry();
     initTensionInViewPause();
     initVcMaskPause();
     initHeroParticles();

@@ -4450,13 +4450,15 @@ a.tl-edu-text-wrap:focus-visible {
     background: #000;
     overflow: hidden;
     z-index: 3;
+    /* Isola pintura do título enorme — menos invalidação ao scroll da timeline. */
+    contain: layout style paint;
 }
 
 .tl-tension-bg {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(255,26,26,0.12) 0%, transparent 65%);
-    animation: tensionPulse 3s ease-in-out infinite;
+    background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(255,26,26,0.14) 0%, transparent 65%);
+    /* Sem animação: scale+opacity no fundo inteiro forçava repintura contínua. */
 }
 
 .tl-scanlines {
@@ -4468,13 +4470,14 @@ a.tl-edu-text-wrap:focus-visible {
         rgba(0,0,0,0.2) 3px, rgba(0,0,0,0.2) 4px
     );
     pointer-events: none;
-    opacity: 0.4;
+    opacity: 0.08;
 }
 
 .tl-tension-content {
     position: relative;
     z-index: 2;
     padding: 6rem 2rem;
+    contain: layout style;
 }
 
 .tl-tension-phrase {
@@ -4495,29 +4498,16 @@ a.tl-edu-text-wrap:focus-visible {
     color: var(--text);
     display: block;
     position: relative;
+    /* Glow estático: animar text-shadow em letras gigantes custa muito à GPU. */
     text-shadow:
-        0 0 60px rgba(255,26,26,0.5),
-        0 0 120px rgba(255,26,26,0.2);
-    animation: glowPulse 3s ease-in-out infinite;
+        0 0 48px rgba(255,26,26,0.38),
+        0 0 96px rgba(255,26,26,0.16);
 }
+/* Glitch em ::before/::after duplicava o texto 3× — removido por performance. */
 .tl-tension-now-text::before,
 .tl-tension-now-text::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    overflow: hidden;
-}
-.tl-tension-now-text::before {
-    color: var(--primary);
-    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
-    animation: glitchTop 4s steps(1) infinite;
-    opacity: 0.7;
-}
-.tl-tension-now-text::after {
-    color: #00f0ff;
-    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
-    animation: glitchBot 4s steps(1) infinite;
-    opacity: 0.5;
+    content: none;
+    display: none;
 }
 
 .tl-tension-line {
@@ -4536,36 +4526,20 @@ a.tl-edu-text-wrap:focus-visible {
     animation: arrowBounce 1.5s ease-in-out infinite;
 }
 
-/* Efeitos da tensão só quando a secção está visível (scroll longe = menos GPU). */
-.tl-chapter--tension:not(.tl-tension--in-view) .tl-tension-bg,
-.tl-chapter--tension:not(.tl-tension--in-view) .tl-tension-now-text,
-.tl-chapter--tension:not(.tl-tension--in-view) .tl-tension-now-text::before,
-.tl-chapter--tension:not(.tl-tension--in-view) .tl-tension-now-text::after,
+/* Só a seta anima — pausa fora do ecrã. */
 .tl-chapter--tension:not(.tl-tension--in-view) .tl-tension-arrow {
     animation-play-state: paused;
 }
 
-/* ---- Keyframes ---- */
-@keyframes tensionPulse {
-    0%, 100% { opacity: 0.8; transform: scale(1); }
-    50%       { opacity: 1;   transform: scale(1.05); }
+@media (prefers-reduced-motion: reduce) {
+    .tl-tension-arrow {
+        animation: none;
+    }
 }
+
 @keyframes arrowBounce {
     0%, 100% { transform: translateY(0); opacity: 0.6; }
     50%       { transform: translateY(8px); opacity: 1; }
-}
-@keyframes glitchTop {
-    0%,  90%  { transform: none; opacity: 0; }
-    91%  { transform: translateX(-4px); opacity: 0.7; }
-    92%  { transform: translateX(4px);  opacity: 0.7; }
-    93%  { transform: translateX(-2px); opacity: 0.7; }
-    94%, 100% { transform: none; opacity: 0; }
-}
-@keyframes glitchBot {
-    0%,  94% { transform: none; opacity: 0; }
-    95%  { transform: translateX(4px);  opacity: 0.5; }
-    96%  { transform: translateX(-4px); opacity: 0.5; }
-    97%, 100% { transform: none; opacity: 0; }
 }
 
 /* ============================================================
